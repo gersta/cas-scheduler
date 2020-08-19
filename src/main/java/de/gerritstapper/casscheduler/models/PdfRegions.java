@@ -1,6 +1,6 @@
 package de.gerritstapper.casscheduler.models;
 
-public enum Regions {
+public enum PdfRegions {
     ID,
     NAME,
     START_ONE,

@@ -1,8 +1,5 @@
 package de.gerritstapper.casscheduler.services;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,6 +9,8 @@ import de.gerritstapper.casscheduler.models.Lecture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class PdfReaderServiceTest {
 
     public PdfReaderService service;
@@ -20,7 +19,12 @@ public class PdfReaderServiceTest {
     @BeforeEach
     void beforeEach() throws IOException {
         service = new PdfReaderService();
-        lectures = service.readPdf();
+        lectures = service.readPdf("M_T_Lehrveranstaltungen_Test.pdf");
+    }
+
+    @Test
+    public void shouldReturn57LectureObjectsForPageOne() {
+        assertEquals(57, lectures.size());
     }
     
     @Test
@@ -35,8 +39,8 @@ public class PdfReaderServiceTest {
 
         // should return MA instead of (MA)
         assertAll(
-                () -> assertTrue(placesOne.stream().allMatch(place -> !place.matches("[0-9]+"))),
-                () -> assertTrue(placesTwo.stream().allMatch(place -> !place.matches("[0-9]+")))
+                () -> assertTrue(placesOne.stream().noneMatch(place -> place.matches("[0-9]+"))),
+                () -> assertTrue(placesTwo.stream().noneMatch(place -> place.matches("[0-9]+")))
         );
     }
 
@@ -58,7 +62,7 @@ public class PdfReaderServiceTest {
     }
 
     @Test
-    public void shouldNotIncludeParanthesesInPlaces() {
+    public void shouldNotIncludeParenthesesInPlaces() {
         List<String> placesOne = lectures.stream()
                 .map(lecture -> lecture.getPlaceOne())
                 .collect(Collectors.toList());
@@ -129,37 +133,37 @@ public class PdfReaderServiceTest {
 
         assertAll(
                 () -> assertTrue(names.stream().allMatch(name -> !name.isEmpty() && !name.isBlank())),
-                () -> assertTrue(names.stream().allMatch(name -> !name.matches("[0-9]+")))
+                () -> assertTrue(names.stream().noneMatch(name -> name.matches("[0-9]+")))
         );
     }
 
     @Test
     public void shouldNotReturnEmptyDates() {
         assertAll(
-                () -> assertTrue(lectures.stream().allMatch(lecture -> !lecture.getStartOne().isEmpty() && !lecture.getStartOne().isEmpty())),
-                () -> assertTrue(lectures.stream().allMatch(lecture -> !lecture.getEndOne().isEmpty() && !lecture.getEndOne().isEmpty())),
-                () -> assertTrue(lectures.stream().allMatch(lecture -> !lecture.getStartTwo().isEmpty() && !lecture.getStartTwo().isEmpty())),
-                () -> assertTrue(lectures.stream().allMatch(lecture -> !lecture.getEndTwo().isEmpty() && !lecture.getEndTwo().isEmpty()))
+                () -> assertTrue(lectures.stream().allMatch(lecture -> !lecture.getStartOne().isBlank() && !lecture.getStartOne().isEmpty())),
+                () -> assertTrue(lectures.stream().allMatch(lecture -> !lecture.getEndOne().isBlank() && !lecture.getEndOne().isEmpty())),
+                () -> assertTrue(lectures.stream().allMatch(lecture -> !lecture.getStartTwo().isBlank() && !lecture.getStartTwo().isEmpty())),
+                () -> assertTrue(lectures.stream().allMatch(lecture -> !lecture.getEndTwo().isBlank() && !lecture.getEndTwo().isEmpty()))
         );
     }
 
     @Test
     public void shouldNotContainHyphonsInDates() {
         assertAll(
-                () -> assertTrue(lectures.stream().allMatch(lecture -> !lecture.getStartOne().contains("-"))),
-                () -> assertTrue(lectures.stream().allMatch(lecture -> !lecture.getEndOne().contains("-"))),
-                () -> assertTrue(lectures.stream().allMatch(lecture -> !lecture.getStartTwo().contains("-"))),
-                () -> assertTrue(lectures.stream().allMatch(lecture -> !lecture.getEndTwo().contains("-")))
+                () -> assertTrue(lectures.stream().noneMatch(lecture -> lecture.getStartOne().contains("-"))),
+                () -> assertTrue(lectures.stream().noneMatch(lecture -> lecture.getEndOne().contains("-"))),
+                () -> assertTrue(lectures.stream().noneMatch(lecture -> lecture.getStartTwo().contains("-"))),
+                () -> assertTrue(lectures.stream().noneMatch(lecture -> lecture.getEndTwo().contains("-")))
         );
     }
 
     @Test
     public void shouldOnlyContainStrippedStrings() {
         assertAll(
-                () -> assertTrue(lectures.stream().allMatch(lecture -> !lecture.getStartOne().contains(" "))),
-                () -> assertTrue(lectures.stream().allMatch(lecture -> !lecture.getEndOne().contains(" "))),
-                () -> assertTrue(lectures.stream().allMatch(lecture -> !lecture.getStartTwo().contains(" "))),
-                () -> assertTrue(lectures.stream().allMatch(lecture -> !lecture.getEndTwo().contains(" ")))
+                () -> assertTrue(lectures.stream().noneMatch(lecture -> lecture.getStartOne().contains(" "))),
+                () -> assertTrue(lectures.stream().noneMatch(lecture -> lecture.getEndOne().contains(" "))),
+                () -> assertTrue(lectures.stream().noneMatch(lecture -> lecture.getStartTwo().contains(" "))),
+                () -> assertTrue(lectures.stream().noneMatch(lecture -> lecture.getEndTwo().contains(" ")))
         );
     }
 }

@@ -12,7 +12,7 @@ public class App {
 
     public static void main(String[] args) throws IOException {
         PdfReaderService service = new PdfReaderService();
-        service.readPdf();
+        service.readPdf("M_T_Lehrveranstaltungen.pdf");
     }
 
 }
