@@ -1,0 +1,6 @@
+<factorypath>
+    <factorypathentry kind="VARJAR" id="M2_REPO/org/apache/pdfbox/pdfbox/2.0.20/pdfbox-2.0.20.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/org/apache/pdfbox/fontbox/2.0.20/fontbox-2.0.20.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/commons-logging/commons-logging/1.2/commons-logging-1.2.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/org/projectlombok/lombok/1.18.12/lombok-1.18.12.jar" enabled="true" runInBatchMode="false"/>
+</factorypath>
