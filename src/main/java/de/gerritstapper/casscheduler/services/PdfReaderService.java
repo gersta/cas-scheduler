@@ -19,117 +19,157 @@ import de.gerritstapper.casscheduler.models.Lecture;
 import de.gerritstapper.casscheduler.models.PdfRegions;
 
 public class PdfReaderService {
+    
+    private final PDFTextStripperByArea stripper;
+    private final PDDocument document;
 
-    public List<Lecture> readPdf(String filename) throws IOException {
-        // get the file
-        String filePath = getClass().getClassLoader().getResource(filename).getFile();
-        PDDocument doc = PDDocument.load(new File(filePath));
-
-        // create the PDF reader
-        PDFTextStripperByArea stripper = new PDFTextStripperByArea();
+    private static final double LINE_HEIGHT = 2.0;
+    
+    public PdfReaderService(String filename) throws IOException {
+        stripper = new PDFTextStripperByArea();
         stripper.setSortByPosition(true);
 
+        document = getDocument(filename);
+    }
+
+    public List<Lecture> readPdf(Integer pageIndex) throws IOException {
         // iterate over all pages
-        List<Lecture> lectures = StreamSupport.stream(doc.getPages().spliterator(), false)
-                    .filter(page -> page.equals(doc.getPage(0)))
-                    .map(page -> processPage(stripper, page)) // get all vorlesungen for each page
-                    .flatMap(lecture -> lecture.stream()) // flatMap to list of vorlesungen
+        List<Lecture> lectures = StreamSupport.stream(document.getPages().spliterator(), false)
+                    .filter(page -> pageIndex == null || page.equals(document.getPage(pageIndex))) // only take a specific page if filter is set
+                    .map(page -> processPage(page)) // process each of them
+                    .flatMap(lecture -> lecture.stream()) // flatMap to list of lectures
+                    .distinct() // filter all those entries that were read twice due to scanning each page twice
                     .collect(Collectors.toList()); // collect list
 
-        doc.close();
+        closeDocument();
 
         return lectures;
     }
 
-    /**
-     * 
-     * @param stripper
-     * @param page
-     * @return
-     */
-    public List<Lecture> processPage(PDFTextStripperByArea stripper, PDPage page) {
-        return IntStream.range(0, 58).mapToObj(step -> {
-            int startY = 83; // first content line
-            double rowStep = step * 3.1; // 3.1 mm between the different lines
-            double nextY = startY + rowStep;  // y distance from the top
+    public List<Lecture> readPdfWithOffset(Integer pageIndex, double offset) throws IOException {
+        // iterate over all pages
+        List<Lecture> lectures = StreamSupport.stream(document.getPages().spliterator(), false)
+                .filter(page -> pageIndex == null || page.equals(document.getPage(pageIndex))) // only take a specific page if filter is set
+                .map(page -> processPage(page)) // process each of them
+                .flatMap(lecture -> lecture.stream()) // flatMap to list of lectures
+                .distinct() // filter all those entries that were read twice due to scanning each page twice
+                .collect(Collectors.toList()); // collect list
 
-            addRegions(stripper, nextY);
-            try {
-                stripper.extractRegions(page);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+        closeDocument();
 
-            String id = get(stripper, PdfRegions.ID);
-            String name = get(stripper, PdfRegions.NAME);
-
-            // some lectures spread across multiple lines and thus produce empty lecture objects
-            // for the additional lines
-            if ( !id.startsWith("T3M") && !id.startsWith("W3M") ) {
-                return null;
-            }
-
-            String startOne = get(stripper, PdfRegions.START_ONE);
-            String endOne = get(stripper, PdfRegions.END_ONE);
-            String placeOne = get(stripper, PdfRegions.PLACE_ONE);
-
-            String startTwo = get(stripper, PdfRegions.START_TWO);
-            String endTwo = get(stripper, PdfRegions.END_TWO);
-            String placeTwo = get(stripper, PdfRegions.PLACE_TWO);
-
-            return Lecture.builder()
-                        .id(id)
-                        .name(name)
-                        .startOne(startOne)
-                        .endOne(endOne)
-                        .placeOne(placeOne)
-                        .startTwo(startTwo)
-                        .endTwo(endTwo)
-                        .placeTwo(placeTwo)
-                        .build();
-        })
-        .filter(lecture -> Objects.nonNull(lecture)) // filter the skipped lines
-        .collect(Collectors.toList());
+        return lectures;
     }
 
-    public void addRegions(PDFTextStripperByArea stripper, double y) {
-        int height = 3;
+    public PDDocument getDocument(String filename) throws IOException {
+        String filePath = Objects.requireNonNull(getClass().getClassLoader().getResource(filename)).getFile();
+        return PDDocument.load(new File(filePath));
+    }
 
+    /**
+     *
+     * @return
+     */
+    public List<Lecture> processPage(PDPage page) {
+        return IntStream.range(0, 600).mapToObj(step -> readNextRow(page, step))
+                                        .filter(lecture -> isValid(lecture))
+                                        .collect(Collectors.toList());
+    }
+
+    public Lecture readNextRow(PDPage page, double nextY) {
+        addRegions(nextY);
+
+        try {
+            stripper.extractRegions(page);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        String id = get(PdfRegions.ID);
+        String name = get(PdfRegions.NAME);
+
+        String startOne = get(PdfRegions.START_ONE);
+        String endOne = get(PdfRegions.END_ONE);
+        String placeOne = get(PdfRegions.PLACE_ONE);
+
+        String startTwo = get(PdfRegions.START_TWO);
+        String endTwo = get(PdfRegions.END_TWO);
+        String placeTwo = get(PdfRegions.PLACE_TWO);
+
+        return Lecture.builder()
+                .id(id)
+                .name(name)
+                .startOne(startOne)
+                .endOne(endOne)
+                .placeOne(placeOne)
+                .startTwo(startTwo)
+                .endTwo(endTwo)
+                .placeTwo(placeTwo)
+                .build();
+    }
+
+    public void addRegions(double y) {
         // x, y, width, height
-        Rectangle2D id = new Rectangle2D.Double(mmToUnits(15), mmToUnits(y), mmToUnits(10), mmToUnits(height));
+        Rectangle2D id = new Rectangle2D.Double(mmToUnits(15), mmToUnits(y), mmToUnits(10), mmToUnits(LINE_HEIGHT));
         stripper.addRegion(PdfRegions.ID.name(), id);
 
-        Rectangle2D name = new Rectangle2D.Double(mmToUnits(24), mmToUnits(y), mmToUnits(80), mmToUnits(height));
+        Rectangle2D name = new Rectangle2D.Double(mmToUnits(24), mmToUnits(y), mmToUnits(80), mmToUnits(LINE_HEIGHT));
         stripper.addRegion(PdfRegions.NAME.name(), name);
 
-        Rectangle2D startOne = new Rectangle2D.Double(mmToUnits(104), mmToUnits(y), mmToUnits(6), mmToUnits(height));
+        Rectangle2D startOne = new Rectangle2D.Double(mmToUnits(104), mmToUnits(y), mmToUnits(6), mmToUnits(LINE_HEIGHT));
         stripper.addRegion(PdfRegions.START_ONE.name(), startOne);
 
-        Rectangle2D endOne = new Rectangle2D.Double(mmToUnits(110), mmToUnits(y), mmToUnits(12), mmToUnits(height));
+        Rectangle2D endOne = new Rectangle2D.Double(mmToUnits(110), mmToUnits(y), mmToUnits(12), mmToUnits(LINE_HEIGHT));
         stripper.addRegion(PdfRegions.END_ONE.name(), endOne);
 
-        Rectangle2D placeOne = new Rectangle2D.Double(mmToUnits(123), mmToUnits(y), mmToUnits(5), mmToUnits(height));
+        Rectangle2D placeOne = new Rectangle2D.Double(mmToUnits(123), mmToUnits(y), mmToUnits(5), mmToUnits(LINE_HEIGHT));
         stripper.addRegion(PdfRegions.PLACE_ONE.name(), placeOne);
 
 
-        Rectangle2D startTwo = new Rectangle2D.Double(mmToUnits(135), mmToUnits(y), mmToUnits(6), mmToUnits(height));
+        Rectangle2D startTwo = new Rectangle2D.Double(mmToUnits(135), mmToUnits(y), mmToUnits(6), mmToUnits(LINE_HEIGHT));
         stripper.addRegion(PdfRegions.START_TWO.name(), startTwo);
 
-        Rectangle2D endTwo = new Rectangle2D.Double(mmToUnits(145), mmToUnits(y), mmToUnits(9), mmToUnits(height));
+        Rectangle2D endTwo = new Rectangle2D.Double(mmToUnits(145), mmToUnits(y), mmToUnits(9), mmToUnits(LINE_HEIGHT));
         stripper.addRegion(PdfRegions.END_TWO.name(), endTwo);
 
-        Rectangle2D placeTwo = new Rectangle2D.Double(mmToUnits(156), mmToUnits(y), mmToUnits(5), mmToUnits(height));
+        Rectangle2D placeTwo = new Rectangle2D.Double(mmToUnits(156), mmToUnits(y), mmToUnits(5), mmToUnits(LINE_HEIGHT));
         stripper.addRegion(PdfRegions.PLACE_TWO.name(), placeTwo);
     }
 
-    public String get(PDFTextStripperByArea stripper, PdfRegions region) {
+    /**
+     * reset the stripper by removing all associated regions
+     */
+    public void removeRegions() {
+        stripper.removeRegion(PdfRegions.ID.name());
+        stripper.removeRegion(PdfRegions.NAME.name());
+        stripper.removeRegion(PdfRegions.START_ONE.name());
+        stripper.removeRegion(PdfRegions.END_ONE.name());
+        stripper.removeRegion(PdfRegions.PLACE_ONE.name());
+        stripper.removeRegion(PdfRegions.START_TWO.name());
+        stripper.removeRegion(PdfRegions.END_TWO.name());
+        stripper.removeRegion(PdfRegions.PLACE_TWO.name());
+    }
+
+    public String get(PdfRegions region) {
         String content = stripper.getTextForRegion(region.name()).replace("\n", "");
         return switch (region) {
-            case NAME -> content.replaceAll("\\((.*)\\)", ""); // remove everything in parantheses e.g. (Beginn 19.09)
+            case NAME -> content.replaceAll("\\((.*)\\)", "").strip(); // remove everything in parantheses e.g. (Beginn 19.09) and remove whitespaces front and back
             case START_ONE, END_ONE, START_TWO, END_TWO -> content.replace("-", "").strip();
             case PLACE_ONE, PLACE_TWO -> content.replace("(", "").replace(")", "").replace("Ö", "OE"); // (MA) to MA
             default -> content;
         };
+    }
+
+    private boolean isValid(Lecture lecture) {
+        return
+                (lecture.getId().startsWith("W3M") || lecture.getId().startsWith("T3M")) &&
+                !lecture.getName().isBlank() &&
+                !lecture.getStartOne().isBlank() &&
+                !lecture.getEndOne().isBlank() &&
+                !lecture.getPlaceOne().isBlank();
+    }
+
+    public void closeDocument() throws IOException {
+        document.close();
     }
 }
