@@ -1,6 +1,6 @@
 package de.gerritstapper.casscheduler.models;
 
-public enum PdfRegions {
+public enum PdfColumns {
     ID,
     NAME,
     START_ONE,
@@ -8,5 +8,6 @@ public enum PdfRegions {
     PLACE_ONE,
     START_TWO,
     END_TWO,
-    PLACE_TWO
+    PLACE_TWO,
+    ROW // instead of a single column, take the entire row
 }

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Builder
@@ -19,4 +20,7 @@ public class Lecture {
     String startTwo;
     String endTwo;
     String placeTwo;
+
+    @EqualsAndHashCode.Exclude
+    Double coordinate;
 }
