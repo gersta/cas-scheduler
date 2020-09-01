@@ -49,7 +49,6 @@ public class PdfReaderService {
                     .map(page -> processPage(page)) // process each of them
                     .flatMap(lecture -> lecture.stream()) // flatMap to list of lectures
                     .distinct() // filter all those entries that were read twice due to scanning each page twice
-                    .peek(lcts -> System.out.println(lcts))
                     .collect(Collectors.toList()); // collect list
 
         closeDocument();
@@ -97,7 +96,7 @@ public class PdfReaderService {
         }
 
         String content = extractText();
-        content = DataCleansingService.cleanse(content);
+        content = InputDataCleansingService.cleanse(content);
 
         String id = get(PdfColumns.ID, content);
         String name = get(PdfColumns.NAME, content);

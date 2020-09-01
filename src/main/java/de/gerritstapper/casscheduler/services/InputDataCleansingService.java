@@ -1,6 +1,6 @@
 package de.gerritstapper.casscheduler.services;
 
-public class DataCleansingService {
+public class InputDataCleansingService {
 
     /**
      * try to cleanse the data from any typos, missing characters and others
