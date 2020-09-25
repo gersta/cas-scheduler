@@ -2,12 +2,14 @@ package de.gerritstapper.casscheduler.services;
 
 import de.gerritstapper.casscheduler.models.DatesTuple;
 import de.gerritstapper.casscheduler.models.Lecture;
-import de.gerritstapper.casscheduler.models.LectureDao;
+import de.gerritstapper.casscheduler.daos.LectureDao;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class DataProcessService {
+
 
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
