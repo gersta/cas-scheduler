@@ -19,10 +19,10 @@ public class ValidatorService {
                 !lecture.getName().isBlank() &&
                 isValidStart(lecture.getStartOne()) &&
                 isValidEnd(lecture.getEndOne()) &&
-                isValidPlace(lecture.getPlaceOne()) &&
+                isValidPlace(lecture.getLocationOne()) &&
                 isValidStart(lecture.getStartTwo()) &&
                 isValidEnd(lecture.getEndTwo()) &&
-                isValidPlace(lecture.getPlaceTwo());
+                isValidPlace(lecture.getLocationTwo());
     }
 
     public static boolean isValidId(String id) {

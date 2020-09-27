@@ -16,10 +16,10 @@ public class Lecture {
     String name;
     String startOne;
     String endOne;
-    String placeOne;
+    String locationOne;
     String startTwo;
     String endTwo;
-    String placeTwo;
+    String locationTwo;
 
     @EqualsAndHashCode.Exclude
     Double coordinate;

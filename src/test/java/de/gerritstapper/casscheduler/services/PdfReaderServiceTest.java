@@ -1,6 +1,7 @@
 package de.gerritstapper.casscheduler.services;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 import de.gerritstapper.casscheduler.models.Lecture;
@@ -44,7 +45,7 @@ public class PdfReaderServiceTest {
     @Test
     public void shouldReturn30LectureObjectsForPageThree() throws IOException {
         List<Lecture> lectures = service.readPdf(2);
-        // TODO: decide whether to consider lectures that do not have dates and places, but rather a note
+        // TODO: decide whether to consider lectures that do not have dates and locations, but rather a note
         assertEquals(30, lectures.size());
     }
 
@@ -66,6 +67,23 @@ public class PdfReaderServiceTest {
         List<Lecture> lectures = service.readPdf(null);
 
         assertEquals(274, lectures.size());
+    }
+
+    @Test
+    public void shouldRecognizeBothLectureBlocks() throws IOException {
+        Lecture threeDTechnology = service.readPdf(4).stream()
+                                        .filter(lecture -> lecture.getId().equals("T3M30320"))
+                                        .findFirst()
+                                        .get();
+
+        System.out.println(threeDTechnology);
+
+        assertAll(
+                () -> assertEquals("28.10.", threeDTechnology.getStartOne()),
+                () -> assertEquals("30.10.2021", threeDTechnology.getEndOne()),
+                () -> assertEquals("29.11.", threeDTechnology.getStartTwo()),
+                () -> assertEquals("01.12.2021", threeDTechnology.getEndTwo())
+        );
     }
 
 }

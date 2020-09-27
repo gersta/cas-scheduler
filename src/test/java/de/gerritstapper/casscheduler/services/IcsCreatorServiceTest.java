@@ -27,8 +27,8 @@ public class IcsCreatorServiceTest {
         dao = LectureDao.builder()
                             .id("T3M10010")
                             .name("Angewandte Ingenieurmathematik")
-                            .startOne(START)
-                            .endOne(END)
+                            .start(START)
+                            .end(END)
                             .build();
 
         calendar = IcsCreatorService.create(dao);
@@ -68,8 +68,8 @@ public class IcsCreatorServiceTest {
         dao = LectureDao.builder()
                 .id("T3M10010")
                 .name("Angewandte Ingenieurmathematik")
-                .startOne(START)
-                .endOne(LocalDate.of(2020, 8, 31))
+                .start(START)
+                .end(LocalDate.of(2020, 8, 31))
                 .build();
 
         calendar = IcsCreatorService.create(dao);

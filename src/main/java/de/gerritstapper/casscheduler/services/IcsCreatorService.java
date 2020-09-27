@@ -22,13 +22,13 @@ public class IcsCreatorService {
 
         // event details
         VEvent event = new VEvent(
-                DateConverterUtil.fromLocalDateToIcalDate(lecture.getStartOne()),
-                DateConverterUtil.fromLocalDateToIcalDate(lecture.getEndOne().plusDays(1)), // the iCal dtend is exclusive (http://microformats.org/wiki/dtend-issue)
+                DateConverterUtil.fromLocalDateToIcalDate(lecture.getStart()),
+                DateConverterUtil.fromLocalDateToIcalDate(lecture.getEnd().plusDays(1)), // the iCal dtend is exclusive (http://microformats.org/wiki/dtend-issue)
                 lecture.getName());
 
         // the id of the crator of the event?
         event.getProperties().add(new Uid("cas-scheduler"));
-        event.getProperties().add(new Locality(lecture.getPlaceOne()));
+        event.getProperties().add(new Location(lecture.getLocation()));
 
         calendar.getComponents().add(event);
 

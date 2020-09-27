@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import de.gerritstapper.casscheduler.daos.LectureDao;
 import de.gerritstapper.casscheduler.models.Lecture;
 import de.gerritstapper.casscheduler.services.*;
 import net.fortuna.ical4j.model.Calendar;
@@ -35,12 +36,24 @@ public class App implements ApplicationRunner {
         PdfReaderService service = new PdfReaderService("M_T_Lehrveranstaltungen.pdf");
         List<Lecture> lectures = service.readPdf(null);
 
-        List<Calendar> calendars = lectures.stream()
-                .map(lecture -> DataProcessService.create(lecture))
-                .map(dao -> IcsCreatorService.create(dao))
-                .map(cal -> IcsSaverService.saveFile(cal, OUTPUT_DIR))
-                .collect(Collectors.toList());
+        List<List<LectureDao>> daoLists = lectures.stream()
+                                                    .map(lecture -> DataProcessService.create(lecture))
+                                                    .collect(Collectors.toList());
 
+        System.out.println(daoLists.size());
+
+        List<LectureDao> daos = daoLists.stream()
+                                        .flatMap(daoList -> daoList.stream())
+                                        .collect(Collectors.toList());
+
+        System.out.println(daos.size());
+
+        List<Calendar> calendars = daos.stream()
+                                        .map(dao -> IcsCreatorService.create(dao))
+                                        .map(cal -> IcsSaverService.saveFile(cal, OUTPUT_DIR))
+                                        .collect(Collectors.toList());
+
+        System.out.println(calendars.size());
 
         // lectureService.saveAll(daos);
     }

@@ -111,13 +111,13 @@ public class ValidatorServiceTest {
     // PLACES
 
     @Test
-    public void shouldOnlyReturnLettersOrQuestionMarkForPlaces() {
+    public void shouldOnlyReturnLettersOrQuestionMarkForLocations() {
         List<String> placesOne = lectures.stream()
-                .map(lecture -> lecture.getPlaceOne())
+                .map(lecture -> lecture.getLocationOne())
                 .collect(Collectors.toList());
 
         List<String> placesTwo = lectures.stream()
-                .map(lecture -> lecture.getPlaceTwo())
+                .map(lecture -> lecture.getLocationTwo())
                 .collect(Collectors.toList());
 
         // should return MA instead of (MA)
@@ -129,13 +129,13 @@ public class ValidatorServiceTest {
     }
 
     @Test
-    public void shouldNotReturnEmptyPlaces() {
+    public void shouldNotReturnEmptyLocations() {
         List<String> placesOne = lectures.stream()
-                .map(lecture -> lecture.getPlaceOne())
+                .map(lecture -> lecture.getLocationOne())
                 .collect(Collectors.toList());
 
         List<String> placesTwo = lectures.stream()
-                .map(lecture -> lecture.getPlaceTwo())
+                .map(lecture -> lecture.getLocationTwo())
                 .collect(Collectors.toList());
 
         assertAll(
@@ -145,13 +145,13 @@ public class ValidatorServiceTest {
     }
 
     @Test
-    public void shouldNotIncludeParenthesesInPlaces() {
+    public void shouldNotIncludeParenthesesInLocations() {
         List<String> placesOne = lectures.stream()
-                .map(lecture -> lecture.getPlaceOne())
+                .map(lecture -> lecture.getLocationOne())
                 .collect(Collectors.toList());
 
         List<String> placesTwo = lectures.stream()
-                .map(lecture -> lecture.getPlaceTwo())
+                .map(lecture -> lecture.getLocationTwo())
                 .collect(Collectors.toList());
 
         // should return MA instead of (MA)
@@ -164,13 +164,13 @@ public class ValidatorServiceTest {
     }
 
     @Test
-    public void shouldReturnPlacesMaximum3Characters() {
+    public void shouldReturnLocationsWithMaximum3Characters() {
         List<String> placesOne = lectures.stream()
-                .map(lecture -> lecture.getPlaceOne())
+                .map(lecture -> lecture.getLocationOne())
                 .collect(Collectors.toList());
 
         List<String> placesTwo = lectures.stream()
-                .map(lecture -> lecture.getPlaceTwo())
+                .map(lecture -> lecture.getLocationTwo())
                 .collect(Collectors.toList());
 
         assertAll(
@@ -180,13 +180,13 @@ public class ValidatorServiceTest {
     }
 
     @Test
-    public void shouldReturnOnlyStrippedPlaces() {
+    public void shouldReturnOnlyStrippedLocations() {
         List<String> placesOne = lectures.stream()
-                .map(lecture -> lecture.getPlaceOne())
+                .map(lecture -> lecture.getLocationOne())
                 .collect(Collectors.toList());
 
         List<String> placesTwo = lectures.stream()
-                .map(lecture -> lecture.getPlaceTwo())
+                .map(lecture -> lecture.getLocationTwo())
                 .collect(Collectors.toList());
 
         assertAll(

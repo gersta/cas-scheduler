@@ -114,10 +114,10 @@ public class PdfReaderService {
                 .name(name)
                 .startOne(startOne)
                 .endOne(endOne)
-                .placeOne(placeOne)
+                .locationOne(placeOne)
                 .startTwo(startTwo)
                 .endTwo(endTwo)
-                .placeTwo(placeTwo)
+                .locationTwo(placeTwo)
                 .coordinate(nextY)
                 .build();
     }
