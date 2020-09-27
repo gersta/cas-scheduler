@@ -13,7 +13,7 @@ public class DataProcessService {
 
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-    public static LectureDao map(Lecture lecture) {
+    public static LectureDao create(Lecture lecture) {
         DatesTuple<LocalDate, LocalDate> firstDates = getDates(lecture.getStartOne(), lecture.getEndOne());
         DatesTuple<LocalDate, LocalDate> secondDates = getDates(lecture.getStartTwo(), lecture.getEndTwo());
 
