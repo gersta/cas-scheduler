@@ -1,4 +1,10 @@
 /.idea
 /target
 
+/lectures
+
 cas-scheduler.iml
+
+# do not track the access credentials for firestore
+src/main/resources/cas-scheduler-firestore-access.json
+src/main/resources/credentials.yaml

@@ -35,8 +35,8 @@ public class DataProcessService {
         return LectureDao.builder()
                 .id(lecture.getId())
                 .name(lecture.getName())
-                .start(dates.getStart())
-                .end(dates.getEnd())
+                .startDate(dates.getStart())
+                .endDate(dates.getEnd())
                 .location(isFirstBlock ? lecture.getLocationOne() : lecture.getLocationTwo())
                 .build();
     }

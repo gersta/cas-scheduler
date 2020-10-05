@@ -36,25 +36,24 @@ public class App implements ApplicationRunner {
         PdfReaderService service = new PdfReaderService("M_T_Lehrveranstaltungen.pdf");
         List<Lecture> lectures = service.readPdf(null);
 
+        System.out.println("Lecture size: " +  lectures.size());
+
         List<List<LectureDao>> daoLists = lectures.stream()
                                                     .map(lecture -> DataProcessService.create(lecture))
                                                     .collect(Collectors.toList());
-
-        System.out.println(daoLists.size());
 
         List<LectureDao> daos = daoLists.stream()
                                         .flatMap(daoList -> daoList.stream())
                                         .collect(Collectors.toList());
 
-        System.out.println(daos.size());
+        System.out.println("DAO size: " + daos.size());
+        lectureService.saveAll(daos);
 
         List<Calendar> calendars = daos.stream()
                                         .map(dao -> IcsCreatorService.create(dao))
                                         .map(cal -> IcsSaverService.saveFile(cal, OUTPUT_DIR))
                                         .collect(Collectors.toList());
 
-        System.out.println(calendars.size());
-
-        // lectureService.saveAll(daos);
+        System.out.println("Calenders size: " + calendars.size());
     }
 }
