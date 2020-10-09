@@ -6,7 +6,12 @@ import java.util.stream.Collectors;
 
 import de.gerritstapper.casscheduler.daos.LectureDao;
 import de.gerritstapper.casscheduler.models.Lecture;
-import de.gerritstapper.casscheduler.services.*;
+import de.gerritstapper.casscheduler.services.ics.IcsCreatorService;
+import de.gerritstapper.casscheduler.services.ics.IcsSaverService;
+import de.gerritstapper.casscheduler.services.persistence.DataProcessService;
+import de.gerritstapper.casscheduler.services.persistence.ILectureDaoPersistenceService;
+import de.gerritstapper.casscheduler.services.persistence.SqlLectureDaoPersistenceService;
+import de.gerritstapper.casscheduler.services.pdf.PdfReaderService;
 import net.fortuna.ical4j.model.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -18,13 +23,13 @@ import org.springframework.context.ApplicationContext;
 @SpringBootApplication
 public class App implements ApplicationRunner {
 
-    private LectureService lectureService;
+    private ILectureDaoPersistenceService lectureDaoPersistenceService;
 
     private static final String OUTPUT_DIR = "lectures/";
 
     @Autowired
-    public App(LectureService service, ApplicationContext context) {
-        this.lectureService = service;
+    public App(ILectureDaoPersistenceService lectureDaoPersistenceService, ApplicationContext context) {
+        this.lectureDaoPersistenceService = lectureDaoPersistenceService;
     }
 
     public static void main(String[] args) {
@@ -47,7 +52,7 @@ public class App implements ApplicationRunner {
                                         .collect(Collectors.toList());
 
         System.out.println("DAO size: " + daos.size());
-        lectureService.saveAll(daos);
+        lectureDaoPersistenceService.saveAll(daos);
 
         List<Calendar> calendars = daos.stream()
                                         .map(dao -> IcsCreatorService.create(dao))

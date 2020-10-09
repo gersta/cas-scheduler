@@ -1,4 +1,4 @@
-package de.gerritstapper.casscheduler.services;
+package de.gerritstapper.casscheduler.services.persistence;
 
 import de.gerritstapper.casscheduler.models.DatesTuple;
 import de.gerritstapper.casscheduler.models.Lecture;

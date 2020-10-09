@@ -4,6 +4,7 @@
 /lectures
 
 cas-scheduler.iml
+.factorypath
 
 # do not track the access credentials for firestore
 src/main/resources/cas-scheduler-firestore-access.json

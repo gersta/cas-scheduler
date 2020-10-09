@@ -1,4 +1,4 @@
-package de.gerritstapper.casscheduler.services;
+package de.gerritstapper.casscheduler.services.ics;
 
 import de.gerritstapper.casscheduler.util.CalenderHelperUtil;
 import net.fortuna.ical4j.data.CalendarOutputter;

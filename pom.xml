@@ -38,6 +38,12 @@
       <artifactId>postgresql</artifactId>
       <version>42.2.16</version>
     </dependency>
+    <!-- Google Firestore API -->
+    <dependency>
+      <groupId>com.google.firebase</groupId>
+      <artifactId>firebase-admin</artifactId>
+      <version>7.0.0</version>
+    </dependency>
     <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
     <dependency>
       <groupId>com.h2database</groupId>

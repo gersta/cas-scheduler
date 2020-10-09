@@ -1,0 +1,12 @@
+spring:
+  autoconfigure:
+    exclude: # prevent data jpa from bootstrapping
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
+
+google:
+  firebase:
+    project-id: 'cas-scheduler'
+    firestore:
+      collection: 'lectures'

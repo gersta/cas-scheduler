@@ -1,6 +1,7 @@
 package de.gerritstapper.casscheduler.services;
 
 import de.gerritstapper.casscheduler.daos.LectureDao;
+import de.gerritstapper.casscheduler.services.ics.IcsCreatorService;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.component.CalendarComponent;
 import org.junit.jupiter.api.BeforeEach;

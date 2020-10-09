@@ -1,6 +1,7 @@
 package de.gerritstapper.casscheduler.services;
 
 import de.gerritstapper.casscheduler.models.Lecture;
+import de.gerritstapper.casscheduler.services.pdf.PdfReaderService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

@@ -1,11 +1,11 @@
 package de.gerritstapper.casscheduler.services;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.List;
 
 import de.gerritstapper.casscheduler.models.Lecture;
 
+import de.gerritstapper.casscheduler.services.pdf.PdfReaderService;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
