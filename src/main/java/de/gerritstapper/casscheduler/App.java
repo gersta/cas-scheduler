@@ -12,6 +12,7 @@ import de.gerritstapper.casscheduler.services.persistence.DataProcessService;
 import de.gerritstapper.casscheduler.services.persistence.ILectureDaoPersistenceService;
 import de.gerritstapper.casscheduler.services.persistence.SqlLectureDaoPersistenceService;
 import de.gerritstapper.casscheduler.services.pdf.PdfReaderService;
+import de.gerritstapper.casscheduler.util.JsonFileSerializerUtil;
 import net.fortuna.ical4j.model.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -23,7 +24,7 @@ import org.springframework.context.ApplicationContext;
 @SpringBootApplication
 public class App implements ApplicationRunner {
 
-    private ILectureDaoPersistenceService lectureDaoPersistenceService;
+    private final ILectureDaoPersistenceService lectureDaoPersistenceService;
 
     private static final String OUTPUT_DIR = "lectures/";
 
@@ -52,7 +53,8 @@ public class App implements ApplicationRunner {
                                         .collect(Collectors.toList());
 
         System.out.println("DAO size: " + daos.size());
-        lectureDaoPersistenceService.saveAll(daos);
+        // lectureDaoPersistenceService.saveAll(daos);
+        JsonFileSerializerUtil.serialize(daos);
 
         List<Calendar> calendars = daos.stream()
                                         .map(dao -> IcsCreatorService.create(dao))
