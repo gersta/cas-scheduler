@@ -1,7 +1,10 @@
 package de.gerritstapper.casscheduler.services;
 
 import de.gerritstapper.casscheduler.models.Lecture;
+import de.gerritstapper.casscheduler.services.pdf.FieldExtractorService;
+import de.gerritstapper.casscheduler.services.pdf.InputDataCleansingService;
 import de.gerritstapper.casscheduler.services.pdf.PdfReaderService;
+import de.gerritstapper.casscheduler.services.pdf.ValidatorService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -15,14 +18,22 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ValidatorServiceTest {
 
-    private static PdfReaderService service;
     private static List<Lecture> lectures;
 
     private static final String FILENAME = "M_T_Test_All_Pages.pdf";
+    private static final Double LINE_HEIGHT = 2.0;
+    private static final Integer MINIMAL_Y_OFFSET = 55;
 
     @BeforeAll
     static void beforeAll() throws IOException {
-        service = new PdfReaderService(FILENAME);
+        PdfReaderService service = new PdfReaderService(
+                new ValidatorService(),
+                new FieldExtractorService(),
+                new InputDataCleansingService(),
+                FILENAME,
+                LINE_HEIGHT,
+                MINIMAL_Y_OFFSET
+        );
         lectures = service.readPdf(null);
 
         service.removeRegions();

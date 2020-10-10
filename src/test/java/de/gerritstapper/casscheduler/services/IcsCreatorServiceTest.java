@@ -2,6 +2,7 @@ package de.gerritstapper.casscheduler.services;
 
 import de.gerritstapper.casscheduler.daos.LectureDao;
 import de.gerritstapper.casscheduler.services.ics.IcsCreatorService;
+import de.gerritstapper.casscheduler.util.DateConverterUtil;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.component.CalendarComponent;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,6 +15,9 @@ import java.time.format.DateTimeFormatter;
 
 public class IcsCreatorServiceTest {
 
+    // unit under test
+    private IcsCreatorService icsCreatorService;
+
     private LectureDao dao;
 
     private Calendar calendar;
@@ -25,6 +29,8 @@ public class IcsCreatorServiceTest {
 
     @BeforeEach
     void beforeEach() {
+        icsCreatorService = new IcsCreatorService(new DateConverterUtil());
+
         dao = LectureDao.builder()
                             .id("T3M10010")
                             .name("Angewandte Ingenieurmathematik")
@@ -32,7 +38,7 @@ public class IcsCreatorServiceTest {
                             .endDate(END)
                             .build();
 
-        calendar = IcsCreatorService.create(dao);
+        calendar = icsCreatorService.create(dao);
         event = calendar.getComponent("VEVENT");
 
         System.out.println(event);
@@ -73,7 +79,7 @@ public class IcsCreatorServiceTest {
                 .endDate(LocalDate.of(2020, 8, 31))
                 .build();
 
-        calendar = IcsCreatorService.create(dao);
+        calendar = icsCreatorService.create(dao);
         event = calendar.getComponent("VEVENT");
 
         System.out.println(event);

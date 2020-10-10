@@ -5,15 +5,25 @@ import de.gerritstapper.casscheduler.util.DateConverterUtil;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.*;
+import org.springframework.stereotype.Service;
 
+@Service
 public class IcsCreatorService {
+
+    private final DateConverterUtil dateConverterUtil;
+
+    public IcsCreatorService(
+            final DateConverterUtil dateConverterUtil
+    ) {
+        this.dateConverterUtil = dateConverterUtil;
+    }
 
     /**
      * creates a iCalender entry to the lecture
      * @param lecture: {@link LectureDao} object
      * @return: iCalender entry as {@link Calendar}
      */
-    public static Calendar create(LectureDao lecture) {
+    public Calendar create(LectureDao lecture) {
         // calender metadata
         Calendar calendar = new Calendar();
         calendar.getProperties().add(new ProdId("-//CAS Scheduler//iCal4j 2.0//EN"));
@@ -22,8 +32,8 @@ public class IcsCreatorService {
 
         // event details
         VEvent event = new VEvent(
-                DateConverterUtil.fromLocalDateToIcalDate(lecture.getStartDate()),
-                DateConverterUtil.fromLocalDateToIcalDate(lecture.getEndDate().plusDays(1)), // the iCal dtend is exclusive (http://microformats.org/wiki/dtend-issue)
+                dateConverterUtil.fromLocalDateToIcalDate(lecture.getStartDate()),
+                dateConverterUtil.fromLocalDateToIcalDate(lecture.getEndDate().plusDays(1)), // the iCal dtend is exclusive (http://microformats.org/wiki/dtend-issue)
                 lecture.getName());
 
         // the id of the crator of the event?

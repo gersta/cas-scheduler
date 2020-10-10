@@ -17,19 +17,45 @@ import org.apache.pdfbox.text.PDFTextStripperByArea;
 
 import de.gerritstapper.casscheduler.models.Lecture;
 import de.gerritstapper.casscheduler.models.PdfColumns;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 /**
  * central class to orchestrate the scraping of the content
  */
+@Service
 public class PdfReaderService {
-    
+
+    // DEPENDENCIES
+    private final ValidatorService validatorService;
+    private final FieldExtractorService fieldExtractorService;
+    private final InputDataCleansingService inputDataCleansingService;
+
+    // CONFIGURATION
+    private final double LINE_HEIGHT;
+    private final int MINIMAL_Y_OFFSET; // at least 55mm offset from the top of the page. Saves on empty iteration steps to find first line
+
+    // STATE
     private final PDFTextStripperByArea stripper;
     private final PDDocument document;
-
-    private static final double LINE_HEIGHT = 2.0;
-    private static final int MINIMAL_Y_OFFSET = 55; // at least 55mm offset from the top of the page. Saves on empty iteration steps to find first line
     
-    public PdfReaderService(String filename) throws IOException {
+    public PdfReaderService(
+            final ValidatorService validatorService,
+            final FieldExtractorService fieldExtractorService,
+            final InputDataCleansingService inputDataCleansingService,
+            @Value("${pdf.filename}") String filename,
+            @Value("${pdf.line-height}") Double lineHeight,
+            @Value("${pdf.minimal-y-offset}") Integer minimalYOffset
+    ) throws IOException {
+        this.validatorService = validatorService;
+        this.fieldExtractorService = fieldExtractorService;
+        this.inputDataCleansingService = inputDataCleansingService;
+        
+        // CONFIGURATION
+        this.LINE_HEIGHT = lineHeight;
+        this.MINIMAL_Y_OFFSET = minimalYOffset;
+
+        // STATE 
         stripper = new PDFTextStripperByArea();
         stripper.setSortByPosition(true);
 
@@ -75,7 +101,7 @@ public class PdfReaderService {
      */
     public List<Lecture> processPage(PDPage page) {
         return IntStream.range(MINIMAL_Y_OFFSET, 600).mapToObj(step -> readNextRow(page, step))
-                                        .filter(lecture -> ValidatorService.isValid(lecture))
+                                        .filter(lecture -> validatorService.isValid(lecture))
                                         .collect(Collectors.toList());
     }
 
@@ -96,7 +122,7 @@ public class PdfReaderService {
         }
 
         String content = extractText();
-        content = InputDataCleansingService.cleanse(content);
+        content = inputDataCleansingService.cleanse(content);
 
         String id = get(PdfColumns.ID, content);
         String name = get(PdfColumns.NAME, content);
@@ -156,14 +182,14 @@ public class PdfReaderService {
      */
     public String get(PdfColumns column, String content) {
         return switch (column) {
-            case ID -> FieldExtractorService.getId(content);
-            case NAME -> FieldExtractorService.getName(content);
-            case START_ONE -> FieldExtractorService.getStartOne(content);
-            case START_TWO -> FieldExtractorService.getStartTwo(content);
-            case END_ONE -> FieldExtractorService.getEndOne(content);
-            case END_TWO -> FieldExtractorService.getEndTwo(content);
-            case PLACE_ONE -> FieldExtractorService.getPlaceOne(content);
-            case PLACE_TWO -> FieldExtractorService.getPlaceTwo(content);
+            case ID -> fieldExtractorService.getId(content);
+            case NAME -> fieldExtractorService.getName(content);
+            case START_ONE -> fieldExtractorService.getStartOne(content);
+            case START_TWO -> fieldExtractorService.getStartTwo(content);
+            case END_ONE -> fieldExtractorService.getEndOne(content);
+            case END_TWO -> fieldExtractorService.getEndTwo(content);
+            case PLACE_ONE -> fieldExtractorService.getPlaceOne(content);
+            case PLACE_TWO -> fieldExtractorService.getPlaceTwo(content);
             default -> content;
         };
     }

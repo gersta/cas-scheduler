@@ -10,7 +10,6 @@ import de.gerritstapper.casscheduler.services.ics.IcsCreatorService;
 import de.gerritstapper.casscheduler.services.ics.IcsSaverService;
 import de.gerritstapper.casscheduler.services.persistence.DataProcessService;
 import de.gerritstapper.casscheduler.services.persistence.ILectureDaoPersistenceService;
-import de.gerritstapper.casscheduler.services.persistence.SqlLectureDaoPersistenceService;
 import de.gerritstapper.casscheduler.services.pdf.PdfReaderService;
 import de.gerritstapper.casscheduler.util.JsonFileSerializerUtil;
 import net.fortuna.ical4j.model.Calendar;
@@ -24,13 +23,27 @@ import org.springframework.context.ApplicationContext;
 @SpringBootApplication
 public class App implements ApplicationRunner {
 
+    private final PdfReaderService pdfService;
+    private final DataProcessService dataProcessService;
     private final ILectureDaoPersistenceService lectureDaoPersistenceService;
+    private final IcsCreatorService icsCreatorService;
+    private final IcsSaverService icsSaverService;
 
     private static final String OUTPUT_DIR = "lectures/";
 
     @Autowired
-    public App(ILectureDaoPersistenceService lectureDaoPersistenceService, ApplicationContext context) {
+    public App(
+            final PdfReaderService pdfService,
+            final DataProcessService dataProcessService,
+            final ILectureDaoPersistenceService lectureDaoPersistenceService,
+            final IcsCreatorService icsCreatorService,
+            final IcsSaverService icsSaverService,
+            ApplicationContext context) {
+        this.pdfService = pdfService;
+        this.dataProcessService = dataProcessService;
         this.lectureDaoPersistenceService = lectureDaoPersistenceService;
+        this.icsCreatorService = icsCreatorService;
+        this.icsSaverService = icsSaverService;
     }
 
     public static void main(String[] args) {
@@ -39,13 +52,12 @@ public class App implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments arguments) throws IOException {
-        PdfReaderService service = new PdfReaderService("M_T_Lehrveranstaltungen.pdf");
-        List<Lecture> lectures = service.readPdf(null);
+        List<Lecture> lectures = pdfService.readPdf(null);
 
         System.out.println("Lecture size: " +  lectures.size());
 
         List<List<LectureDao>> daoLists = lectures.stream()
-                                                    .map(lecture -> DataProcessService.create(lecture))
+                                                    .map(lecture -> dataProcessService.create(lecture))
                                                     .collect(Collectors.toList());
 
         List<LectureDao> daos = daoLists.stream()
@@ -57,8 +69,8 @@ public class App implements ApplicationRunner {
         JsonFileSerializerUtil.serialize(daos);
 
         List<Calendar> calendars = daos.stream()
-                                        .map(dao -> IcsCreatorService.create(dao))
-                                        .map(cal -> IcsSaverService.saveFile(cal, OUTPUT_DIR))
+                                        .map(dao -> icsCreatorService.create(dao))
+                                        .map(cal -> icsSaverService.saveFile(cal, OUTPUT_DIR))
                                         .collect(Collectors.toList());
 
         System.out.println("Calenders size: " + calendars.size());
