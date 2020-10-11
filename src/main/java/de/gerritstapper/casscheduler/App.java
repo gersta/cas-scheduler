@@ -11,7 +11,7 @@ import de.gerritstapper.casscheduler.services.ics.IcsSaverService;
 import de.gerritstapper.casscheduler.services.persistence.DataProcessService;
 import de.gerritstapper.casscheduler.services.persistence.ILectureDaoPersistenceService;
 import de.gerritstapper.casscheduler.services.pdf.PdfReaderService;
-import de.gerritstapper.casscheduler.util.JsonFileSerializerUtil;
+import de.gerritstapper.casscheduler.util.JsonFileUtil;
 import net.fortuna.ical4j.model.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -28,6 +28,7 @@ public class App implements ApplicationRunner {
     private final ILectureDaoPersistenceService lectureDaoPersistenceService;
     private final IcsCreatorService icsCreatorService;
     private final IcsSaverService icsSaverService;
+    private final JsonFileUtil jsonFileUtil;
 
     private static final String OUTPUT_DIR = "lectures/";
 
@@ -38,12 +39,14 @@ public class App implements ApplicationRunner {
             final ILectureDaoPersistenceService lectureDaoPersistenceService,
             final IcsCreatorService icsCreatorService,
             final IcsSaverService icsSaverService,
+            final JsonFileUtil jsonFileUtil,
             ApplicationContext context) {
         this.pdfService = pdfService;
         this.dataProcessService = dataProcessService;
         this.lectureDaoPersistenceService = lectureDaoPersistenceService;
         this.icsCreatorService = icsCreatorService;
         this.icsSaverService = icsSaverService;
+        this.jsonFileUtil = jsonFileUtil;
     }
 
     public static void main(String[] args) {
@@ -66,7 +69,7 @@ public class App implements ApplicationRunner {
 
         System.out.println("DAO size: " + daos.size());
         // lectureDaoPersistenceService.saveAll(daos);
-        JsonFileSerializerUtil.serialize(daos);
+        jsonFileUtil.serializeToFile(daos);
 
         List<Calendar> calendars = daos.stream()
                                         .map(dao -> icsCreatorService.create(dao))

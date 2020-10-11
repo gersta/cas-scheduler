@@ -38,12 +38,6 @@
       <artifactId>postgresql</artifactId>
       <version>42.2.16</version>
     </dependency>
-    <!-- Google Firestore API -->
-    <dependency>
-      <groupId>com.google.firebase</groupId>
-      <artifactId>firebase-admin</artifactId>
-      <version>7.0.0</version>
-    </dependency>
     <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
     <dependency>
       <groupId>com.h2database</groupId>
@@ -61,6 +55,12 @@
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
       <version>2.11.3</version>
+    </dependency>
+    <!-- serialize/deserialize locatdate/localdatetime appropriately -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
+      <version>2.4.0</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.mnode.ical4j/ical4j -->
     <!-- create ics files from the lecture objects -->
