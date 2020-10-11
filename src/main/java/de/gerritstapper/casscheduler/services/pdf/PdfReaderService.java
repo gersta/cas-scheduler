@@ -43,9 +43,9 @@ public class PdfReaderService {
             final ValidatorService validatorService,
             final FieldExtractorService fieldExtractorService,
             final InputDataCleansingService inputDataCleansingService,
-            @Value("${pdf.filename}") String filename,
-            @Value("${pdf.line-height}") Double lineHeight,
-            @Value("${pdf.minimal-y-offset}") Integer minimalYOffset
+            @Value("${cas-scheduler.pdf.filename}") String filename,
+            @Value("${cas-scheduler.pdf.line-height}") Double lineHeight,
+            @Value("${cas-scheduler.pdf.minimal-y-offset}") Integer minimalYOffset
     ) throws IOException {
         this.validatorService = validatorService;
         this.fieldExtractorService = fieldExtractorService;

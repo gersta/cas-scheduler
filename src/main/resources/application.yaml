@@ -1,8 +1,11 @@
-pdf:
-  filename: "M_T_Lehrveranstaltungen.pdf"
-  line-height: 2.0
-  minimal-y-offset: 55 # at least 55mm offset from the top of the page. Saves on empty iteration steps to find first line
-
-json:
-  output:
-    lectures: "src/main/resources/lectures.json"
+cas-scheduler:
+  pdf:
+    filename: "M_T_Lehrveranstaltungen.pdf"
+    line-height: 2.0
+    minimal-y-offset: 55 # at least 55mm offset from the top of the page. Saves on empty iteration steps to find first line
+    date-pattern: "dd.MM.yyyy"
+  json:
+    output:
+      lectures: "src/main/resources/lectures.json"
+  ics:
+    output: "lectures/"

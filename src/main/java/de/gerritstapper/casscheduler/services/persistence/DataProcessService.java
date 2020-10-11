@@ -3,6 +3,7 @@ package de.gerritstapper.casscheduler.services.persistence;
 import de.gerritstapper.casscheduler.daos.LectureDao;
 import de.gerritstapper.casscheduler.models.DatesTuple;
 import de.gerritstapper.casscheduler.models.Lecture;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -11,7 +12,13 @@ import java.time.format.DateTimeFormatter;
 @Service
 public class DataProcessService {
 
-    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private final DateTimeFormatter DATE_FORMAT;
+
+    public DataProcessService(
+            @Value("${cas-scheduler.pdf.date-pattern}") String datePattern
+    ) {
+        this.DATE_FORMAT = DateTimeFormatter.ofPattern(datePattern);
+    }
 
     /**
      *

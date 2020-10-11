@@ -15,7 +15,8 @@ public class DataProcessServiceTest {
 
     @BeforeEach
     void beforeEach() {
-        dataProcessService = new DataProcessService();
+        String datePattern = "dd.MM.yyyy";
+        dataProcessService = new DataProcessService(datePattern);
     }
 
     @Test

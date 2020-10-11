@@ -17,7 +17,7 @@ public class JsonFileUtil {
 
     public JsonFileUtil(
             final ObjectMapper mapper,
-            @Value("${json.output.lectures}") String outputFileName
+            @Value("${cas-scheduler.json.output.lectures}") String outputFileName
     ) {
         this.mapper = mapper;
         this.outputFileName = outputFileName;
