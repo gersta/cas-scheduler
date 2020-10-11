@@ -13,7 +13,8 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class JsonFileUtilTest {
 
@@ -35,15 +36,15 @@ public class JsonFileUtilTest {
         lectures = Arrays.asList(
             LectureDao.builder()
                 .name("Name One")
-                .location("S")
-                .startDate(LocalDate.of(2020, 10, 10))
-                .endDate(LocalDate.of(2020, 10, 11))
+                .firstBlockStart(LocalDate.of(2020, 10, 10))
+                .firstBlockEnd(LocalDate.of(2020, 10, 11))
+                .firstBlockLocation("S")
                 .build(),
             LectureDao.builder()
                 .name("Name Two")
-                .location("MA")
-                .startDate(LocalDate.of(2020, 12, 24))
-                .endDate(LocalDate.of(2020, 12, 25))
+                .firstBlockStart(LocalDate.of(2020, 12, 24))
+                .firstBlockEnd(LocalDate.of(2020, 12, 25))
+                .firstBlockLocation("MA")
                 .build()
         );
     }
@@ -63,8 +64,8 @@ public class JsonFileUtilTest {
         assertAll(
                 () -> assertTrue(json.contains("\"name\":\"Name One\"")),
                 () -> assertTrue(json.contains("\"name\":\"Name Two\"")),
-                () -> assertTrue(json.contains("\"location\":\"MA\"")),
-                () -> assertTrue(json.contains("\"location\":\"S\""))
+                () -> assertTrue(json.contains("\"firstBlockLocation\":\"MA\"")),
+                () -> assertTrue(json.contains("\"firstBlockLocation\":\"S\""))
         );
     }
 

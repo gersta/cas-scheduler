@@ -1,5 +1,4 @@
 package de.gerritstapper.casscheduler.util;
-
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.component.VEvent;
 import org.springframework.stereotype.Service;

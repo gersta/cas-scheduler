@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class IcsCreatorServiceTest {
 
@@ -20,6 +21,7 @@ public class IcsCreatorServiceTest {
 
     private LectureDao dao;
 
+    private List<Calendar> calendars;
     private Calendar calendar;
     private CalendarComponent event;
 
@@ -34,21 +36,31 @@ public class IcsCreatorServiceTest {
         dao = LectureDao.builder()
                             .id("T3M10010")
                             .name("Angewandte Ingenieurmathematik")
-                            .startDate(START)
-                            .endDate(END)
+                            .firstBlockStart(START)
+                            .firstBlockEnd(END)
+                            .secondBlockStart(START.plusDays(1))
+                            .secondBlockEnd(END.plusDays(1))
                             .build();
 
-        calendar = icsCreatorService.create(dao);
+        calendars = icsCreatorService.create(dao);
+        calendar = calendars.get(0); // first block calender entry
         event = calendar.getComponent("VEVENT");
 
         System.out.println(event);
     }
 
     @Test
-    public void shouldReturnNameAsSummary() {
+    public void shouldIncludeNameInSummary() {
         String summary = event.getProperty("SUMMARY").getValue();
 
-        assertEquals("Angewandte Ingenieurmathematik", summary);
+        assertTrue(summary.contains("Angewandte Ingenieurmathematik"));
+    }
+
+    @Test
+    public void shouldContainBlockInformationInSummary() {
+        String summary = event.getProperty("SUMMARY").getValue();
+
+        assertTrue(summary.contains("1st Block"));
     }
 
     @Test
@@ -75,11 +87,14 @@ public class IcsCreatorServiceTest {
         dao = LectureDao.builder()
                 .id("T3M10010")
                 .name("Angewandte Ingenieurmathematik")
-                .startDate(START)
-                .endDate(LocalDate.of(2020, 8, 31))
+                .firstBlockStart(START)
+                .firstBlockEnd(LocalDate.of(2020, 8, 31))
+                .secondBlockStart(START.plusDays(1))
+                .secondBlockEnd(END.plusDays(1))
                 .build();
 
-        calendar = icsCreatorService.create(dao);
+        calendars = icsCreatorService.create(dao);
+        calendar = calendars.get(0);
         event = calendar.getComponent("VEVENT");
 
         System.out.println(event);
@@ -90,6 +105,5 @@ public class IcsCreatorServiceTest {
 
         assertEquals(expected, emd);
     }
-
 
 }

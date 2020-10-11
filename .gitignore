@@ -1,11 +1,15 @@
-/.idea
+# compiled code
 /target
 
-/lectures
+# IntelliJ
+/.idea
 
+# eclipse stuff
 cas-scheduler.iml
 .factorypath
 
-# do not track the access credentials for firestore
-src/main/resources/cas-scheduler-firestore-access.json
-src/main/resources/credentials.yaml
+# do not track resources created by the app
+src/main/resources/lectures.json
+
+# ics files created from pdf
+/lectures

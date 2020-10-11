@@ -59,21 +59,18 @@ public class App implements ApplicationRunner {
 
         System.out.println("Lecture size: " +  lectures.size());
 
-        List<List<LectureDao>> daoLists = lectures.stream()
-                                                    .map(lecture -> dataProcessService.create(lecture))
-                                                    .collect(Collectors.toList());
-
-        List<LectureDao> daos = daoLists.stream()
-                                        .flatMap(daoList -> daoList.stream())
+        List<LectureDao> daos = lectures.stream()
+                                        .map(lecture -> dataProcessService.create(lecture))
                                         .collect(Collectors.toList());
 
         System.out.println("DAO size: " + daos.size());
-        // lectureDaoPersistenceService.saveAll(daos);
+        lectureDaoPersistenceService.saveAll(daos);
         jsonFileUtil.serializeToFile(daos);
 
         List<Calendar> calendars = daos.stream()
                                         .map(dao -> icsCreatorService.create(dao))
-                                        .map(cal -> icsSaverService.saveFile(cal, OUTPUT_DIR))
+                                        .flatMap(calenderList -> calenderList.stream())
+                                        .peek(calender -> icsSaverService.saveFile(calender, OUTPUT_DIR))
                                         .collect(Collectors.toList());
 
         System.out.println("Calenders size: " + calendars.size());

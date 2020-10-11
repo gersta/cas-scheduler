@@ -20,7 +20,7 @@ public class IcsSaverService {
         this.calenderHelperUtil = calenderHelperUtil;
     }
 
-    public Calendar saveFile(Calendar calendar, String outputDir) {
+    public void saveFile(Calendar calendar, String outputDir) {
         VEvent event = calenderHelperUtil.getVEvent(calendar);
         String summary = calenderHelperUtil.getSummaryAsString(event).replace(" ", "_");
         String start = calenderHelperUtil.getStartAsString(event);
@@ -34,7 +34,5 @@ public class IcsSaverService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return calendar;
     }
 }

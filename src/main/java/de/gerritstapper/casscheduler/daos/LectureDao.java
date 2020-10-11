@@ -24,8 +24,10 @@ public class LectureDao {
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     String id;
     String name;
-    LocalDate startDate;
-    LocalDate endDate;
-    String location;
-
+    LocalDate firstBlockStart;
+    LocalDate firstBlockEnd;
+    String firstBlockLocation;
+    LocalDate secondBlockStart;
+    LocalDate secondBlockEnd;
+    String secondBlockLocation;
 }
