@@ -54,7 +54,7 @@ public class ValidatorServiceTest {
     @Test
     public void shouldNotReturnEmptyIds() {
         List<String> ids = lectures.stream()
-                .map(lecture -> lecture.getId())
+                .map(lecture -> lecture.getLectureCode())
                 .collect(Collectors.toList());
 
         assertAll(
@@ -65,7 +65,7 @@ public class ValidatorServiceTest {
     @Test
     public void shouldReturnIdStartingWithT3orW3() {
         List<String> ids = lectures.stream()
-                .map(lecture -> lecture.getId())
+                .map(lecture -> lecture.getLectureCode())
                 .collect(Collectors.toList());
 
         assertAll(
@@ -77,7 +77,7 @@ public class ValidatorServiceTest {
     @Test
     public void shouldReturnIdsWith8Characters() {
         List<String> ids = lectures.stream()
-                .map(lecture -> lecture.getId())
+                .map(lecture -> lecture.getLectureCode())
                 .collect(Collectors.toList());
 
         assertTrue(ids.stream().allMatch(id -> id.length() == 8));

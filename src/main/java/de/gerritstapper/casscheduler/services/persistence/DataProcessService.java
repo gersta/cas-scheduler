@@ -27,10 +27,10 @@ public class DataProcessService {
      */
     public LectureDao create(Lecture lecture) {
         DatesTuple<LocalDate, LocalDate> firstBlockDates = getDates(lecture.getStartOne(), lecture.getEndOne());
-        DatesTuple<LocalDate, LocalDate> secondBlockDates = getDates(lecture.getStartTwo(), lecture.getEndTwo());;
+        DatesTuple<LocalDate, LocalDate> secondBlockDates = getDates(lecture.getStartTwo(), lecture.getEndTwo());
 
         return LectureDao.builder()
-                .id(lecture.getId())
+                .lectureCode(lecture.getLectureCode())
                 .name(lecture.getName())
                 .firstBlockStart(firstBlockDates.getStart())
                 .firstBlockEnd(firstBlockDates.getEnd())

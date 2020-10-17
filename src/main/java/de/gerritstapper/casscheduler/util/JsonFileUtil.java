@@ -30,10 +30,18 @@ public class JsonFileUtil {
 
     @SneakyThrows
     public void serializeToFile(List<?> entities) {
+        cleanUp();
+
         mapper.writeValue(
                 new File(outputFileName),
                 entities
         );
+    }
+
+    private void cleanUp() {
+        if ( new File(outputFileName).exists() ) {
+            new File(outputFileName).delete();
+        }
     }
 
     @SneakyThrows

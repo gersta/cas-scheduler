@@ -31,7 +31,7 @@ public class IcsCreatorServiceTest {
 
     @BeforeEach
     void beforeEach() {
-        icsCreatorService = new IcsCreatorService(new DateConverterUtil());
+        icsCreatorService = new IcsCreatorService("-//CAS Scheduler//iCal4j 2.0//EN", "cas-scheduler", new DateConverterUtil());
 
         dao = LectureDao.builder()
                             .id("T3M10010")
@@ -50,17 +50,26 @@ public class IcsCreatorServiceTest {
     }
 
     @Test
-    public void shouldIncludeNameInSummary() {
-        String summary = event.getProperty("SUMMARY").getValue();
+    public void shouldReturnCasSchedulerAsUid() {
+        String uid = event.getProperty("UID").getValue();
 
-        assertTrue(summary.contains("Angewandte Ingenieurmathematik"));
+        assertEquals("cas-scheduler", uid);
     }
 
     @Test
-    public void shouldContainBlockInformationInSummary() {
+    public void shouldReturnCorrectProdId() {
+        String prodId = calendar.getProperty("PRODID").getValue();
+
+        System.out.println(calendar);
+
+        assertEquals(prodId, "-//CAS Scheduler//iCal4j 2.0//EN");
+    }
+
+    @Test
+    public void shouldReturnNameAsSummaryWithBlockInformation() {
         String summary = event.getProperty("SUMMARY").getValue();
 
-        assertTrue(summary.contains("1st Block"));
+        assertEquals("Angewandte Ingenieurmathematik - 1st Block", summary);
     }
 
     @Test

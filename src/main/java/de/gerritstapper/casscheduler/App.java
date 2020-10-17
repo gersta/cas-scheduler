@@ -31,11 +31,8 @@ public class App implements ApplicationRunner {
     private final IcsSaverService icsSaverService;
     private final JsonFileUtil jsonFileUtil;
 
-    private final String ICS_OUTPUT_DIRECTORY;
-
     @Autowired
     public App(
-            @Value("${cas-scheduler.ics.output}") String icsOutputDirectory,
             final PdfReaderService pdfService,
             final DataProcessService dataProcessService,
             final ILectureDaoPersistenceService lectureDaoPersistenceService,
@@ -43,8 +40,6 @@ public class App implements ApplicationRunner {
             final IcsSaverService icsSaverService,
             final JsonFileUtil jsonFileUtil,
             ApplicationContext context) {
-        this.ICS_OUTPUT_DIRECTORY = icsOutputDirectory;
-
         this.pdfService = pdfService;
         this.dataProcessService = dataProcessService;
         this.lectureDaoPersistenceService = lectureDaoPersistenceService;
@@ -74,7 +69,7 @@ public class App implements ApplicationRunner {
         List<Calendar> calendars = daos.stream()
                                         .map(dao -> icsCreatorService.create(dao))
                                         .flatMap(calenderList -> calenderList.stream())
-                                        .peek(calender -> icsSaverService.saveFile(calender, ICS_OUTPUT_DIRECTORY))
+                                        .peek(calender -> icsSaverService.saveFile(calender))
                                         .collect(Collectors.toList());
 
         System.out.println("Calenders size: " + calendars.size());

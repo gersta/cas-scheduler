@@ -17,7 +17,7 @@ public class ValidatorService {
      */
     public boolean isValid(Lecture lecture) {
         return
-                isValidId(lecture.getId()) &&
+                isValidId(lecture.getLectureCode()) &&
                 !lecture.getName().isBlank() &&
                 isValidStart(lecture.getStartOne()) &&
                 isValidEnd(lecture.getEndOne()) &&

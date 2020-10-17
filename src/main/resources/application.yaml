@@ -8,4 +8,6 @@ cas-scheduler:
     output:
       lectures: "src/main/resources/lectures.json"
   ics:
-    output: "lectures/"
+    uid: "cas-scheduler"
+    prod-id: "-//CAS Scheduler//iCal4j 2.0//EN"
+    output: "lectures"

@@ -5,6 +5,7 @@ import de.gerritstapper.casscheduler.util.DateConverterUtil;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -14,11 +15,19 @@ import java.util.List;
 @Service
 public class IcsCreatorService {
 
+    private final String ICS_PROD_ID;
+    private final String ICS_UID;
+
     private final DateConverterUtil dateConverterUtil;
 
     public IcsCreatorService(
+            @Value("${cas-scheduler.ics.prod-id}") String icsProdId,
+            @Value("${cas-scheduler.ics.uid}") String icsUID,
             final DateConverterUtil dateConverterUtil
     ) {
+        this.ICS_PROD_ID = icsProdId;
+        this.ICS_UID = icsUID;
+
         this.dateConverterUtil = dateConverterUtil;
     }
 
@@ -34,7 +43,7 @@ public class IcsCreatorService {
     private Calendar createForBlock(LectureDao lecture, boolean isFirstBlock) {
         // calender metadata
         Calendar calendar = new Calendar();
-        calendar.getProperties().add(new ProdId("-//CAS Scheduler//iCal4j 2.0//EN"));
+        calendar.getProperties().add(new ProdId(ICS_PROD_ID));
         calendar.getProperties().add(Version.VERSION_2_0);
         calendar.getProperties().add(CalScale.GREGORIAN);
 
@@ -54,8 +63,8 @@ public class IcsCreatorService {
                 name
         );
 
-        // the id of the crator of the event?
-        event.getProperties().add(new Uid("cas-scheduler"));
+        // the id of the creator of the event?
+        event.getProperties().add(new Uid(ICS_UID));
         event.getProperties().add(new Location(location));
 
         calendar.getComponents().add(event);

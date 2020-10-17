@@ -84,7 +84,7 @@ public class PdfReaderServiceTest {
     @Test
     public void shouldRecognizeBothLectureBlocks() throws IOException {
         Lecture threeDTechnology = service.readPdf(4).stream()
-                                        .filter(lecture -> lecture.getId().equals("T3M30320"))
+                                        .filter(lecture -> lecture.getLectureCode().equals("T3M30320"))
                                         .findFirst()
                                         .get();
 

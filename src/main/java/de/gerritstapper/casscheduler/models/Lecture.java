@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 @NoArgsConstructor
 public class Lecture {
     
-    String id;
+    String lectureCode;
     String name;
     String startOne;
     String endOne;

@@ -136,7 +136,7 @@ public class PdfReaderService {
         String placeTwo = get(PdfColumns.PLACE_TWO, content);
 
         return Lecture.builder()
-                .id(id)
+                .lectureCode(id)
                 .name(name)
                 .startOne(startOne)
                 .endOne(endOne)

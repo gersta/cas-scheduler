@@ -20,9 +20,9 @@ import java.time.LocalDate;
 @Table(name = "Lectures")
 public class LectureDao {
 
-    @Id @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @Id @GeneratedValue
     String id;
+    String lectureCode;
     String name;
     LocalDate firstBlockStart;
     LocalDate firstBlockEnd;
