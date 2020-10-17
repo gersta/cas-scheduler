@@ -1,5 +1,6 @@
 package de.gerritstapper.casscheduler.services.persistence;
 
+import de.gerritstapper.casscheduler.daos.BlockDao;
 import de.gerritstapper.casscheduler.daos.LectureDao;
 import de.gerritstapper.casscheduler.models.DatesTuple;
 import de.gerritstapper.casscheduler.models.Lecture;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class DataProcessService {
@@ -22,25 +25,56 @@ public class DataProcessService {
 
     /**
      *
-     * @param lecture: the {@link Lecture} extracted from the pdf
-     * @return: a {@link LectureDao} with the data of the provided lecture
+     * @param lecture
+     * @return
      */
     public LectureDao create(Lecture lecture) {
-        DatesTuple<LocalDate, LocalDate> firstBlockDates = getDates(lecture.getStartOne(), lecture.getEndOne());
-        DatesTuple<LocalDate, LocalDate> secondBlockDates = getDates(lecture.getStartTwo(), lecture.getEndTwo());
-
         return LectureDao.builder()
                 .lectureCode(lecture.getLectureCode())
                 .name(lecture.getName())
-                .firstBlockStart(firstBlockDates.getStart())
-                .firstBlockEnd(firstBlockDates.getEnd())
-                .firstBlockLocation(lecture.getLocationOne())
-                .secondBlockStart(secondBlockDates.getStart())
-                .secondBlockEnd(secondBlockDates.getEnd())
-                .secondBlockLocation(lecture.getLocationTwo())
+                .blocks(createBlocks(lecture))
                 .build();
     }
 
+    private List<BlockDao> createBlocks(Lecture lecture) {
+        DatesTuple<LocalDate, LocalDate> firstBlockDates = getDates(lecture.getStartOne(), lecture.getEndOne());
+        DatesTuple<LocalDate, LocalDate> secondBlockDates = getDates(lecture.getStartTwo(), lecture.getEndTwo());
+
+        // TODO: refactor this to be versatile on the number of blocks
+        BlockDao firstBlock = BlockDao.builder()
+                                .blockStart(firstBlockDates.getStart())
+                                .blockEnd(firstBlockDates.getEnd())
+                                .location(lecture.getLocationOne())
+                                .filename(createFileName(lecture, firstBlockDates.getStart(), true))
+                                .build();
+
+        BlockDao secondBlock = BlockDao.builder()
+                                .blockStart(secondBlockDates.getStart())
+                                .blockEnd(secondBlockDates.getEnd())
+                                .location(lecture.getLocationOne())
+                                .filename(createFileName(lecture, secondBlockDates.getStart(), false))
+                                .build();
+
+        return Arrays.asList(firstBlock, secondBlock);
+    }
+
+    /**
+     * creathe a ICS filename for the Block for later downloading
+     * @param lecture: the {@link Lecture} the block belongs to
+     * @param start: start date of the block
+     * @param isFirstBlock: whether its the first or second block of the lecture
+     * @return: filename specific to this block
+     */
+    private String createFileName(Lecture lecture, LocalDate start, boolean isFirstBlock) {
+        return String.format("%s_%s_start_%s.ics", lecture.getName(), isFirstBlock ? "1st Block" : "2nd Block", start);
+    }
+
+    /**
+     * create proper localdates for the lectures start and end dates
+     * @param start: the start date from {@link Lecture}
+     * @param end: the end date from {@link Lecture}
+     * @return: DatesTuple holding {@link LocalDate} for start and end
+     */
     public DatesTuple<LocalDate, LocalDate> getDates(String start, String end) {
         LocalDate endDate = LocalDate.parse(end, DATE_FORMAT);
         int year = endDate.getYear();

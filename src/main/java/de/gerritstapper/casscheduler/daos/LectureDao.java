@@ -4,13 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.time.LocalDate;
+import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Builder
@@ -21,13 +17,11 @@ import java.time.LocalDate;
 public class LectureDao {
 
     @Id @GeneratedValue
-    String id;
+    @Column(name = "LECTURE_ID")
+    Long id;
     String lectureCode;
     String name;
-    LocalDate firstBlockStart;
-    LocalDate firstBlockEnd;
-    String firstBlockLocation;
-    LocalDate secondBlockStart;
-    LocalDate secondBlockEnd;
-    String secondBlockLocation;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    List<BlockDao> blocks;
 }

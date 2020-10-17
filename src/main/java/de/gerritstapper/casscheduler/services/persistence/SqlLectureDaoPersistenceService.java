@@ -1,7 +1,7 @@
 package de.gerritstapper.casscheduler.services.persistence;
 
 import de.gerritstapper.casscheduler.daos.LectureDao;
-import de.gerritstapper.casscheduler.repos.LectureRepository;
+import de.gerritstapper.casscheduler.repositories.LectureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;

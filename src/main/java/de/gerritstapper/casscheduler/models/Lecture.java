@@ -1,10 +1,6 @@
 package de.gerritstapper.casscheduler.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 @Data
 @Builder

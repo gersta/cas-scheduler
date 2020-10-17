@@ -1,4 +1,4 @@
-package de.gerritstapper.casscheduler.repos;
+package de.gerritstapper.casscheduler.repositories;
 
 import de.gerritstapper.casscheduler.daos.LectureDao;
 import org.springframework.context.annotation.Profile;
@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Profile("local")
-public interface LectureRepository extends JpaRepository<LectureDao, String> {
+public interface LectureRepository extends JpaRepository<LectureDao, Long> {
 }

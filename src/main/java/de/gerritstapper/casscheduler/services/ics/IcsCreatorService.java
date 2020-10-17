@@ -1,6 +1,8 @@
 package de.gerritstapper.casscheduler.services.ics;
 
+import de.gerritstapper.casscheduler.daos.BlockDao;
 import de.gerritstapper.casscheduler.daos.LectureDao;
+import de.gerritstapper.casscheduler.models.IcsCalendarWrapper;
 import de.gerritstapper.casscheduler.util.DateConverterUtil;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.component.VEvent;
@@ -8,9 +10,9 @@ import net.fortuna.ical4j.model.property.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class IcsCreatorService {
@@ -36,39 +38,37 @@ public class IcsCreatorService {
      * @param lecture: {@link LectureDao} object
      * @return: iCalender entry as {@link Calendar}
      */
-    public List<Calendar> create(LectureDao lecture) {
-        return Arrays.asList(createForBlock(lecture, true), createForBlock(lecture, false));
+    public List<IcsCalendarWrapper> create(LectureDao lecture) {
+        String lectureName = lecture.getName();
+
+        return IntStream.range(0, lecture.getBlocks().size())
+                .mapToObj(i -> createForBlock(lecture.getBlocks().get(i), lectureName, i+1)) // start index at 1
+                .collect(Collectors.toList());
     }
 
-    private Calendar createForBlock(LectureDao lecture, boolean isFirstBlock) {
+    private IcsCalendarWrapper createForBlock(BlockDao block, String lectureName, int index) {
         // calender metadata
         Calendar calendar = new Calendar();
         calendar.getProperties().add(new ProdId(ICS_PROD_ID));
         calendar.getProperties().add(Version.VERSION_2_0);
         calendar.getProperties().add(CalScale.GREGORIAN);
 
-        // depending on the block, extract the appropriate data from the data
-        LocalDate start = isFirstBlock ? lecture.getFirstBlockStart() : lecture.getSecondBlockStart();
-        LocalDate end = isFirstBlock ? lecture.getFirstBlockEnd() : lecture.getSecondBlockEnd();
-        String location = isFirstBlock ? lecture.getFirstBlockLocation() : lecture.getSecondBlockLocation();
-
-        // append the information for which block this calender is
-        // TODO: make this flexible e.g. in terms of translation?
-        String name = String.format("%s - %s", lecture.getName(), isFirstBlock ? "1st Block" : "2nd Block");
-
         // event details
         VEvent event = new VEvent(
-                dateConverterUtil.fromLocalDateToIcalDate(start),
-                dateConverterUtil.fromLocalDateToIcalDate(end.plusDays(1)), // the iCal dtend is exclusive (http://microformats.org/wiki/dtend-issue)
-                name
+                dateConverterUtil.fromLocalDateToIcalDate(block.getBlockStart()),
+                dateConverterUtil.fromLocalDateToIcalDate(block.getBlockEnd().plusDays(1)), // the iCal dtend is exclusive (http://microformats.org/wiki/dtend-issue)
+                String.format("%s_%s-Block", lectureName, index)
         );
 
         // the id of the creator of the event?
         event.getProperties().add(new Uid(ICS_UID));
-        event.getProperties().add(new Location(location));
+        event.getProperties().add(new Location(block.getLocation()));
 
         calendar.getComponents().add(event);
 
-        return calendar;
+        return IcsCalendarWrapper.builder()
+                .calendar(calendar)
+                .filename(block.getFilename())
+                .build();
     }
 }

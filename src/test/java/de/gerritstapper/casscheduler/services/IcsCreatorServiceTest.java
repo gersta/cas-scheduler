@@ -1,6 +1,8 @@
 package de.gerritstapper.casscheduler.services;
 
+import de.gerritstapper.casscheduler.daos.BlockDao;
 import de.gerritstapper.casscheduler.daos.LectureDao;
+import de.gerritstapper.casscheduler.models.IcsCalendarWrapper;
 import de.gerritstapper.casscheduler.services.ics.IcsCreatorService;
 import de.gerritstapper.casscheduler.util.DateConverterUtil;
 import net.fortuna.ical4j.model.Calendar;
@@ -12,7 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class IcsCreatorServiceTest {
 
@@ -34,15 +38,24 @@ public class IcsCreatorServiceTest {
         icsCreatorService = new IcsCreatorService("-//CAS Scheduler//iCal4j 2.0//EN", "cas-scheduler", new DateConverterUtil());
 
         dao = LectureDao.builder()
-                            .id("T3M10010")
+                            .lectureCode("T3M10010")
                             .name("Angewandte Ingenieurmathematik")
-                            .firstBlockStart(START)
-                            .firstBlockEnd(END)
-                            .secondBlockStart(START.plusDays(1))
-                            .secondBlockEnd(END.plusDays(1))
+                            .blocks(Arrays.asList(
+                                    BlockDao.builder()
+                                            .blockStart(START)
+                                            .blockEnd(END)
+                                            .location("S")
+                                            .build(),
+                                    BlockDao.builder()
+                                            .blockStart(START.plusDays(1))
+                                            .blockEnd(END.plusDays(1))
+                                            .location("S")
+                                            .build()
+                            ))
                             .build();
 
-        calendars = icsCreatorService.create(dao);
+        List<IcsCalendarWrapper> wrappers = icsCreatorService.create(dao);
+        calendars = wrappers.stream().map(wrapper -> wrapper.getCalendar()).collect(Collectors.toList());
         calendar = calendars.get(0); // first block calender entry
         event = calendar.getComponent("VEVENT");
 
@@ -69,7 +82,7 @@ public class IcsCreatorServiceTest {
     public void shouldReturnNameAsSummaryWithBlockInformation() {
         String summary = event.getProperty("SUMMARY").getValue();
 
-        assertEquals("Angewandte Ingenieurmathematik - 1st Block", summary);
+        assertEquals("Angewandte Ingenieurmathematik_1-Block", summary);
     }
 
     @Test
@@ -94,15 +107,24 @@ public class IcsCreatorServiceTest {
     @Test
     public void shouldRecognizeNextMonth() {
         dao = LectureDao.builder()
-                .id("T3M10010")
+                .lectureCode("T3M10010")
                 .name("Angewandte Ingenieurmathematik")
-                .firstBlockStart(START)
-                .firstBlockEnd(LocalDate.of(2020, 8, 31))
-                .secondBlockStart(START.plusDays(1))
-                .secondBlockEnd(END.plusDays(1))
+                .blocks(Arrays.asList(
+                        BlockDao.builder()
+                                .blockStart(START)
+                                .blockEnd(LocalDate.of(2020, 8, 31))
+                                .location("MA")
+                                .build(),
+                        BlockDao.builder()
+                                .blockStart(START.plusDays(1))
+                                .blockEnd(END.plusDays(1))
+                                .location("MA")
+                                .build()
+                ))
                 .build();
 
-        calendars = icsCreatorService.create(dao);
+        List<IcsCalendarWrapper> wrappers = icsCreatorService.create(dao);
+        calendars = wrappers.stream().map(wrapper -> wrapper.getCalendar()).collect(Collectors.toList());
         calendar = calendars.get(0);
         event = calendar.getComponent("VEVENT");
 

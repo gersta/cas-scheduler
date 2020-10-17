@@ -10,4 +10,4 @@ cas-scheduler:
   ics:
     uid: "cas-scheduler"
     prod-id: "-//CAS Scheduler//iCal4j 2.0//EN"
-    output: "lectures"
+    output: "lectures/"

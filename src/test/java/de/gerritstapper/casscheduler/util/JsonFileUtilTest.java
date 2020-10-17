@@ -3,6 +3,7 @@ package de.gerritstapper.casscheduler.util;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
+import de.gerritstapper.casscheduler.daos.BlockDao;
 import de.gerritstapper.casscheduler.daos.LectureDao;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -36,15 +38,23 @@ public class JsonFileUtilTest {
         lectures = Arrays.asList(
             LectureDao.builder()
                 .name("Name One")
-                .firstBlockStart(LocalDate.of(2020, 10, 10))
-                .firstBlockEnd(LocalDate.of(2020, 10, 11))
-                .firstBlockLocation("S")
+                .blocks(Collections.singletonList(
+                        BlockDao.builder()
+                                .blockStart(LocalDate.of(2020, 10, 10))
+                                .blockEnd(LocalDate.of(2020, 10, 11))
+                                .location("S")
+                                .build()
+                ))
                 .build(),
             LectureDao.builder()
                 .name("Name Two")
-                .firstBlockStart(LocalDate.of(2020, 12, 24))
-                .firstBlockEnd(LocalDate.of(2020, 12, 25))
-                .firstBlockLocation("MA")
+                .blocks(Collections.singletonList(
+                        BlockDao.builder()
+                                .blockStart(LocalDate.of(2020, 12, 24))
+                                .blockEnd(LocalDate.of(2020, 12, 25))
+                                .location("MA")
+                                .build()
+                ))
                 .build()
         );
     }
@@ -64,8 +74,8 @@ public class JsonFileUtilTest {
         assertAll(
                 () -> assertTrue(json.contains("\"name\":\"Name One\"")),
                 () -> assertTrue(json.contains("\"name\":\"Name Two\"")),
-                () -> assertTrue(json.contains("\"firstBlockLocation\":\"MA\"")),
-                () -> assertTrue(json.contains("\"firstBlockLocation\":\"S\""))
+                () -> assertTrue(json.contains("\"location\":\"MA\"")),
+                () -> assertTrue(json.contains("\"location\":\"S\""))
         );
     }
 

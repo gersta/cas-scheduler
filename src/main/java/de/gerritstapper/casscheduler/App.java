@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import de.gerritstapper.casscheduler.daos.LectureDao;
+import de.gerritstapper.casscheduler.models.IcsCalendarWrapper;
 import de.gerritstapper.casscheduler.models.Lecture;
 import de.gerritstapper.casscheduler.services.ics.IcsCreatorService;
 import de.gerritstapper.casscheduler.services.ics.IcsSaverService;
@@ -66,7 +67,7 @@ public class App implements ApplicationRunner {
         lectureDaoPersistenceService.saveAll(daos);
         jsonFileUtil.serializeToFile(daos);
 
-        List<Calendar> calendars = daos.stream()
+        List<IcsCalendarWrapper> calendars = daos.stream()
                                         .map(dao -> icsCreatorService.create(dao))
                                         .flatMap(calenderList -> calenderList.stream())
                                         .peek(calender -> icsSaverService.saveFile(calender))
