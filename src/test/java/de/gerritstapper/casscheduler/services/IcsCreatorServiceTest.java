@@ -55,7 +55,7 @@ public class IcsCreatorServiceTest {
                             .build();
 
         List<IcsCalendarWrapper> wrappers = icsCreatorService.create(dao);
-        calendars = wrappers.stream().map(wrapper -> wrapper.getCalendar()).collect(Collectors.toList());
+        calendars = wrappers.stream().map(IcsCalendarWrapper::getCalendar).collect(Collectors.toList());
         calendar = calendars.get(0); // first block calender entry
         event = calendar.getComponent("VEVENT");
 
@@ -124,7 +124,7 @@ public class IcsCreatorServiceTest {
                 .build();
 
         List<IcsCalendarWrapper> wrappers = icsCreatorService.create(dao);
-        calendars = wrappers.stream().map(wrapper -> wrapper.getCalendar()).collect(Collectors.toList());
+        calendars = wrappers.stream().map(IcsCalendarWrapper::getCalendar).collect(Collectors.toList());
         calendar = calendars.get(0);
         event = calendar.getComponent("VEVENT");
 

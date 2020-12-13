@@ -21,7 +21,7 @@ public class DataProcessServiceTest {
 
     @Test
     public void shouldAppendYearForStart() {
-        DatesTuple dates = dataProcessService.getDates("29.08.", "30.08.2022");
+        DatesTuple<LocalDate, LocalDate> dates = dataProcessService.getDates("29.08.", "30.08.2022");
 
         assertEquals(LocalDate.of(2022, 8, 29), dates.getStart());
     }

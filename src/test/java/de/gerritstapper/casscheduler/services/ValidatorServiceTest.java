@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -43,7 +44,7 @@ public class ValidatorServiceTest {
     @Test
     public void shouldNotContainNullValues() {
         List<Object> nulls = lectures.stream()
-                .filter(obj -> Objects.isNull(obj))
+                .filter(Objects::isNull)
                 .collect(Collectors.toList());
 
         assertTrue(nulls.isEmpty());
@@ -54,7 +55,7 @@ public class ValidatorServiceTest {
     @Test
     public void shouldNotReturnEmptyIds() {
         List<String> ids = lectures.stream()
-                .map(lecture -> lecture.getLectureCode())
+                .map(Lecture::getLectureCode)
                 .collect(Collectors.toList());
 
         assertAll(
@@ -65,7 +66,7 @@ public class ValidatorServiceTest {
     @Test
     public void shouldReturnIdStartingWithT3orW3() {
         List<String> ids = lectures.stream()
-                .map(lecture -> lecture.getLectureCode())
+                .map(Lecture::getLectureCode)
                 .collect(Collectors.toList());
 
         assertAll(
@@ -77,7 +78,7 @@ public class ValidatorServiceTest {
     @Test
     public void shouldReturnIdsWith8Characters() {
         List<String> ids = lectures.stream()
-                .map(lecture -> lecture.getLectureCode())
+                .map(Lecture::getLectureCode)
                 .collect(Collectors.toList());
 
         assertTrue(ids.stream().allMatch(id -> id.length() == 8));
@@ -89,7 +90,7 @@ public class ValidatorServiceTest {
     @Test
     public void shouldNotContainWhitespacesInNames() {
         List<String> names = lectures.stream()
-                .map(lecture -> lecture.getName())
+                .map(Lecture::getName)
                 .collect(Collectors.toList());
 
         // each name should be stripped
@@ -99,8 +100,8 @@ public class ValidatorServiceTest {
     @Test
     public void shouldStartNameWithCapitalLetter() {
         List<Character> firstChars = lectures.stream()
-                .map(lecture -> lecture.getName())
-                .map(name -> name.toCharArray())
+                .map(Lecture::getName)
+                .map(String::toCharArray)
                 .map(chars -> chars[0])
                 .collect(Collectors.toList());
 
@@ -111,7 +112,7 @@ public class ValidatorServiceTest {
     @Test
     public void shouldNotReturnEmptyNames() {
         List<String> names = lectures.stream()
-                .map(lecture -> lecture.getName())
+                .map(Lecture::getName)
                 .collect(Collectors.toList());
 
         assertAll(
@@ -125,11 +126,11 @@ public class ValidatorServiceTest {
     @Test
     public void shouldOnlyReturnLettersOrQuestionMarkForLocations() {
         List<String> placesOne = lectures.stream()
-                .map(lecture -> lecture.getLocationOne())
+                .map(Lecture::getLocationOne)
                 .collect(Collectors.toList());
 
         List<String> placesTwo = lectures.stream()
-                .map(lecture -> lecture.getLocationTwo())
+                .map(Lecture::getLocationTwo)
                 .collect(Collectors.toList());
 
         // should return MA instead of (MA)
@@ -143,11 +144,11 @@ public class ValidatorServiceTest {
     @Test
     public void shouldNotReturnEmptyLocations() {
         List<String> placesOne = lectures.stream()
-                .map(lecture -> lecture.getLocationOne())
+                .map(Lecture::getLocationOne)
                 .collect(Collectors.toList());
 
         List<String> placesTwo = lectures.stream()
-                .map(lecture -> lecture.getLocationTwo())
+                .map(Lecture::getLocationTwo)
                 .collect(Collectors.toList());
 
         assertAll(
@@ -159,11 +160,11 @@ public class ValidatorServiceTest {
     @Test
     public void shouldNotIncludeParenthesesInLocations() {
         List<String> placesOne = lectures.stream()
-                .map(lecture -> lecture.getLocationOne())
+                .map(Lecture::getLocationOne)
                 .collect(Collectors.toList());
 
         List<String> placesTwo = lectures.stream()
-                .map(lecture -> lecture.getLocationTwo())
+                .map(Lecture::getLocationTwo)
                 .collect(Collectors.toList());
 
         // should return MA instead of (MA)
@@ -178,11 +179,11 @@ public class ValidatorServiceTest {
     @Test
     public void shouldReturnLocationsWithMaximum3Characters() {
         List<String> placesOne = lectures.stream()
-                .map(lecture -> lecture.getLocationOne())
+                .map(Lecture::getLocationOne)
                 .collect(Collectors.toList());
 
         List<String> placesTwo = lectures.stream()
-                .map(lecture -> lecture.getLocationTwo())
+                .map(Lecture::getLocationTwo)
                 .collect(Collectors.toList());
 
         assertAll(
@@ -194,11 +195,11 @@ public class ValidatorServiceTest {
     @Test
     public void shouldReturnOnlyStrippedLocations() {
         List<String> placesOne = lectures.stream()
-                .map(lecture -> lecture.getLocationOne())
+                .map(Lecture::getLocationOne)
                 .collect(Collectors.toList());
 
         List<String> placesTwo = lectures.stream()
-                .map(lecture -> lecture.getLocationTwo())
+                .map(Lecture::getLocationTwo)
                 .collect(Collectors.toList());
 
         assertAll(
@@ -242,11 +243,11 @@ public class ValidatorServiceTest {
     @Test
     public void shouldReturnStartsWith6Characters() {
         List<String> startsOne = lectures.stream()
-                .map(lecture -> lecture.getStartOne())
+                .map(Lecture::getStartOne)
                 .collect(Collectors.toList());
 
         List<String> startsTwo = lectures.stream()
-                .map(lecture -> lecture.getStartTwo())
+                .map(Lecture::getStartTwo)
                 .collect(Collectors.toList());
 
         assertAll(
@@ -260,11 +261,11 @@ public class ValidatorServiceTest {
     @Test
     public void shouldReturnEndsWith10Characters() {
         List<String> endsOne = lectures.stream()
-                .map(lecture -> lecture.getEndOne())
+                .map(Lecture::getEndOne)
                 .collect(Collectors.toList());
 
         List<String> endsTwo = lectures.stream()
-                .map(lecture -> lecture.getEndTwo())
+                .map(Lecture::getEndTwo)
                 .collect(Collectors.toList());
 
         assertAll(

@@ -43,14 +43,12 @@ public class PdfReaderServiceTest {
     public void shouldReturn57LectureObjectsForPageOne() throws IOException {
         // create another local copy to not overwrite the global list
         List<Lecture> lectures = service.readPdf(0);
-        lectures.forEach(lecture -> System.out.println(lecture));
         assertEquals(57, lectures.size());
     }
 
     @Test
     public void shouldReturn66LectureObjectsForPageTwo() throws IOException {
         List<Lecture> lectures = service.readPdf(1);
-        lectures.forEach(lecture -> System.out.println(lecture));
         assertEquals(66, lectures.size());
     }
 
@@ -64,7 +62,6 @@ public class PdfReaderServiceTest {
     @Test
     public void shouldReturn58LectureObjectsForPageFour() throws IOException {
         List<Lecture> lectures = service.readPdf(3);
-        lectures.forEach(lecture -> System.out.println(lecture));
         assertEquals(58, lectures.size());
     }
 
