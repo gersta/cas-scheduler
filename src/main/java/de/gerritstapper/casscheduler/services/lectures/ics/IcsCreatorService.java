@@ -1,4 +1,4 @@
-package de.gerritstapper.casscheduler.services.ics;
+package de.gerritstapper.casscheduler.services.lectures.ics;
 
 import de.gerritstapper.casscheduler.daos.BlockDao;
 import de.gerritstapper.casscheduler.daos.LectureDao;

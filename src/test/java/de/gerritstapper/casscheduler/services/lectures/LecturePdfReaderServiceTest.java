@@ -1,27 +1,22 @@
-package de.gerritstapper.casscheduler.services;
+package de.gerritstapper.casscheduler.services.lectures;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
 
 import de.gerritstapper.casscheduler.models.Lecture;
 
-import de.gerritstapper.casscheduler.services.pdf.FieldExtractorService;
-import de.gerritstapper.casscheduler.services.pdf.InputDataCleansingService;
-import de.gerritstapper.casscheduler.services.pdf.PdfReaderService;
-import de.gerritstapper.casscheduler.services.pdf.ValidatorService;
-import lombok.extern.log4j.Log4j2;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.spi.LoggerContext;
-import org.apache.pdfbox.pdfparser.PDFObjectStreamParser;
+import de.gerritstapper.casscheduler.services.lectures.pdf.FieldExtractorService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.InputDataCleansingService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.LecturePdfReaderService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.ValidatorService;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class PdfReaderServiceTest {
+public class LecturePdfReaderServiceTest {
 
-    private static PdfReaderService service;
+    private static LecturePdfReaderService service;
     
     private static final String FILENAME = "M_T_Test_All_Pages.pdf";
     private static final Double LINE_HEIGHT = 2.0;
@@ -29,7 +24,7 @@ public class PdfReaderServiceTest {
 
     @BeforeEach
     void beforeEach() throws IOException {
-        service = new PdfReaderService(
+        service = new LecturePdfReaderService(
             new ValidatorService(),
             new FieldExtractorService(),
             new InputDataCleansingService(),

@@ -1,17 +1,16 @@
-package de.gerritstapper.casscheduler.services;
+package de.gerritstapper.casscheduler.services.lectures;
 
 import de.gerritstapper.casscheduler.models.Lecture;
-import de.gerritstapper.casscheduler.services.pdf.FieldExtractorService;
-import de.gerritstapper.casscheduler.services.pdf.InputDataCleansingService;
-import de.gerritstapper.casscheduler.services.pdf.PdfReaderService;
-import de.gerritstapper.casscheduler.services.pdf.ValidatorService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.FieldExtractorService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.InputDataCleansingService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.LecturePdfReaderService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.ValidatorService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,7 +26,7 @@ public class ValidatorServiceTest {
 
     @BeforeAll
     static void beforeAll() throws IOException {
-        PdfReaderService service = new PdfReaderService(
+        LecturePdfReaderService service = new LecturePdfReaderService(
                 new ValidatorService(),
                 new FieldExtractorService(),
                 new InputDataCleansingService(),

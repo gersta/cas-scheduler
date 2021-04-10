@@ -13,3 +13,6 @@ cas-scheduler:
       uid: "cas-scheduler"
       prod-id: "-//CAS Scheduler//iCal4j 2.0//EN"
       output: "lectures/ics/"
+  modules:
+    extract: true
+    filename: "M_T_Modulhandbuch.pdf"

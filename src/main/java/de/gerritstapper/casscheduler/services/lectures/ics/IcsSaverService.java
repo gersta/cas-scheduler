@@ -1,4 +1,4 @@
-package de.gerritstapper.casscheduler.services.ics;
+package de.gerritstapper.casscheduler.services.lectures.ics;
 
 import de.gerritstapper.casscheduler.models.IcsCalendarWrapper;
 import lombok.extern.log4j.Log4j2;

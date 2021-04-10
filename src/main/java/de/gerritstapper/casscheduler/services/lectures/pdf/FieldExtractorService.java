@@ -1,4 +1,4 @@
-package de.gerritstapper.casscheduler.services.pdf;
+package de.gerritstapper.casscheduler.services.lectures.pdf;
 
 import de.gerritstapper.casscheduler.models.enums.RegexPatterns;
 import lombok.extern.log4j.Log4j2;

@@ -1,4 +1,4 @@
-package de.gerritstapper.casscheduler.services.pdf;
+package de.gerritstapper.casscheduler.services.lectures.pdf;
 
 import static de.gerritstapper.casscheduler.util.MillimeterUtil.mmToUnits;
 
@@ -27,7 +27,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Log4j2
-public class PdfReaderService {
+public class LecturePdfReaderService {
 
     // DEPENDENCIES
     private final ValidatorService validatorService;
@@ -42,7 +42,7 @@ public class PdfReaderService {
     private final PDFTextStripperByArea stripper;
     private final PDDocument document;
     
-    public PdfReaderService(
+    public LecturePdfReaderService(
             final ValidatorService validatorService,
             final FieldExtractorService fieldExtractorService,
             final InputDataCleansingService inputDataCleansingService,
@@ -93,7 +93,7 @@ public class PdfReaderService {
      * @return: an instance of {@link PDDocument} wrapping the pdf document
      * @throws IOException
      */
-    public PDDocument getDocument(String filename) throws IOException {
+    private PDDocument getDocument(String filename) throws IOException {
         log.info("getDocument(): {}", filename);
 
         String filePath = Objects.requireNonNull(getClass().getClassLoader().getResource(filename)).getFile();

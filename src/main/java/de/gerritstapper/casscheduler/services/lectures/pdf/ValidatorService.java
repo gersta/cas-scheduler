@@ -1,4 +1,4 @@
-package de.gerritstapper.casscheduler.services.pdf;
+package de.gerritstapper.casscheduler.services.lectures.pdf;
 
 import de.gerritstapper.casscheduler.models.Lecture;
 import de.gerritstapper.casscheduler.models.enums.RegexPatterns;

@@ -1,7 +1,7 @@
-package de.gerritstapper.casscheduler.services;
+package de.gerritstapper.casscheduler.services.lectures;
 
 import de.gerritstapper.casscheduler.models.DatesTuple;
-import de.gerritstapper.casscheduler.services.persistence.DataProcessService;
+import de.gerritstapper.casscheduler.services.lectures.persistence.DataProcessService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
