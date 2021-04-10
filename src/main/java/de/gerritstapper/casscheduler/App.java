@@ -1,25 +1,28 @@
 package de.gerritstapper.casscheduler;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import de.gerritstapper.casscheduler.daos.LectureDao;
 import de.gerritstapper.casscheduler.models.IcsCalendarWrapper;
 import de.gerritstapper.casscheduler.models.Lecture;
 import de.gerritstapper.casscheduler.services.ics.IcsCreatorService;
 import de.gerritstapper.casscheduler.services.ics.IcsSaverService;
-import de.gerritstapper.casscheduler.services.persistence.DataProcessService;
 import de.gerritstapper.casscheduler.services.pdf.PdfReaderService;
+import de.gerritstapper.casscheduler.services.persistence.DataProcessService;
 import de.gerritstapper.casscheduler.util.JsonFileUtil;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @SpringBootApplication
+@Log4j2
 public class App implements ApplicationRunner {
 
     private final PdfReaderService pdfService;
@@ -34,8 +37,7 @@ public class App implements ApplicationRunner {
             final DataProcessService dataProcessService,
             final IcsCreatorService icsCreatorService,
             final IcsSaverService icsSaverService,
-            final JsonFileUtil jsonFileUtil,
-            ApplicationContext context) {
+            final JsonFileUtil jsonFileUtil) {
         this.pdfService = pdfService;
         this.dataProcessService = dataProcessService;
         this.icsCreatorService = icsCreatorService;
@@ -49,24 +51,28 @@ public class App implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments arguments) throws IOException {
+        log.info("Starting CAS Scheduler");
+
+        log.info("Extracting lectures");
+
         List<Lecture> lectures = pdfService.readPdf(null);
 
-        System.out.println("Lecture size: " +  lectures.size());
+        log.info("Extracted {} lectures", lectures.size());
 
         List<LectureDao> daos = lectures.stream()
-                                        .map(lecture -> dataProcessService.create(lecture))
-                                        .collect(Collectors.toList());
+                .map(dataProcessService::create)
+                .collect(Collectors.toList());
 
-        System.out.println("DAO size: " + daos.size());
+        log.info("Created {} daos", daos.size());
 
         jsonFileUtil.serializeToFile(daos);
 
         List<IcsCalendarWrapper> calendars = daos.stream()
-                                        .map(dao -> icsCreatorService.create(dao))
-                                        .flatMap(calenderList -> calenderList.stream())
-                                        .peek(calender -> icsSaverService.saveFile(calender))
-                                        .collect(Collectors.toList());
+                .map(icsCreatorService::create)
+                .flatMap(Collection::stream)
+                .peek(icsSaverService::saveFile)
+                .collect(Collectors.toList());
 
-        System.out.println("Calenders size: " + calendars.size());
+        log.info("Created {} ics files", calendars.size());
     }
 }

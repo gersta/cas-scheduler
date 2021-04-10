@@ -1,6 +1,7 @@
 package de.gerritstapper.casscheduler.services.pdf;
 
 import de.gerritstapper.casscheduler.models.enums.RegexPatterns;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.regex.Matcher;
@@ -11,6 +12,7 @@ import java.util.regex.Pattern;
  * extract the text via regex patterns from given input strings
  */
 @Service
+@Log4j2
 public class FieldExtractorService {
 
     /**
@@ -21,6 +23,8 @@ public class FieldExtractorService {
      * @return: the value for the pattern at given position in the content string or an empty string in case of no match
      */
     private String get(String content, String pattern, int position) {
+        log.debug("get(): {}, {}, {}", content, pattern, position);
+
         Pattern regex = Pattern.compile(pattern);
         if ( position == 2 ) {
             // replace the first occurrence to only match the second with the pattern
@@ -36,10 +40,14 @@ public class FieldExtractorService {
     }
 
     public String getId(String content) {
+        log.trace("getId(): {}", content);
+
         return get(content, RegexPatterns.ID.getPattern(), 1);
     }
 
     public String getName(String content) {
+        log.trace("getName(): {}", content);
+
         content = content.replace("ö", "oe")
                         .replace("Ö", "Oe")
                         .replace("ü", "ue")
@@ -52,39 +60,63 @@ public class FieldExtractorService {
     }
 
     public String getStartOne(String content) {
+        log.trace("getStartOne(): {}", content);
+
         return getStart(content, 1);
     }
 
     public String getStartTwo(String content) {
+        log.trace("getStartTwo(): {}", content);
+
         return getStart(content, 2);
     }
 
     private String getStart(String content, int position) {
+        log.trace("getStart(): {}, {}", content, position);
+
         return get(content, RegexPatterns.START.getPattern(), position).replace("-", "").strip();
     }
 
     public String getEndOne(String content) {
+        log.trace("getEndOne(): {}", content);
+
         return getEnd(content, 1);
     }
 
     public String getEndTwo(String content) {
+        log.trace("getEndTwo(): {}", content);
+
         return getEnd(content, 2);
     }
 
     private String getEnd(String content, int position) {
+        log.trace("getEnd(): {}, {}", content, position);
+
         return get(content, RegexPatterns.END.getPattern(), position).replace("-", "").strip();
     }
 
     public String getPlaceOne(String content) {
+        log.trace("getPlaceOne(): {}", content);
+
         return getPlace(content, 1);
     }
 
     public String getPlaceTwo(String content) {
+        log.trace("getPlaceTwo(): {}", content);
+
         return getPlace(content, 2);
     }
 
     private String getPlace(String content, int position) {
-        content = content.replace("Ö", "OE"); // replace the Ö in Lörrach (LÖ)
+        log.trace("getPlace(): {}, {}", content, position);
+
+        content = replaceGermanOe(content);
         return get(content, RegexPatterns.PLACE.getPattern(), position).replace("(", "").replace(")", "");
+    }
+
+    private String replaceGermanOe(String input) {
+        log.trace("replaceGermanOe(): {}", input);
+
+        return input.replace("Ö", "OE"); // replace the Ö in Lörrach (LÖ)
     }
 }

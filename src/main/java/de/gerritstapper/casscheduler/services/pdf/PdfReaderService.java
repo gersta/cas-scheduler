@@ -5,12 +5,14 @@ import static de.gerritstapper.casscheduler.util.MillimeterUtil.mmToUnits;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.StreamSupport;
 
+import lombok.extern.log4j.Log4j2;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
@@ -24,6 +26,7 @@ import org.springframework.stereotype.Service;
  * central class to orchestrate the scraping of the content
  */
 @Service
+@Log4j2
 public class PdfReaderService {
 
     // DEPENDENCIES
@@ -69,11 +72,13 @@ public class PdfReaderService {
      * @throws IOException
      */
     public List<Lecture> readPdf(Integer pageIndex) throws IOException {
+        log.info("readPdf(): page index {}", pageIndex);
+
         // iterate over all pages
         List<Lecture> lectures = StreamSupport.stream(document.getPages().spliterator(), false)
                     .filter(page -> pageIndex == null || page.equals(document.getPage(pageIndex))) // only take a specific page if filter is set
-                    .map(page -> processPage(page)) // process each of them
-                    .flatMap(lecture -> lecture.stream()) // flatMap to list of lectures
+                    .map(this::processPage) // process each of them
+                    .flatMap(Collection::stream) // flatMap to list of lectures
                     .distinct() // filter all those entries that were read twice due to scanning each page twice
                     .collect(Collectors.toList()); // collect list
 
@@ -89,6 +94,8 @@ public class PdfReaderService {
      * @throws IOException
      */
     public PDDocument getDocument(String filename) throws IOException {
+        log.info("getDocument(): {}", filename);
+
         String filePath = Objects.requireNonNull(getClass().getClassLoader().getResource(filename)).getFile();
         return PDDocument.load(new File(filePath));
     }
@@ -100,9 +107,16 @@ public class PdfReaderService {
      * @return: list of valid {@link Lecture} instances scraped from the given pdf page
      */
     public List<Lecture> processPage(PDPage page) {
-        return IntStream.range(MINIMAL_Y_OFFSET, 600).mapToObj(step -> readNextRow(page, step))
-                                        .filter(lecture -> validatorService.isValid(lecture))
-                                        .collect(Collectors.toList());
+        log.info("processPage(): {}", page);
+
+        List<Lecture> lectures = IntStream.range(MINIMAL_Y_OFFSET, 600)
+                .mapToObj(step -> readNextRow(page, step))
+                .filter(validatorService::isValid)
+                .collect(Collectors.toList());
+
+        log.info("Read {} valid lectures from page {}", lectures.size(), page);
+
+        return lectures;
     }
 
     /**
@@ -112,6 +126,8 @@ public class PdfReaderService {
      * @return: returns the instance of {@link Lecture} that was read at the given Y coordinate
      */
     public Lecture readNextRow(PDPage page, double nextY) {
+        log.trace("readNextRow(): {}, {}", page, nextY);
+
         addRegions(nextY);
 
         try {
@@ -135,7 +151,7 @@ public class PdfReaderService {
         String endTwo = get(PdfColumns.END_TWO, content);
         String placeTwo = get(PdfColumns.PLACE_TWO, content);
 
-        return Lecture.builder()
+        Lecture lecture = Lecture.builder()
                 .lectureCode(id)
                 .name(name)
                 .startOne(startOne)
@@ -146,6 +162,10 @@ public class PdfReaderService {
                 .locationTwo(placeTwo)
                 .coordinate(nextY)
                 .build();
+
+        log.debug("Read lecture: {}", lecture);
+
+        return lecture;
     }
 
     /**
@@ -154,6 +174,8 @@ public class PdfReaderService {
      * @param y: the Y coordinate of the row that is about to be extracted from the {@link PDPage}
      */
     public void addRegions(double y) {
+        log.trace("addRegions(): {}", y);
+
         // x, y, width, height
         Rectangle2D row = new Rectangle2D.Double(mmToUnits(15), mmToUnits(y), mmToUnits(210), mmToUnits(LINE_HEIGHT));
         stripper.addRegion(PdfColumns.ROW.name(), row);
@@ -164,6 +186,8 @@ public class PdfReaderService {
      * @return: the content that was scraped from the given region
      */
     public String extractText() {
+        log.trace("extractText()");
+
         return stripper.getTextForRegion(PdfColumns.ROW.name()).replace("\n", "");
     }
 
@@ -171,6 +195,8 @@ public class PdfReaderService {
      * reset the stripper by removing all associated regions
      */
     public void removeRegions() {
+        log.info("removeRegions()");
+
         stripper.removeRegion(PdfColumns.ROW.name());
     }
 
@@ -181,6 +207,8 @@ public class PdfReaderService {
      * @return
      */
     public String get(PdfColumns column, String content) {
+        log.trace("get(): {}, {}", column, content);
+
         return switch (column) {
             case ID -> fieldExtractorService.getId(content);
             case NAME -> fieldExtractorService.getName(content);
@@ -195,6 +223,8 @@ public class PdfReaderService {
     }
 
     public void closeDocument() throws IOException {
+        log.info("closeDocument()");
+
         document.close();
     }
 }

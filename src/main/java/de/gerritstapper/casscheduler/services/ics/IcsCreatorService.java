@@ -4,6 +4,7 @@ import de.gerritstapper.casscheduler.daos.BlockDao;
 import de.gerritstapper.casscheduler.daos.LectureDao;
 import de.gerritstapper.casscheduler.models.IcsCalendarWrapper;
 import de.gerritstapper.casscheduler.util.DateConverterUtil;
+import lombok.extern.log4j.Log4j2;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.*;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
+@Log4j2
 public class IcsCreatorService {
 
     private final String ICS_PROD_ID;
@@ -39,6 +41,8 @@ public class IcsCreatorService {
      * @return: iCalender entry as {@link Calendar}
      */
     public List<IcsCalendarWrapper> create(LectureDao lecture) {
+        log.debug("create(): {}", lecture);
+
         String lectureName = lecture.getName();
 
         return IntStream.range(0, lecture.getBlocks().size())
@@ -47,6 +51,8 @@ public class IcsCreatorService {
     }
 
     private IcsCalendarWrapper createForBlock(BlockDao block, String lectureName, int index) {
+        log.debug("createForBlock(): {}, {}, {}", block, lectureName, index);
+
         // calender metadata
         Calendar calendar = new Calendar();
         calendar.getProperties().add(new ProdId(ICS_PROD_ID));
