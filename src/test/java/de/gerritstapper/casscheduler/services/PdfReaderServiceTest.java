@@ -2,6 +2,7 @@ package de.gerritstapper.casscheduler.services;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
 
 import de.gerritstapper.casscheduler.models.Lecture;
 
@@ -9,9 +10,14 @@ import de.gerritstapper.casscheduler.services.pdf.FieldExtractorService;
 import de.gerritstapper.casscheduler.services.pdf.InputDataCleansingService;
 import de.gerritstapper.casscheduler.services.pdf.PdfReaderService;
 import de.gerritstapper.casscheduler.services.pdf.ValidatorService;
+import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.spi.LoggerContext;
+import org.apache.pdfbox.pdfparser.PDFObjectStreamParser;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 
 public class PdfReaderServiceTest {
 

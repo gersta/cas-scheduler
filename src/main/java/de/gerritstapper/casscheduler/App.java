@@ -10,12 +10,9 @@ import de.gerritstapper.casscheduler.models.Lecture;
 import de.gerritstapper.casscheduler.services.ics.IcsCreatorService;
 import de.gerritstapper.casscheduler.services.ics.IcsSaverService;
 import de.gerritstapper.casscheduler.services.persistence.DataProcessService;
-import de.gerritstapper.casscheduler.services.persistence.ILectureDaoPersistenceService;
 import de.gerritstapper.casscheduler.services.pdf.PdfReaderService;
 import de.gerritstapper.casscheduler.util.JsonFileUtil;
-import net.fortuna.ical4j.model.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -27,7 +24,6 @@ public class App implements ApplicationRunner {
 
     private final PdfReaderService pdfService;
     private final DataProcessService dataProcessService;
-    private final ILectureDaoPersistenceService lectureDaoPersistenceService;
     private final IcsCreatorService icsCreatorService;
     private final IcsSaverService icsSaverService;
     private final JsonFileUtil jsonFileUtil;
@@ -36,14 +32,12 @@ public class App implements ApplicationRunner {
     public App(
             final PdfReaderService pdfService,
             final DataProcessService dataProcessService,
-            final ILectureDaoPersistenceService lectureDaoPersistenceService,
             final IcsCreatorService icsCreatorService,
             final IcsSaverService icsSaverService,
             final JsonFileUtil jsonFileUtil,
             ApplicationContext context) {
         this.pdfService = pdfService;
         this.dataProcessService = dataProcessService;
-        this.lectureDaoPersistenceService = lectureDaoPersistenceService;
         this.icsCreatorService = icsCreatorService;
         this.icsSaverService = icsSaverService;
         this.jsonFileUtil = jsonFileUtil;
@@ -64,7 +58,7 @@ public class App implements ApplicationRunner {
                                         .collect(Collectors.toList());
 
         System.out.println("DAO size: " + daos.size());
-        lectureDaoPersistenceService.saveAll(daos);
+
         jsonFileUtil.serializeToFile(daos);
 
         List<IcsCalendarWrapper> calendars = daos.stream()
