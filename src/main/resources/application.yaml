@@ -1,13 +1,15 @@
 cas-scheduler:
-  pdf:
-    filename: "M_T_Lehrveranstaltungen.pdf"
-    line-height: 2.0
-    minimal-y-offset: 55 # at least 55mm offset from the top of the page. Saves on empty iteration steps to find first line
-    date-pattern: "dd.MM.yyyy"
-  json:
-    output:
-      lectures: "src/main/resources/lectures.json"
-  ics:
-    uid: "cas-scheduler"
-    prod-id: "-//CAS Scheduler//iCal4j 2.0//EN"
-    output: "lectures/"
+  lectures:
+    extract: true
+    pdf:
+      filename: "M_T_Lehrveranstaltungen.pdf"
+      line-height: 2.0
+      minimal-y-offset: 55 # at least 55mm offset from the top of the page. Saves on empty iteration steps to find first line
+      date-pattern: "dd.MM.yyyy"
+    json:
+      output:
+        lectures: "lectures/json/lectures.json"
+    ics:
+      uid: "cas-scheduler"
+      prod-id: "-//CAS Scheduler//iCal4j 2.0//EN"
+      output: "lectures/ics/"

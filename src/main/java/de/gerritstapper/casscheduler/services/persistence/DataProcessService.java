@@ -18,7 +18,7 @@ public class DataProcessService {
     private final DateTimeFormatter DATE_FORMAT;
 
     public DataProcessService(
-            @Value("${cas-scheduler.pdf.date-pattern}") String datePattern
+            @Value("${cas-scheduler.lectures.pdf.date-pattern}") String datePattern
     ) {
         this.DATE_FORMAT = DateTimeFormatter.ofPattern(datePattern);
     }

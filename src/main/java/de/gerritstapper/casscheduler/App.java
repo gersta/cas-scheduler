@@ -31,18 +31,22 @@ public class App implements ApplicationRunner {
     private final IcsSaverService icsSaverService;
     private final JsonFileUtil jsonFileUtil;
 
+    private final boolean doExtractLectures;
+
     @Autowired
     public App(
             final PdfReaderService pdfService,
             final DataProcessService dataProcessService,
             final IcsCreatorService icsCreatorService,
             final IcsSaverService icsSaverService,
-            final JsonFileUtil jsonFileUtil) {
+            final JsonFileUtil jsonFileUtil,
+            @Value("${cas-scheduler.lectures.extract}") final boolean doExtractLectures) {
         this.pdfService = pdfService;
         this.dataProcessService = dataProcessService;
         this.icsCreatorService = icsCreatorService;
         this.icsSaverService = icsSaverService;
         this.jsonFileUtil = jsonFileUtil;
+        this.doExtractLectures = doExtractLectures;
     }
 
     public static void main(String[] args) {
@@ -53,26 +57,30 @@ public class App implements ApplicationRunner {
     public void run(ApplicationArguments arguments) throws IOException {
         log.info("Starting CAS Scheduler");
 
-        log.info("Extracting lectures");
+        log.info("Extract lectures: {}", doExtractLectures);
 
-        List<Lecture> lectures = pdfService.readPdf(null);
+        if ( doExtractLectures ) {
+            log.info("Extracting lectures");
 
-        log.info("Extracted {} lectures", lectures.size());
+            List<Lecture> lectures = pdfService.readPdf(null);
 
-        List<LectureDao> daos = lectures.stream()
-                .map(dataProcessService::create)
-                .collect(Collectors.toList());
+            log.info("Extracted {} lectures", lectures.size());
 
-        log.info("Created {} daos", daos.size());
+            List<LectureDao> daos = lectures.stream()
+                    .map(dataProcessService::create)
+                    .collect(Collectors.toList());
 
-        jsonFileUtil.serializeToFile(daos);
+            log.info("Created {} daos", daos.size());
 
-        List<IcsCalendarWrapper> calendars = daos.stream()
-                .map(icsCreatorService::create)
-                .flatMap(Collection::stream)
-                .peek(icsSaverService::saveFile)
-                .collect(Collectors.toList());
+            jsonFileUtil.serializeToFile(daos);
 
-        log.info("Created {} ics files", calendars.size());
+            List<IcsCalendarWrapper> calendars = daos.stream()
+                    .map(icsCreatorService::create)
+                    .flatMap(Collection::stream)
+                    .peek(icsSaverService::saveFile)
+                    .collect(Collectors.toList());
+
+            log.info("Created {} ics files", calendars.size());
+        }
     }
 }

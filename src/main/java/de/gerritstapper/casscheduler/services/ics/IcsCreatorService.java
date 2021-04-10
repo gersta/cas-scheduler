@@ -25,8 +25,8 @@ public class IcsCreatorService {
     private final DateConverterUtil dateConverterUtil;
 
     public IcsCreatorService(
-            @Value("${cas-scheduler.ics.prod-id}") String icsProdId,
-            @Value("${cas-scheduler.ics.uid}") String icsUID,
+            @Value("${cas-scheduler.lectures.ics.prod-id}") String icsProdId,
+            @Value("${cas-scheduler.lectures.ics.uid}") String icsUID,
             final DateConverterUtil dateConverterUtil
     ) {
         this.ICS_PROD_ID = icsProdId;

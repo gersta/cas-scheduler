@@ -17,7 +17,7 @@ public class IcsSaverService {
     private final String OUTPUT_DIRECTORY;
 
     public IcsSaverService(
-            @Value("${cas-scheduler.ics.output}") String icsOutputDirectory
+            @Value("${cas-scheduler.lectures.ics.output}") String icsOutputDirectory
     ) {
         this.OUTPUT_DIRECTORY = icsOutputDirectory;
     }
