@@ -1,7 +1,7 @@
 package de.gerritstapper.casscheduler.services.lectures;
 
 import de.gerritstapper.casscheduler.models.Lecture;
-import de.gerritstapper.casscheduler.services.lectures.pdf.FieldExtractorService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.LectureFieldExtractorService;
 import de.gerritstapper.casscheduler.services.lectures.pdf.InputDataCleansingService;
 import de.gerritstapper.casscheduler.services.lectures.pdf.LecturePdfReaderService;
 import de.gerritstapper.casscheduler.services.lectures.pdf.ValidatorService;
@@ -28,7 +28,7 @@ public class ValidatorServiceTest {
     static void beforeAll() throws IOException {
         LecturePdfReaderService service = new LecturePdfReaderService(
                 new ValidatorService(),
-                new FieldExtractorService(),
+                new LectureFieldExtractorService(),
                 new InputDataCleansingService(),
                 FILENAME,
                 LINE_HEIGHT,

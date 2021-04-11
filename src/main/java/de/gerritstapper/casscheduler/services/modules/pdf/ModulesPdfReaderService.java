@@ -1,4 +1,4 @@
-package de.gerritstapper.casscheduler.services.modules;
+package de.gerritstapper.casscheduler.services.modules.pdf;
 
 import de.gerritstapper.casscheduler.models.Module;
 import lombok.SneakyThrows;
@@ -17,22 +17,25 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 @Log4j2
 public class ModulesPdfReaderService {
 
-    private static final String NEW_PAGE_TEXT = "aus aktueller orga-einheit";
+
     private static final String LINEBREAK = "\\r?\\n";
     private static final String WHITESPACE = " ";
 
     private final PDFTextStripper textStripper;
     private final PDDocument document;
 
+    private final ModulesFieldExtractorService fieldExtractorService;
+
     public ModulesPdfReaderService(
-            @Value("${cas-scheduler.modules.filename}") String filename
+            @Value("${cas-scheduler.modules.filename}") String filename,
+            ModulesFieldExtractorService fieldExtractorService
     ) throws IOException {
+        this.fieldExtractorService = fieldExtractorService;
         // TODO: move this to constructor
         textStripper = new PDFTextStripper();
         textStripper.setSortByPosition(true);
@@ -78,7 +81,7 @@ public class ModulesPdfReaderService {
         String[] lines = content.split(LINEBREAK);
 
 
-        if ( isNewModule(lines[0]) ) {
+        if ( fieldExtractorService.isNewModule(lines) ) {
 
             String lectureName = getLectureName(lines[1]);
             String lectureNameEnglish = lines[2];
@@ -126,11 +129,6 @@ public class ModulesPdfReaderService {
         } else {
             return null;
         }
-    }
-
-    // TODO: move to dedicated class
-    private boolean isNewModule(String line) {
-        return line.toLowerCase().startsWith(NEW_PAGE_TEXT);
     }
 
     private String getLectureName(String line) {

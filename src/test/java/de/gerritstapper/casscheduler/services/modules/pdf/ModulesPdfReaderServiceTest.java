@@ -1,6 +1,7 @@
-package de.gerritstapper.casscheduler.services.modules;
+package de.gerritstapper.casscheduler.services.modules.pdf;
 
 import de.gerritstapper.casscheduler.models.Module;
+import de.gerritstapper.casscheduler.services.modules.pdf.ModulesPdfReaderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ class ModulesPdfReaderServiceTest {
     @BeforeEach
     void beforeEach() throws IOException {
         String filename = "M_T_Modulhandbuch_T3M10101.pdf";
-        pdfReaderService = new ModulesPdfReaderService(filename);
+        pdfReaderService = new ModulesPdfReaderService(filename, new ModulesFieldExtractorService());
     }
 
     @Test

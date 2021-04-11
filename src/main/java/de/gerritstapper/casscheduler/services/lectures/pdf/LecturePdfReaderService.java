@@ -31,7 +31,7 @@ public class LecturePdfReaderService {
 
     // DEPENDENCIES
     private final ValidatorService validatorService;
-    private final FieldExtractorService fieldExtractorService;
+    private final LectureFieldExtractorService lectureFieldExtractorService;
     private final InputDataCleansingService inputDataCleansingService;
 
     // CONFIGURATION
@@ -44,14 +44,14 @@ public class LecturePdfReaderService {
     
     public LecturePdfReaderService(
             final ValidatorService validatorService,
-            final FieldExtractorService fieldExtractorService,
+            final LectureFieldExtractorService lectureFieldExtractorService,
             final InputDataCleansingService inputDataCleansingService,
             @Value("${cas-scheduler.lectures.pdf.filename}") String filename,
             @Value("${cas-scheduler.lectures.pdf.line-height}") Double lineHeight,
             @Value("${cas-scheduler.lectures.pdf.minimal-y-offset}") Integer minimalYOffset
     ) throws IOException {
         this.validatorService = validatorService;
-        this.fieldExtractorService = fieldExtractorService;
+        this.lectureFieldExtractorService = lectureFieldExtractorService;
         this.inputDataCleansingService = inputDataCleansingService;
         
         // CONFIGURATION
@@ -210,14 +210,14 @@ public class LecturePdfReaderService {
         log.trace("get(): {}, {}", column, content);
 
         return switch (column) {
-            case ID -> fieldExtractorService.getId(content);
-            case NAME -> fieldExtractorService.getName(content);
-            case START_ONE -> fieldExtractorService.getStartOne(content);
-            case START_TWO -> fieldExtractorService.getStartTwo(content);
-            case END_ONE -> fieldExtractorService.getEndOne(content);
-            case END_TWO -> fieldExtractorService.getEndTwo(content);
-            case PLACE_ONE -> fieldExtractorService.getPlaceOne(content);
-            case PLACE_TWO -> fieldExtractorService.getPlaceTwo(content);
+            case ID -> lectureFieldExtractorService.getId(content);
+            case NAME -> lectureFieldExtractorService.getName(content);
+            case START_ONE -> lectureFieldExtractorService.getStartOne(content);
+            case START_TWO -> lectureFieldExtractorService.getStartTwo(content);
+            case END_ONE -> lectureFieldExtractorService.getEndOne(content);
+            case END_TWO -> lectureFieldExtractorService.getEndTwo(content);
+            case PLACE_ONE -> lectureFieldExtractorService.getPlaceOne(content);
+            case PLACE_TWO -> lectureFieldExtractorService.getPlaceTwo(content);
             default -> content;
         };
     }

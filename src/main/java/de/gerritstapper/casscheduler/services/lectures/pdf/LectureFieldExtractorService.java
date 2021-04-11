@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  */
 @Service
 @Log4j2
-public class FieldExtractorService {
+public class LectureFieldExtractorService {
 
     /**
      * extract text by given pattern from the content and return

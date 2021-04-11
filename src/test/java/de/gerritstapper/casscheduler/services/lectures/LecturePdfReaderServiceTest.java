@@ -5,7 +5,7 @@ import java.util.List;
 
 import de.gerritstapper.casscheduler.models.Lecture;
 
-import de.gerritstapper.casscheduler.services.lectures.pdf.FieldExtractorService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.LectureFieldExtractorService;
 import de.gerritstapper.casscheduler.services.lectures.pdf.InputDataCleansingService;
 import de.gerritstapper.casscheduler.services.lectures.pdf.LecturePdfReaderService;
 import de.gerritstapper.casscheduler.services.lectures.pdf.ValidatorService;
@@ -26,7 +26,7 @@ public class LecturePdfReaderServiceTest {
     void beforeEach() throws IOException {
         service = new LecturePdfReaderService(
             new ValidatorService(),
-            new FieldExtractorService(),
+            new LectureFieldExtractorService(),
             new InputDataCleansingService(),
             FILENAME,
             LINE_HEIGHT,
