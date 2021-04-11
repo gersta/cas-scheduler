@@ -91,7 +91,8 @@ public class ModulesPdfReaderService {
             String[] formalities = lines[5].split(WHITESPACE);
             String lectureCode = formalities[0];
             String duration = formalities[2];
-            String lecturer = getLecturer(formalities);
+            String owner = getLecturer(formalities);
+            String language = formalities[formalities.length - 1];
 
             // EXAM
             String[] examInfo = lines[11].split(WHITESPACE);
@@ -114,8 +115,9 @@ public class ModulesPdfReaderService {
                     .lectureCode(lectureCode)
                     .lectureName(lectureName)
                     .lectureNameEnglish(lectureNameEnglish)
-                    .lecturer(lecturer)
+                    .owner(owner)
                     .duration(duration)
+                    .language(language)
                     .exam(exam)
                     .examDuration(examDuration)
                     .examMarking(examMarking)

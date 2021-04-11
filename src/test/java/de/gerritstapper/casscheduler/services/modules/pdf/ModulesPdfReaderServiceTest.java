@@ -1,7 +1,6 @@
 package de.gerritstapper.casscheduler.services.modules.pdf;
 
 import de.gerritstapper.casscheduler.models.Module;
-import de.gerritstapper.casscheduler.services.modules.pdf.ModulesPdfReaderService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -56,12 +55,12 @@ class ModulesPdfReaderServiceTest {
     }
 
     @Test
-    void shouldExtractLecturer() {
+    void shouldExtractOwner() {
         Module module = pdfReaderService.readPdf().get(0);
 
         assertAll(
                 () -> assertNotNull(module),
-                () -> assertEquals("Prof. Dr. Volker Schulz", module.getLecturer())
+                () -> assertEquals("Prof. Dr. Volker Schulz", module.getOwner())
         );
     }
 
@@ -72,6 +71,16 @@ class ModulesPdfReaderServiceTest {
         assertAll(
                 () -> assertNotNull(module),
                 () -> assertEquals("1", module.getDuration())
+        );
+    }
+
+    @Test
+    void shouldExtractLanguage() {
+        Module module = pdfReaderService.readPdf().get(0);
+
+        assertAll(
+                () -> assertNotNull(module),
+                () -> assertEquals("Deutsch/Englisch", module.getLanguage())
         );
     }
 
@@ -152,6 +161,19 @@ class ModulesPdfReaderServiceTest {
         assertAll(
                 () -> assertNotNull(module),
                 () -> assertEquals("13.07.2020", module.getUpdatedOn())
+        );
+    }
+
+    @Disabled
+    void shouldExtractSpecifics() {
+        Module module = pdfReaderService.readPdf().get(0);
+
+        assertAll(
+                () -> assertNotNull(module),
+                () -> assertEquals(
+                        "Im Rahmen der Vorlesung unterrichten verschiedene Dozierende. Diese sind jeweils ausgewiesene Expertinnen und Experten in Ihrem Fachgebiet.",
+                        module.getSpecifics()
+                )
         );
     }
 }

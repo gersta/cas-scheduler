@@ -11,18 +11,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Module {
 
-    private String lectureCode;
+    private String lectureCode; // MODULNUMMER
     private String lectureName;
     private String lectureNameEnglish;
 
     // FORMALITIES
-    private String lecturer;
-    private String duration;
+    private String owner; // MODULVERANTWORTUNG
+    private String duration; // MODULDAUER
+    private String language;
 
     // EXAML
     private String exam;
-    private String examDuration;
-    private String examMarking;
+    private String examDuration; // PRUEFUNGSUMFANG
+    private String examMarking; // BENOTUNG
 
     // WORKLOAD
     private String totalWorkload;
@@ -31,5 +32,7 @@ public class Module {
     private String ectsPoints;
 
     // Metainfo
-    private String updatedOn;
+    private String updatedOn; // STAND VOM
+
+    private String specifics; // BESONDERHEITEN
 }
