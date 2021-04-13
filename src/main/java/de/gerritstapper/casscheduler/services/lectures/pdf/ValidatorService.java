@@ -1,7 +1,7 @@
 package de.gerritstapper.casscheduler.services.lectures.pdf;
 
-import de.gerritstapper.casscheduler.models.Lecture;
-import de.gerritstapper.casscheduler.models.enums.RegexPatterns;
+import de.gerritstapper.casscheduler.models.lecture.Lecture;
+import de.gerritstapper.casscheduler.models.lecture.enums.RegexPatterns;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ public class ValidatorService {
      * @return: true in case the lecture is valid, false in case it's not
      */
     public boolean isValid(Lecture lecture) {
-        log.debug("isValid(): {}", lecture);
+        log.trace("isValid(): {}", lecture);
 
         return
                 isValidId(lecture.getLectureCode()) &&

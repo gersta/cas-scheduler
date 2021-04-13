@@ -2,7 +2,7 @@ package de.gerritstapper.casscheduler.services.lectures;
 
 import de.gerritstapper.casscheduler.daos.BlockDao;
 import de.gerritstapper.casscheduler.daos.LectureDao;
-import de.gerritstapper.casscheduler.models.IcsCalendarWrapper;
+import de.gerritstapper.casscheduler.models.lecture.IcsCalendarWrapper;
 import de.gerritstapper.casscheduler.services.lectures.ics.IcsCreatorService;
 import de.gerritstapper.casscheduler.util.DateConverterUtil;
 import net.fortuna.ical4j.model.Calendar;

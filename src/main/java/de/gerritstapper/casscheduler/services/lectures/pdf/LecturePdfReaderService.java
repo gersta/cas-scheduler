@@ -17,8 +17,8 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
 
-import de.gerritstapper.casscheduler.models.Lecture;
-import de.gerritstapper.casscheduler.models.PdfColumns;
+import de.gerritstapper.casscheduler.models.lecture.Lecture;
+import de.gerritstapper.casscheduler.models.lecture.PdfColumns;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -82,6 +82,8 @@ public class LecturePdfReaderService {
                     .distinct() // filter all those entries that were read twice due to scanning each page twice
                     .collect(Collectors.toList()); // collect list
 
+        log.info("readPdf(): page index{}. Read {} lectures", pageIndex, lectures.size());
+
         closeDocument();
 
         return lectures;
@@ -107,14 +109,14 @@ public class LecturePdfReaderService {
      * @return: list of valid {@link Lecture} instances scraped from the given pdf page
      */
     public List<Lecture> processPage(PDPage page) {
-        log.info("processPage(): {}", page);
+        log.trace("processPage(): {}", page);
 
         List<Lecture> lectures = IntStream.range(MINIMAL_Y_OFFSET, 600)
                 .mapToObj(step -> readNextRow(page, step))
                 .filter(validatorService::isValid)
                 .collect(Collectors.toList());
 
-        log.info("Read {} valid lectures from page {}", lectures.size(), page);
+        log.trace("Read {} valid lectures from page {}", lectures.size(), page);
 
         return lectures;
     }
@@ -163,7 +165,7 @@ public class LecturePdfReaderService {
                 .coordinate(nextY)
                 .build();
 
-        log.debug("Read lecture: {}", lecture);
+        log.trace("Read lecture: {}", lecture);
 
         return lecture;
     }

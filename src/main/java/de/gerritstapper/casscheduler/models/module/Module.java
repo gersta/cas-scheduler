@@ -1,4 +1,4 @@
-package de.gerritstapper.casscheduler.models;
+package de.gerritstapper.casscheduler.models.module;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

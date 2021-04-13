@@ -1,6 +1,6 @@
 package de.gerritstapper.casscheduler.services.lectures;
 
-import de.gerritstapper.casscheduler.models.Lecture;
+import de.gerritstapper.casscheduler.models.lecture.Lecture;
 import de.gerritstapper.casscheduler.services.lectures.pdf.LectureFieldExtractorService;
 import de.gerritstapper.casscheduler.services.lectures.pdf.InputDataCleansingService;
 import de.gerritstapper.casscheduler.services.lectures.pdf.LecturePdfReaderService;

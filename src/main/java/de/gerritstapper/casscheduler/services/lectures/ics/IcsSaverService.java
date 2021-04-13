@@ -1,6 +1,6 @@
 package de.gerritstapper.casscheduler.services.lectures.ics;
 
-import de.gerritstapper.casscheduler.models.IcsCalendarWrapper;
+import de.gerritstapper.casscheduler.models.lecture.IcsCalendarWrapper;
 import lombok.extern.log4j.Log4j2;
 import net.fortuna.ical4j.data.CalendarOutputter;
 import net.fortuna.ical4j.model.Calendar;

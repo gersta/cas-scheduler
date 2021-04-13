@@ -1,4 +1,4 @@
-package de.gerritstapper.casscheduler.models;
+package de.gerritstapper.casscheduler.models.lecture;
 
 public enum PdfColumns {
     ID,

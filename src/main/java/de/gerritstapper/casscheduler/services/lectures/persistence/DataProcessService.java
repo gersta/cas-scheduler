@@ -2,8 +2,8 @@ package de.gerritstapper.casscheduler.services.lectures.persistence;
 
 import de.gerritstapper.casscheduler.daos.BlockDao;
 import de.gerritstapper.casscheduler.daos.LectureDao;
-import de.gerritstapper.casscheduler.models.DatesTuple;
-import de.gerritstapper.casscheduler.models.Lecture;
+import de.gerritstapper.casscheduler.models.lecture.DatesTuple;
+import de.gerritstapper.casscheduler.models.lecture.Lecture;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 

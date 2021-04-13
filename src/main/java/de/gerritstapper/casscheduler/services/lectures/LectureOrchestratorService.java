@@ -1,8 +1,8 @@
 package de.gerritstapper.casscheduler.services.lectures;
 
 import de.gerritstapper.casscheduler.daos.LectureDao;
-import de.gerritstapper.casscheduler.models.IcsCalendarWrapper;
-import de.gerritstapper.casscheduler.models.Lecture;
+import de.gerritstapper.casscheduler.models.lecture.IcsCalendarWrapper;
+import de.gerritstapper.casscheduler.models.lecture.Lecture;
 import de.gerritstapper.casscheduler.services.lectures.ics.IcsCreatorService;
 import de.gerritstapper.casscheduler.services.lectures.ics.IcsSaverService;
 import de.gerritstapper.casscheduler.services.lectures.pdf.LecturePdfReaderService;

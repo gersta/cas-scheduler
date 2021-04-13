@@ -17,64 +17,57 @@ class ModulesFieldExtractorServiceTest {
 
     @Test
     void shouldDetermineNewModuleByExpectedText() {
-        String[] lines = { "AUS AKTUELLER ORGA-EINHEIT" };
+        String content = "AUS AKTUELLER ORGA-EINHEIT";
 
-        assertTrue(fieldExtractorService.isNewModule(lines));
+        assertTrue(fieldExtractorService.isNewModule(content));
     }
 
     @Test
     void shouldDetermineNewModuleByExpectedTextInLowercase() {
-        String[] lines = { "aus aktueller orga-einheit" };
+        String content = "aus aktueller orga-einheit";
 
-        assertTrue(fieldExtractorService.isNewModule(lines));
+        assertTrue(fieldExtractorService.isNewModule(content));
     }
 
     @Test
     void shouldDetermineNewModuleByExpectedTextInMixedCase() {
-        String[] lines = { "aus AKTUELLER orga-EINHEIT" };
+        String content = "aus AKTUELLER orga-EINHEIT";
 
-        assertTrue(fieldExtractorService.isNewModule(lines));
+        assertTrue(fieldExtractorService.isNewModule(content));
     }
 
     @Test
     void shouldDetermineNewModuleByExpectedTextWithoutWhitespaces() {
-        String[] lines = { "AUSAKTUELLERORGA-EINHEIT" };
+        String content = "AUSAKTUELLERORGA-EINHEIT";
 
-        assertTrue(fieldExtractorService.isNewModule(lines));
+        assertTrue(fieldExtractorService.isNewModule(content));
     }
 
     @Test
     void shouldDetermineExistingModuleByUnexpectedText() {
-        String[] lines = { "ANY TEXT" };
+        String content = "ANY TEXT";
 
-        assertFalse(fieldExtractorService.isNewModule(lines));
+        assertFalse(fieldExtractorService.isNewModule(content));
     }
 
     @Test
     void shouldDetermineExistingModuleByEmptyTest() {
-        String[] lines = { "" };
+        String content = "";
 
-        assertFalse(fieldExtractorService.isNewModule(lines));
+        assertFalse(fieldExtractorService.isNewModule(content));
     }
 
     @Test
     void shouldDetermineExistingModuleByNull() {
-        String[] lines = { null };
+        String content = null;
 
-        assertFalse(fieldExtractorService.isNewModule(lines));
+        assertFalse(fieldExtractorService.isNewModule(content));
     }
 
     @Test
     void shouldDetermineExistingModuleByNullLines() {
-        String[] lines = null;
+        String content = null;
 
-        assertFalse(fieldExtractorService.isNewModule(lines));
-    }
-
-    @Test
-    void shouldDetermineExistingModuleByEmptyLines() {
-        String[] lines = {};
-
-        assertFalse(fieldExtractorService.isNewModule(lines));
+        assertFalse(fieldExtractorService.isNewModule(content));
     }
 }

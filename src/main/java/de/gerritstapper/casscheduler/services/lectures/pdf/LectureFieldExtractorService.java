@@ -1,6 +1,6 @@
 package de.gerritstapper.casscheduler.services.lectures.pdf;
 
-import de.gerritstapper.casscheduler.models.enums.RegexPatterns;
+import de.gerritstapper.casscheduler.models.lecture.enums.RegexPatterns;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ public class LectureFieldExtractorService {
      * @return: the value for the pattern at given position in the content string or an empty string in case of no match
      */
     private String get(String content, String pattern, int position) {
-        log.debug("get(): {}, {}, {}", content, pattern, position);
+        log.trace("get(): {}, {}, {}", content, pattern, position);
 
         Pattern regex = Pattern.compile(pattern);
         if ( position == 2 ) {

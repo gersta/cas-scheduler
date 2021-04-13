@@ -1,4 +1,4 @@
-package de.gerritstapper.casscheduler.models.enums;
+package de.gerritstapper.casscheduler.models.lecture.enums;
 
 public enum Campus {
     RV("Ravensburg"),

@@ -3,7 +3,7 @@ package de.gerritstapper.casscheduler.services.lectures;
 import java.io.IOException;
 import java.util.List;
 
-import de.gerritstapper.casscheduler.models.Lecture;
+import de.gerritstapper.casscheduler.models.lecture.Lecture;
 
 import de.gerritstapper.casscheduler.services.lectures.pdf.LectureFieldExtractorService;
 import de.gerritstapper.casscheduler.services.lectures.pdf.InputDataCleansingService;

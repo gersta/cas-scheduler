@@ -12,19 +12,13 @@ public class ModulesFieldExtractorService {
     private static final String NEW_PAGE_TEXT = "ausaktuellerorga-einheit";
     private static final String WHITESPACE = " ";
 
-    public boolean isNewModule(String[] lines) {
-        if (Objects.nonNull(lines) ) {
+    public boolean isNewModule(String pageContent) {
+        if (Objects.nonNull(pageContent) ) {
 
-            if ( lines.length > 0 ) {
+            String lowercase = pageContent.toLowerCase();
+            String withoutWhitespace = lowercase.replaceAll(WHITESPACE, "");
 
-                if ( Objects.nonNull(lines[0]) ) {
-                    String text = lines[0];
-                    String lowercase = text.toLowerCase();
-                    String withoutWhitespace = lowercase.replaceAll(WHITESPACE, "");
-
-                    return withoutWhitespace.startsWith(NEW_PAGE_TEXT);
-                }
-            }
+            return withoutWhitespace.startsWith(NEW_PAGE_TEXT);
         }
 
         return false;

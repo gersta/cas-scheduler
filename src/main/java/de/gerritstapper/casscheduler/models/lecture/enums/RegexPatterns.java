@@ -1,4 +1,4 @@
-package de.gerritstapper.casscheduler.models.enums;
+package de.gerritstapper.casscheduler.models.lecture.enums;
 
 public enum RegexPatterns {
     ID("[A-Z]{1}\\d{1}[A-Z]{1}\\d{5}"),
