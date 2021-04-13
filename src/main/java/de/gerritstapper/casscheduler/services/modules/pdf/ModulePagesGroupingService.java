@@ -24,7 +24,7 @@ public class ModulePagesGroupingService {
         this.fieldExtractorService = fieldExtractorService;
     }
 
-    public Map<Integer, List<ModulePdfPage>> groupPdfPagesByModule(PDPageTree pageTree) throws IOException {
+    public Map<Integer, List<ModulePdfPage>> groupPdfPagesByModule(PDPageTree pageTree) {
         log.info("groupPdfPagesByModule(): {}", pageTree);
 
         List<PDPage> pages = convertTreeToList(pageTree);

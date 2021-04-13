@@ -24,6 +24,7 @@ public class ModulesPdfReaderService {
     private static final String EXAM_HEADLINE = "PRÜFUNGSLEISTUNG";
     private static final String WORKLOAD_HEADLINE = "WORKLOAD INSGESAMT";
     private static final String METAINFO_HEADLINE = "Stand vom";
+    private static final String SPECIFICS_HEADLINE = "BESONDERHEITEN";
 
     private final ModulePagesGroupingService groupingService;
     private final ModulePdfTextStripper textStripper;
@@ -55,18 +56,18 @@ public class ModulesPdfReaderService {
     }
 
     private Module processModule(List<ModulePdfPage> modulePdfPages) {
-        ModulePdfPage firstPage = modulePdfPages.get(0);
+        String moduleTextContent = modulePdfPages.stream()
+                .map(page -> textStripper.getTextForPage(page.getPageIndexInDocument()))
+                .collect(Collectors.joining());
 
-        return processPage(firstPage.getPageIndexInDocument());
+        return extractModuleContent(moduleTextContent);
     }
 
 
 
     @SneakyThrows // TODO: remove this
-    private Module processPage(int index) {
-        String content = textStripper.getTextForPage(index);
-
-        String[] lines = content.split(LINEBREAK);
+    private Module extractModuleContent(String moduleTextContent) {
+        String[] lines = moduleTextContent.split(LINEBREAK);
 
         Module module = new Module();
 
@@ -117,6 +118,14 @@ public class ModulesPdfReaderService {
                 module.setEctsPoints(workload.getEctsPoints());
             }
 
+            if ( isSpecifics(line) ) {
+                String nextLine = lines[i+1];
+
+                String specifics = extractSpecifics(nextLine);
+
+                module.setSpecifics(specifics);
+            }
+
             if ( isMetainfo(line) ) {
                 MetaInformation metaInfo = extractMetainformation(line);
 
@@ -149,6 +158,10 @@ public class ModulesPdfReaderService {
 
     private boolean isMetainfo(String line) {
         return matchesHeadline(line, METAINFO_HEADLINE);
+    }
+
+    private boolean isSpecifics(String line) {
+        return matchesHeadline(line, SPECIFICS_HEADLINE);
     }
 
     private boolean matchesHeadline(String line, String headline) {
@@ -199,6 +212,10 @@ public class ModulesPdfReaderService {
                 .selfStudyWorkload(selfStudyWorkload)
                 .ectsPoints(ectsPoints)
                 .build();
+    }
+
+    private String extractSpecifics(String specificsText) {
+        return specificsText;
     }
 
     private MetaInformation extractMetainformation(String metaInfoLine) {

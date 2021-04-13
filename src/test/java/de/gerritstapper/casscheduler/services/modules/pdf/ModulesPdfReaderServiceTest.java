@@ -168,7 +168,7 @@ class ModulesPdfReaderServiceTest {
         );
     }
 
-    @Disabled
+    @Test
     void shouldExtractSpecifics() {
         Module module = pdfReaderService.readPdf().get(0);
 
