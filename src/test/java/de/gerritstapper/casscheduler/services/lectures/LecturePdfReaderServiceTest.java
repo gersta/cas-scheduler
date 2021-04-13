@@ -1,17 +1,19 @@
 package de.gerritstapper.casscheduler.services.lectures;
 
+import de.gerritstapper.casscheduler.models.lecture.Lecture;
+import de.gerritstapper.casscheduler.services.lectures.pdf.InputDataCleansingService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.LectureFieldExtractorService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.LecturePdfReaderService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.ValidatorService;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
 import java.util.List;
 
-import de.gerritstapper.casscheduler.models.lecture.Lecture;
-
-import de.gerritstapper.casscheduler.services.lectures.pdf.LectureFieldExtractorService;
-import de.gerritstapper.casscheduler.services.lectures.pdf.InputDataCleansingService;
-import de.gerritstapper.casscheduler.services.lectures.pdf.LecturePdfReaderService;
-import de.gerritstapper.casscheduler.services.lectures.pdf.ValidatorService;
-import org.junit.jupiter.api.*;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class LecturePdfReaderServiceTest {
