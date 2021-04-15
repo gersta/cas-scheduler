@@ -15,4 +15,4 @@ cas-scheduler:
       output: "lectures/ics/"
   modules:
     extract: true
-    filename: "M_T_Modulhandbuch_T3M10101.pdf"
+    filename: "M_T_Modulhandbuch.pdf"

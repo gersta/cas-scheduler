@@ -7,11 +7,13 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.pdfbox.pdmodel.PDPageTree;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 @Log4j2
@@ -76,7 +78,7 @@ public class ModulesPdfReaderService {
             String line = lines[i];
 
             if ( isLectureName(i) ) {
-                String lectureName = getLectureName(lines[i]);
+                String lectureName = extractLectureName(lines[i]);
 
                 module.setLectureName(lectureName);
             }
@@ -185,11 +187,13 @@ public class ModulesPdfReaderService {
     }
 
     private FormalitiesInformation extractFormalities(String formalitiesLine) {
+        log.debug("extractFormalities(): {}", formalitiesLine);
+
         String[] formalitiesContent = formalitiesLine.split(WHITESPACE);
 
         String lectureCode = formalitiesContent[0];
         String duration = formalitiesContent[2];
-        String owner = getLecturer(formalitiesContent);
+        String owner = extractOwner(formalitiesContent);
         String language = formalitiesContent[formalitiesContent.length - 1];
 
         return FormalitiesInformation.builder()
@@ -201,6 +205,8 @@ public class ModulesPdfReaderService {
     }
 
     private LecturingFormsInformation extractLecturingFormsAndMethods(String lecturingMethodsLine) {
+        log.debug("extractLecturingFormsAndMethods(): {}", lecturingMethodsLine);
+
         String[] methodsContent = lecturingMethodsLine.split("(?<=\\w) (?=\\w)");
 
         String forms = methodsContent[0].trim();
@@ -213,20 +219,33 @@ public class ModulesPdfReaderService {
     }
 
     private ExamInfo extractExam(String examLine) {
+        log.debug("extractExam(): {}", examLine);
+
         String[] examInfo = examLine.split(WHITESPACE);
 
-        String exam = examInfo[0];
-        String examDuration = examInfo[1];
-        String examMarking = examInfo[2];
+        // the field exam can be of variable length and complexitiy, but the two remaining fields are consistent
+        // take those first
+        String examMarking = examInfo[examInfo.length - 1];
+        String examDuration = examInfo[examInfo.length - 2];
+
+        StringBuilder exam = new StringBuilder();
+        int endExclusive = examInfo.length - 2;
+        List<String> examTest = Arrays.stream(examInfo, 0, endExclusive).collect(Collectors.toList());
+
+        for (String part : examTest) {
+            exam.append(part);
+        }
 
         return ExamInfo.builder()
-                .exam(exam)
+                .exam(exam.toString().trim())
                 .examDuration(examDuration)
                 .examMarking(examMarking)
                 .build();
     }
 
     private WorkloadInfo extractWorkload(String workloadLine) {
+        log.debug("extractWorkload(): {}", workloadLine);
+
         String[] workload = workloadLine.split(WHITESPACE);
 
         String totalWorkload = workload[0];
@@ -243,10 +262,14 @@ public class ModulesPdfReaderService {
     }
 
     private String extractSpecifics(String specificsText) {
+        log.debug("extractSpecifics(): {}", specificsText);
+
         return specificsText;
     }
 
     private MetaInformation extractMetainformation(String metaInfoLine) {
+        log.debug("extractMetainformation(): {}", metaInfoLine);
+
         String[] metainfo = metaInfoLine.split(WHITESPACE);
         String updatedOn = metainfo[2];
 
@@ -255,7 +278,9 @@ public class ModulesPdfReaderService {
                 .build();
     }
 
-    private String getLectureName(String line) {
+    private String extractLectureName(String line) {
+        log.debug("extractLectureName(): {}", line);
+
         Pattern regex = Pattern.compile(".*(?= \\(\\w*\\))");
         Matcher matcher = regex.matcher(line);
 
@@ -266,7 +291,9 @@ public class ModulesPdfReaderService {
         return "";
     }
 
-    private String getLecturer(String[] formalities) {
+    private String extractOwner(String[] formalities) {
+        log.debug("extractOwner(): {}", formalities);
+
         int last = formalities.length - 1;
         int start = 3;
 
