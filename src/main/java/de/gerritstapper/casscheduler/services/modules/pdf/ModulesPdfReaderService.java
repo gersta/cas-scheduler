@@ -21,6 +21,7 @@ public class ModulesPdfReaderService {
     private static final String WHITESPACE = " ";
 
     private static final String FORMALITIES_HEADLINE = "MODULNUMMER VERORTUNG IM STUDIENVERLAUF";
+    private static final String LECTURING_FORMS_HEADLINE = "LEHRFORMEN LEHRMETHODEN";
     private static final String EXAM_HEADLINE = "PRÜFUNGSLEISTUNG";
     private static final String WORKLOAD_HEADLINE = "WORKLOAD INSGESAMT";
     private static final String METAINFO_HEADLINE = "Stand vom";
@@ -97,6 +98,15 @@ public class ModulesPdfReaderService {
                 module.setLanguage(formalities.getLanguage());
             }
 
+            if ( isLecturingMethods(line) ) {
+                String nextLine = lines[i+1];
+
+                LecturingFormsInformation formsAndMethods = extractLecturingFormsAndMethods(nextLine);
+
+                module.setLecturingForms(formsAndMethods.getLecturingForms());
+                module.setLecturingMethods(formsAndMethods.getLecturingMethods());
+            }
+
             if ( isExam(line) ) {
                 String nextLine = lines[i+1];
 
@@ -118,6 +128,8 @@ public class ModulesPdfReaderService {
                 module.setEctsPoints(workload.getEctsPoints());
             }
 
+            // TODO: Check if this is really necessary for a first draft
+            // especially as multi-line is still a to do
             if ( isSpecifics(line) ) {
                 String nextLine = lines[i+1];
 
@@ -146,6 +158,10 @@ public class ModulesPdfReaderService {
 
     private boolean isFormalities(String line) {
         return matchesHeadline(line, FORMALITIES_HEADLINE);
+    }
+
+    private boolean isLecturingMethods(String line) {
+        return matchesHeadline(line, LECTURING_FORMS_HEADLINE);
     }
 
     private boolean isExam(String line) {
@@ -181,6 +197,18 @@ public class ModulesPdfReaderService {
                 .duration(duration)
                 .owner(owner)
                 .language(language)
+                .build();
+    }
+
+    private LecturingFormsInformation extractLecturingFormsAndMethods(String lecturingMethodsLine) {
+        String[] methodsContent = lecturingMethodsLine.split("(?<=\\w) (?=\\w)");
+
+        String forms = methodsContent[0].trim();
+        String methods = methodsContent[1].trim();
+
+        return LecturingFormsInformation.builder()
+                .lecturingForms(forms)
+                .lecturingMethods(methods)
                 .build();
     }
 

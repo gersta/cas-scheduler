@@ -20,6 +20,10 @@ public class Module {
     private String duration; // MODULDAUER
     private String language;
 
+    // LECTURING FORMS AND METHODS
+    private String lecturingForms;
+    private String lecturingMethods;
+
     // EXAML
     private String exam;
     private String examDuration; // PRUEFUNGSUMFANG

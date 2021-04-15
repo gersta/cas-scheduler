@@ -180,4 +180,30 @@ class ModulesPdfReaderServiceTest {
                 )
         );
     }
+
+    @Test
+    void shouldExtractLecturingForms() { // LEHRFORMEN
+        Module module = pdfReaderService.readPdf().get(0);
+
+        assertAll(
+                () -> assertNotNull(module),
+                () -> assertEquals(
+                        "Vorlesung, Übung",
+                        module.getLecturingForms()
+                )
+        );
+    }
+
+    @Test
+    void shouldExtractLecturingMethods() { // LEHRFORMEN
+        Module module = pdfReaderService.readPdf().get(0);
+
+        assertAll(
+                () -> assertNotNull(module),
+                () -> assertEquals(
+                        "Lehrvortrag, Diskussion, Gruppenarbeit",
+                        module.getLecturingMethods()
+                )
+        );
+    }
 }
