@@ -45,4 +45,21 @@ class ModulePdfTextStripperTest {
         assertEquals(emptyText, result);
     }
 
+    @Test
+    void shouldReturnLectureCodeForPageIndex() {
+        String pageOneLectureCode = textStripper.getLectureCodeForPage(1);
+        String pageTwoLectureCode = textStripper.getLectureCodeForPage(2);
+        String pageThreeLectureCode = textStripper.getLectureCodeForPage(3);
+        String pageFourLectureCode = textStripper.getLectureCodeForPage(4);
+        String pageFiveLectureCode = textStripper.getLectureCodeForPage(5);
+
+        assertAll(
+                () -> assertEquals("T3M10506", pageOneLectureCode),
+                () -> assertEquals("T3M10506", pageTwoLectureCode),
+                () -> assertEquals("T3M10507", pageThreeLectureCode),
+                () -> assertEquals("T3M10507", pageFourLectureCode),
+                () -> assertEquals("T3M10507", pageFiveLectureCode)
+        );
+    }
+
 }

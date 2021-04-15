@@ -10,10 +10,14 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @Log4j2
 public class ModulePdfTextStripper {
+
+    private static final String LECTURE_CODE_BOTTOM_PAGE_PATTERN = "(?<=\\d{2}\\.\\d{2}\\.\\d{4} )(\\w\\d\\w\\d{5})(?= \\/\\/)";
 
     private final PDFTextStripper textStripper;
     private final PDDocument document;
@@ -44,6 +48,23 @@ public class ModulePdfTextStripper {
 
             return "";
         }
+    }
+
+    public String getLectureCodeForPage(int pageIndex) {
+        String content = getTextForPage(pageIndex);
+
+        // date followed by whitespace followed by lecture code followed by double forward slash
+        // Stand vom 13.07.2020 T3M10101 // Seite 6
+        Pattern pattern = Pattern.compile(LECTURE_CODE_BOTTOM_PAGE_PATTERN);
+
+        Matcher matcher = pattern.matcher(content);
+
+        if ( matcher.find() ) {
+            String lectureCode = matcher.group();
+            return lectureCode;
+        }
+
+        return "";
     }
 
     /** TODO: move this to a common class for both pdf ders

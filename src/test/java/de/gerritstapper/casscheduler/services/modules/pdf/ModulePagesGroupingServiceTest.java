@@ -11,12 +11,16 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 class ModulePagesGroupingServiceTest {
+
+    private static final String FIRST_MODULE = "T3M10506";
+    private static final String SECOND_MODULE = "T3M10507";
 
     private ModulePagesGroupingService groupingService;
     private PDDocument document;
@@ -29,36 +33,58 @@ class ModulePagesGroupingServiceTest {
 
         ModulePdfTextStripper textStripper = Mockito.mock(ModulePdfTextStripper.class);
 
-        // return empty text for all pages...
-        when(textStripper.getTextForPage(anyInt())).thenReturn("");
-        // ... except for the first and third, which act as the markings for new modules
-        when(textStripper.getTextForPage(1)).thenReturn("ausaktuellerorga-einheit"); // TODO: make this string globally available
-        when(textStripper.getTextForPage(3)).thenReturn("ausaktuellerorga-einheit"); // TODO: make this string globally available
+        when(textStripper.getLectureCodeForPage(1)).thenReturn("T3M10506");
+        when(textStripper.getLectureCodeForPage(2)).thenReturn("T3M10506");
+        when(textStripper.getLectureCodeForPage(3)).thenReturn("T3M10507");
+        when(textStripper.getLectureCodeForPage(4)).thenReturn("T3M10507");
+        when(textStripper.getLectureCodeForPage(5)).thenReturn("T3M10507");
 
         groupingService = new ModulePagesGroupingService(textStripper, new ModulesFieldExtractorService());
     }
 
     @Test
-    void shouldGroupTwoPagesForFirstModule() throws IOException {
-        Map<Integer, List<ModulePdfPage>> result = groupingService.groupPdfPagesByModule(document.getPages());
+    void shouldCreateTwoModuleGroups() {
+        Map<String, List<ModulePdfPage>> result = groupingService.groupPdfPagesByModule(document.getPages());
 
-        List<ModulePdfPage> pages = result.get(1);
+        int modules = result.keySet().size();
+
+        assertEquals(2, modules);
+    }
+
+    @Test
+    void shouldGroupAllPagesFromTheDocument() {
+        Map<String, List<ModulePdfPage>> result = groupingService.groupPdfPagesByModule(document.getPages());
+
+        List<ModulePdfPage> totalPages = result.values().stream()
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
+
+        int numberOfPages = totalPages.size();
+
+        assertEquals(5, numberOfPages);
+    }
+
+    @Test
+    void shouldGroupTwoPagesForFirstModule() {
+        Map<String, List<ModulePdfPage>> result = groupingService.groupPdfPagesByModule(document.getPages());
+
+        List<ModulePdfPage> pages = result.get(FIRST_MODULE);
 
         assertEquals(2, pages.size());
     }
 
     @Test
-    void shouldGroupThreePagesForSecondModule() throws IOException {
-        Map<Integer, List<ModulePdfPage>> result = groupingService.groupPdfPagesByModule(document.getPages());
+    void shouldGroupThreePagesForSecondModule() {
+        Map<String, List<ModulePdfPage>> result = groupingService.groupPdfPagesByModule(document.getPages());
 
-        List<ModulePdfPage> pages = result.get(2);
+        List<ModulePdfPage> pages = result.get(SECOND_MODULE);
 
-        assertEquals(2, pages.size());
+        assertEquals(3, pages.size());
     }
 
     @Test
-    void shouldMapEachPdPageToItsIndexInDocument() throws IOException {
-        Map<Integer, List<ModulePdfPage>> result = groupingService.groupPdfPagesByModule(document.getPages());
+    void shouldMapEachPdPageToItsIndexInDocument() {
+        Map<String, List<ModulePdfPage>> result = groupingService.groupPdfPagesByModule(document.getPages());
 
         assertTrue(
                 result.values().stream()
