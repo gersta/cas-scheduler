@@ -37,7 +37,7 @@ public class LectureOrchestratorService {
     public void orchestrate() throws IOException {
         log.info("orchestrate()");
 
-        List<Lecture> lectures = pdfService.readPdf(null);
+        List<Lecture> lectures = pdfService.extractLectures(null);
 
         log.info("Extracted {} lectures", lectures.size());
 

@@ -4,7 +4,7 @@ import de.gerritstapper.casscheduler.models.lecture.Lecture;
 import de.gerritstapper.casscheduler.services.lectures.pdf.LectureFieldExtractorService;
 import de.gerritstapper.casscheduler.services.lectures.pdf.InputDataCleansingService;
 import de.gerritstapper.casscheduler.services.lectures.pdf.LecturePdfReaderService;
-import de.gerritstapper.casscheduler.services.lectures.pdf.ValidatorService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.LectureValidatorService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ValidatorServiceTest {
+public class LectureValidatorServiceTest {
 
     private static List<Lecture> lectures;
 
@@ -27,14 +27,14 @@ public class ValidatorServiceTest {
     @BeforeAll
     static void beforeAll() throws IOException {
         LecturePdfReaderService service = new LecturePdfReaderService(
-                new ValidatorService(),
+                new LectureValidatorService(),
                 new LectureFieldExtractorService(),
                 new InputDataCleansingService(),
                 FILENAME,
                 LINE_HEIGHT,
                 MINIMAL_Y_OFFSET
         );
-        lectures = service.readPdf(null);
+        lectures = service.extractLectures(null);
 
         service.removeRegions();
         service.closeDocument();

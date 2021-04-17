@@ -1,7 +1,7 @@
 package de.gerritstapper.casscheduler.services.modules.pdf;
 
-import de.gerritstapper.casscheduler.models.module.*;
 import de.gerritstapper.casscheduler.models.module.Module;
+import de.gerritstapper.casscheduler.models.module.*;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.apache.pdfbox.pdmodel.PDPageTree;
@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Service
 @Log4j2
@@ -24,23 +23,26 @@ public class ModulesPdfReaderService {
 
     private static final String FORMALITIES_HEADLINE = "MODULNUMMER VERORTUNG IM STUDIENVERLAUF";
     private static final String LECTURING_FORMS_HEADLINE = "LEHRFORMEN LEHRMETHODEN";
-    private static final String EXAM_HEADLINE = "PRÜFUNGSLEISTUNG";
+    private static final String EXAM_HEADLINE = "PRUEFUNGSLEISTUNG"; // TODO: the Ü was manually converted to UE here to ensure matches
     private static final String WORKLOAD_HEADLINE = "WORKLOAD INSGESAMT";
     private static final String METAINFO_HEADLINE = "Stand vom";
     private static final String SPECIFICS_HEADLINE = "BESONDERHEITEN";
 
     private final ModulePagesGroupingService groupingService;
     private final ModulePdfTextStripper textStripper;
+    private final ModuleDataCleansingService cleansingService;
 
     public ModulesPdfReaderService(
             ModulePagesGroupingService groupingService,
-            ModulePdfTextStripper textStripper)  {
+            ModulePdfTextStripper textStripper,
+            ModuleDataCleansingService cleansingService)  {
         this.groupingService = groupingService;
         this.textStripper = textStripper;
+        this.cleansingService = cleansingService;
     }
 
 
-    public List<Module> readPdf() {
+    public List<Module> extractModules() {
         log.info("readPdf()");
 
         try {
@@ -61,6 +63,7 @@ public class ModulesPdfReaderService {
     private Module processModule(List<ModulePdfPage> modulePdfPages) {
         String moduleTextContent = modulePdfPages.stream()
                 .map(page -> textStripper.getTextForPage(page.getPageIndexInDocument()))
+                .map(cleansingService::removeGermanUmlaute)
                 .collect(Collectors.joining());
 
         return extractModuleContent(moduleTextContent);

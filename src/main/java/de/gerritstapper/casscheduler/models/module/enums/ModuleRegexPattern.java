@@ -1,0 +1,21 @@
+package de.gerritstapper.casscheduler.models.module.enums;
+
+import lombok.Getter;
+
+public enum ModuleRegexPattern {
+    ID("[A-Z]{1}\\d{1}[A-Z]{1}\\d{5}"),
+    SINGLE_DIGIT("\\d"),
+    OWNER("([a-zA-Z]|\\.|\\-|\s){1,}"), // use the {1, } notation to define a min length of 1
+    LECTURING_FORMS_METHODS("([a-zA-Z]|,|\\s){1,}"),
+    LETTERS_ONLY("(\\w{1,})"),
+    DIGITS_ONLY("\\d{1,}"),
+    EXAM_MARKING("(ja|Ja|Nein|nein)"),
+    GERMAN_DATE("\\d{2}\\.\\d{2}\\.\\d{4}");
+
+    @Getter
+    private final String pattern;
+
+    ModuleRegexPattern(String pattern) {
+        this.pattern = pattern;
+    }
+}

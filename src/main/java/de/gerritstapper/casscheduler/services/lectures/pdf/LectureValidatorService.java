@@ -1,7 +1,7 @@
 package de.gerritstapper.casscheduler.services.lectures.pdf;
 
 import de.gerritstapper.casscheduler.models.lecture.Lecture;
-import de.gerritstapper.casscheduler.models.lecture.enums.RegexPatterns;
+import de.gerritstapper.casscheduler.models.lecture.enums.LectureRegexPatterns;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Log4j2
-public class ValidatorService {
+public class LectureValidatorService {
 
     /**
      * checks if a given lecture fulfills the quality standards and is thus valid
@@ -35,20 +35,20 @@ public class ValidatorService {
         log.trace("isValidId(): {}", id);
 
         // matches capitalLetter - digit - capitalLetter - 5 digits
-        return (!id.isBlank() && id.matches(RegexPatterns.ID.getPattern()));
+        return (!id.isBlank() && id.matches(LectureRegexPatterns.ID.getPattern()));
     }
 
     public boolean isValidStart(String start) {
         log.trace("isValidStart(): {}", start);
 
         // matches: 08.10. or 01.11. for example
-        return (!start.isBlank() && start.matches(RegexPatterns.START.getPattern()));
+        return (!start.isBlank() && start.matches(LectureRegexPatterns.START.getPattern()));
     }
 
     public boolean isValidEnd(String end) {
         log.trace("isValidEnd(): {}", end);
 
-        return (!end.isBlank() && end.matches(RegexPatterns.END.getPattern()));
+        return (!end.isBlank() && end.matches(LectureRegexPatterns.END.getPattern()));
     }
 
     public boolean isValidPlace(String place) {

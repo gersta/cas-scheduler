@@ -4,7 +4,7 @@ import de.gerritstapper.casscheduler.models.lecture.Lecture;
 import de.gerritstapper.casscheduler.services.lectures.pdf.InputDataCleansingService;
 import de.gerritstapper.casscheduler.services.lectures.pdf.LectureFieldExtractorService;
 import de.gerritstapper.casscheduler.services.lectures.pdf.LecturePdfReaderService;
-import de.gerritstapper.casscheduler.services.lectures.pdf.ValidatorService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.LectureValidatorService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ public class LecturePdfReaderServiceTest {
     @BeforeEach
     void beforeEach() throws IOException {
         service = new LecturePdfReaderService(
-            new ValidatorService(),
+            new LectureValidatorService(),
             new LectureFieldExtractorService(),
             new InputDataCleansingService(),
             FILENAME,
@@ -45,45 +45,45 @@ public class LecturePdfReaderServiceTest {
     @Test
     public void shouldReturn57LectureObjectsForPageOne() throws IOException {
         // create another local copy to not overwrite the global list
-        List<Lecture> lectures = service.readPdf(0);
+        List<Lecture> lectures = service.extractLectures(0);
         assertEquals(57, lectures.size());
     }
 
     @Test
     public void shouldReturn66LectureObjectsForPageTwo() throws IOException {
-        List<Lecture> lectures = service.readPdf(1);
+        List<Lecture> lectures = service.extractLectures(1);
         assertEquals(66, lectures.size());
     }
 
     @Test
     public void shouldReturn30LectureObjectsForPageThree() throws IOException {
-        List<Lecture> lectures = service.readPdf(2);
+        List<Lecture> lectures = service.extractLectures(2);
         // TODO: decide whether to consider lectures that do not have dates and locations, but rather a note
         assertEquals(30, lectures.size());
     }
 
     @Test
     public void shouldReturn58LectureObjectsForPageFour() throws IOException {
-        List<Lecture> lectures = service.readPdf(3);
+        List<Lecture> lectures = service.extractLectures(3);
         assertEquals(58, lectures.size());
     }
 
     @Test
     public void shouldReturn64LectureObjectsForPageFive() throws IOException {
-        List<Lecture> lectures = service.readPdf(4);
+        List<Lecture> lectures = service.extractLectures(4);
         assertEquals(63, lectures.size());
     }
 
     @Test
     public void shouldReturn274LectureObjectsForAllPages() throws IOException {
-        List<Lecture> lectures = service.readPdf(null);
+        List<Lecture> lectures = service.extractLectures(null);
 
         assertEquals(274, lectures.size());
     }
 
     @Test
     public void shouldRecognizeBothLectureBlocks() throws IOException {
-        Lecture threeDTechnology = service.readPdf(4).stream()
+        Lecture threeDTechnology = service.extractLectures(4).stream()
                                         .filter(lecture -> lecture.getLectureCode().equals("T3M30320"))
                                         .findFirst()
                                         .get();

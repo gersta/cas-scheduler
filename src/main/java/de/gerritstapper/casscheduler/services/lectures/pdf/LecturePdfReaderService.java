@@ -30,7 +30,7 @@ import org.springframework.stereotype.Service;
 public class LecturePdfReaderService {
 
     // DEPENDENCIES
-    private final ValidatorService validatorService;
+    private final LectureValidatorService lectureValidatorService;
     private final LectureFieldExtractorService lectureFieldExtractorService;
     private final InputDataCleansingService inputDataCleansingService;
 
@@ -43,14 +43,14 @@ public class LecturePdfReaderService {
     private final PDDocument document;
     
     public LecturePdfReaderService(
-            final ValidatorService validatorService,
+            final LectureValidatorService lectureValidatorService,
             final LectureFieldExtractorService lectureFieldExtractorService,
             final InputDataCleansingService inputDataCleansingService,
             @Value("${cas-scheduler.lectures.pdf.filename}") String filename,
             @Value("${cas-scheduler.lectures.pdf.line-height}") Double lineHeight,
             @Value("${cas-scheduler.lectures.pdf.minimal-y-offset}") Integer minimalYOffset
     ) throws IOException {
-        this.validatorService = validatorService;
+        this.lectureValidatorService = lectureValidatorService;
         this.lectureFieldExtractorService = lectureFieldExtractorService;
         this.inputDataCleansingService = inputDataCleansingService;
         
@@ -71,7 +71,7 @@ public class LecturePdfReaderService {
      * @return: list of {@link Lecture} instances scraped from the given pdf document (and page)
      * @throws IOException
      */
-    public List<Lecture> readPdf(Integer pageIndex) throws IOException {
+    public List<Lecture> extractLectures(Integer pageIndex) throws IOException {
         log.info("readPdf(): page index {}", pageIndex);
 
         // iterate over all pages
@@ -113,7 +113,7 @@ public class LecturePdfReaderService {
 
         List<Lecture> lectures = IntStream.range(MINIMAL_Y_OFFSET, 600)
                 .mapToObj(step -> readNextRow(page, step))
-                .filter(validatorService::isValid)
+                .filter(lectureValidatorService::isValid)
                 .collect(Collectors.toList());
 
         log.trace("Read {} valid lectures from page {}", lectures.size(), page);

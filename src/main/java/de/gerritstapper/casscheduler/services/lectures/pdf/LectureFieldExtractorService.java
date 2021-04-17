@@ -1,6 +1,6 @@
 package de.gerritstapper.casscheduler.services.lectures.pdf;
 
-import de.gerritstapper.casscheduler.models.lecture.enums.RegexPatterns;
+import de.gerritstapper.casscheduler.models.lecture.enums.LectureRegexPatterns;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +42,7 @@ public class LectureFieldExtractorService {
     public String getId(String content) {
         log.trace("getId(): {}", content);
 
-        return get(content, RegexPatterns.ID.getPattern(), 1);
+        return get(content, LectureRegexPatterns.ID.getPattern(), 1);
     }
 
     public String getName(String content) {
@@ -55,7 +55,7 @@ public class LectureFieldExtractorService {
                         .replace("ä", "ae")
                         .replace("Ä", "Ae");
 
-        return get(content, RegexPatterns.NAME.getPattern(), 1);
+        return get(content, LectureRegexPatterns.NAME.getPattern(), 1);
 
     }
 
@@ -74,7 +74,7 @@ public class LectureFieldExtractorService {
     private String getStart(String content, int position) {
         log.trace("getStart(): {}, {}", content, position);
 
-        return get(content, RegexPatterns.START.getPattern(), position).replace("-", "").strip();
+        return get(content, LectureRegexPatterns.START.getPattern(), position).replace("-", "").strip();
     }
 
     public String getEndOne(String content) {
@@ -92,7 +92,7 @@ public class LectureFieldExtractorService {
     private String getEnd(String content, int position) {
         log.trace("getEnd(): {}, {}", content, position);
 
-        return get(content, RegexPatterns.END.getPattern(), position).replace("-", "").strip();
+        return get(content, LectureRegexPatterns.END.getPattern(), position).replace("-", "").strip();
     }
 
     public String getPlaceOne(String content) {
@@ -111,7 +111,7 @@ public class LectureFieldExtractorService {
         log.trace("getPlace(): {}, {}", content, position);
 
         content = replaceGermanOe(content);
-        return get(content, RegexPatterns.PLACE.getPattern(), position).replace("(", "").replace(")", "");
+        return get(content, LectureRegexPatterns.PLACE.getPattern(), position).replace("(", "").replace(")", "");
     }
 
     private String replaceGermanOe(String input) {
