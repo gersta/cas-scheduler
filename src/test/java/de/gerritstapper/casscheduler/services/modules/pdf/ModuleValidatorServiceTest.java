@@ -148,6 +148,17 @@ class ModuleValidatorServiceTest {
         assertFalse(validatorService.isValidModule(validModule));
     }
 
+    @Test
+    void shouldBeValidForLanguageEmptyAndMasterThesis() {
+        String language = "";
+        String masterThesisCode = "T3MX0202";
+
+        validModule.setLectureCode(masterThesisCode);
+        validModule.setLanguage(language);
+
+        assertTrue(validatorService.isValidModule(validModule));
+    }
+
 
     @Test
     void shouldBeValidForDurationSingleDigit() {

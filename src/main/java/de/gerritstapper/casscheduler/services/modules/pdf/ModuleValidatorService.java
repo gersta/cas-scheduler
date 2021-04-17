@@ -56,7 +56,7 @@ public class ModuleValidatorService {
         String language = module.getLanguage();
 
         boolean isValid = Objects.nonNull(language)
-                && (isDeutsch(language) || isEnglisch(language) || isDeutschAndEnglisch(language));
+                && ( isDeutsch(language) || isEnglisch(language) || isDeutschAndEnglisch(language) || isMasterThesis(module) );
 
         return printIfIsInvalid(isValid, "Language");
     }
@@ -71,6 +71,12 @@ public class ModuleValidatorService {
 
     private boolean isDeutschAndEnglisch(String language) {
         return language.equalsIgnoreCase(DEUTSCH_ENGLISCH_LANGUAGE);
+    }
+
+    private boolean isMasterThesis(Module module) {
+        String lectureCode = module.getLectureCode();
+
+        return Objects.nonNull(lectureCode) && lectureCode.matches(ModuleRegexPattern.MASTER_THESIS.getPattern());
     }
 
     private boolean isValidDuration(Module module) {
