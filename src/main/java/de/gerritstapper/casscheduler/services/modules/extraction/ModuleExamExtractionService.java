@@ -7,7 +7,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import static de.gerritstapper.casscheduler.services.modules.extraction.enums.ExtractionHeadlines.EXAM_HEADLINE;
@@ -17,7 +16,7 @@ import static de.gerritstapper.casscheduler.services.modules.extraction.enums.Ex
 public class ModuleExamExtractionService implements IExtractionHelper {
 
     public boolean isExam(String line) {
-        return matchesHeadlineLowercase(line, EXAM_HEADLINE);
+        return matchesHeadlineIgnoreCase(line, EXAM_HEADLINE);
     }
 
     public ExamInfo extractExam(String examLine) {

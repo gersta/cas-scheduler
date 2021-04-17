@@ -15,7 +15,7 @@ import static de.gerritstapper.casscheduler.services.modules.extraction.enums.Ex
 public class ModuleFormalitiesExtractionService implements IExtractionHelper {
 
     public boolean isFormalitiesHeadline(String line) {
-        return matchesHeadlineLowercase(line, FORMALITIES_HEADLINE);
+        return matchesHeadlineIgnoreCase(line, FORMALITIES_HEADLINE);
     }
 
     public FormalitiesInformation extractFormalitiesInformation(String content) {

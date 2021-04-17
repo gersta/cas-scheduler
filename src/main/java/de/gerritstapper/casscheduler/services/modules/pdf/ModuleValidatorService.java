@@ -118,7 +118,7 @@ public class ModuleValidatorService {
     private boolean isValidExam(Module module) {
         String exam = module.getExam();
 
-        boolean isValid = Objects.nonNull(exam)&& !exam.isBlank();
+        boolean isValid = Objects.nonNull(exam) && !exam.isBlank();
 
         return printIfIsInvalid(isValid, "Exam", exam);
     }

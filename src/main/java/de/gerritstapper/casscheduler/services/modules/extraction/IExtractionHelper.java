@@ -4,7 +4,7 @@ import de.gerritstapper.casscheduler.services.modules.extraction.enums.Extractio
 
 public interface IExtractionHelper {
 
-    default boolean matchesHeadlineLowercase(String line, ExtractionHeadlines headline) {
-        return line.toLowerCase().startsWith(headline.getHeadline().toLowerCase());
+    default boolean matchesHeadlineIgnoreCase(String line, ExtractionHeadlines headline) {
+        return line.equalsIgnoreCase(headline.getHeadline());
     }
 }

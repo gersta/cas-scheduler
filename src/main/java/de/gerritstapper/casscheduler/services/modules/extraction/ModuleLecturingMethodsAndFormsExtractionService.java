@@ -11,7 +11,7 @@ import static de.gerritstapper.casscheduler.services.modules.extraction.enums.Ex
 public class ModuleLecturingMethodsAndFormsExtractionService implements IExtractionHelper {
 
     public boolean isLecturingMethods(String line) {
-        return matchesHeadlineLowercase(line, LECTURING_FORMS_METHODS_HEADLINE);
+        return matchesHeadlineIgnoreCase(line, LECTURING_FORMS_METHODS_HEADLINE);
     }
 
     public LecturingFormsInformation extractLecturingFormsAndMethods(String lecturingMethodsLine) {

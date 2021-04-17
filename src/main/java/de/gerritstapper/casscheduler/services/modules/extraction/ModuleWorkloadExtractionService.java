@@ -12,7 +12,7 @@ import static de.gerritstapper.casscheduler.services.modules.extraction.enums.Ex
 public class ModuleWorkloadExtractionService implements IExtractionHelper {
 
     public boolean isWorkload(String line) {
-        return matchesHeadlineLowercase(line, WORKLOAD_HEADLINE);
+        return matchesHeadlineIgnoreCase(line, WORKLOAD_HEADLINE);
     }
 
     public WorkloadInfo extractWorkload(String workloadLine) {

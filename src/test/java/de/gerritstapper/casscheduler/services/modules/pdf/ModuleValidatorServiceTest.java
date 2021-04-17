@@ -262,6 +262,15 @@ class ModuleValidatorServiceTest {
     }
 
     @Test
+    void shouldBeValidForOwnerWithAccentedName() {
+        String owner = "Prof. Dr. André Kuck";
+
+        validModule.setOwner(owner);
+
+        assertTrue(validatorService.isValidModule(validModule));
+    }
+
+    @Test
     void shouldBeInvalidForAlphaNumericOwner() {
         String owner = "Prof. Dr.-Ing. 13 Stuhler";
 
