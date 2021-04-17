@@ -1,7 +1,6 @@
 package de.gerritstapper.casscheduler.models.lecture.enums;
 
 public enum LectureRegexPatterns {
-    ID("[A-Z]{1}\\d{1}[A-Z]{1}\\d{5}"),
     // expect ID first + whitepace then
     // any char (a-zA-Z) any digit, parentheses (), whitespaces \s and hyphens -
     // expect whitespace then Start

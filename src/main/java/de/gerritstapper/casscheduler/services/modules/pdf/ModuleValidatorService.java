@@ -1,5 +1,6 @@
 package de.gerritstapper.casscheduler.services.modules.pdf;
 
+import de.gerritstapper.casscheduler.models.enums.RegexPatterns;
 import de.gerritstapper.casscheduler.models.module.Module;
 import de.gerritstapper.casscheduler.models.module.enums.ModuleRegexPattern;
 import lombok.extern.log4j.Log4j2;
@@ -42,7 +43,7 @@ public class ModuleValidatorService {
     private boolean isValidLectureCode(Module module) {
         String lectureCode = module.getLectureCode();
 
-        boolean isValid = Objects.nonNull(lectureCode) && lectureCode.matches(ModuleRegexPattern.ID.getPattern());
+        boolean isValid = Objects.nonNull(lectureCode) && lectureCode.matches(RegexPatterns.LECTURE_CODE.getPattern());
 
         return printIfIsInvalid(isValid, "Lecture Code");
     }

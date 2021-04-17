@@ -1,5 +1,6 @@
 package de.gerritstapper.casscheduler.services.lectures.pdf;
 
+import de.gerritstapper.casscheduler.models.enums.RegexPatterns;
 import de.gerritstapper.casscheduler.models.lecture.Lecture;
 import de.gerritstapper.casscheduler.models.lecture.enums.LectureRegexPatterns;
 import lombok.extern.log4j.Log4j2;
@@ -35,7 +36,7 @@ public class LectureValidatorService {
         log.trace("isValidId(): {}", id);
 
         // matches capitalLetter - digit - capitalLetter - 5 digits
-        return (!id.isBlank() && id.matches(LectureRegexPatterns.ID.getPattern()));
+        return (!id.isBlank() && id.matches(RegexPatterns.LECTURE_CODE.getPattern()));
     }
 
     public boolean isValidStart(String start) {
