@@ -341,6 +341,15 @@ class ModuleValidatorServiceTest {
     }
 
     @Test
+    void shouldBeValidForExamProjektSkizze() {
+        String validExam = "Projekt- bzw. Forschungsskizze";
+
+        validModule.setExam(validExam);
+
+        assertTrue(validatorService.isValidModule(validModule));
+    }
+
+    @Test
     void shouldBeValidForExamCombinedExam() {
         String validExam = "Kombinierte Pruefung - Klausur 75% und Seminararbeit 25 %";
 

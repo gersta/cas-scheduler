@@ -71,4 +71,18 @@ class ModuleExamExtractionServiceTest {
         );
     }
 
+    @Test
+    void shouldExtractExamProjektSkizze() {
+        String content = "Projekt- bzw. Forschungsskizze Siehe Pruefungsordnung ja"; // T3M10303
+
+        ExamInfo examInfo = examExtractionService.extractExam(content);
+
+        assertAll(
+                () -> assertNotNull(examInfo),
+                () -> assertEquals("Projekt- bzw. Forschungsskizze", examInfo.getExam()),
+                () -> assertEquals("Siehe Pruefungsordnung", examInfo.getExamDuration()),
+                () -> assertEquals("ja", examInfo.getExamMarking())
+        );
+    }
+
 }

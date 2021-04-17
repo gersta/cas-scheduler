@@ -117,7 +117,12 @@ public class ModuleValidatorService {
         String exam = module.getExam();
 
         boolean isValid = Objects.nonNull(exam)
-                && ( exam.matches(ModuleRegexPattern.LETTERS_ONLY.getPattern()) || exam.matches(ModuleRegexPattern.EXAM_COMBINED.getPattern()) || exam.matches(ModuleRegexPattern.EXAM_SEMINARBEIT_TRANSFERBERICHT.getPattern()) );
+                && (
+                        exam.matches(ModuleRegexPattern.LETTERS_ONLY.getPattern())
+                                || exam.matches(ModuleRegexPattern.EXAM_COMBINED.getPattern())
+                                || exam.matches(ModuleRegexPattern.EXAM_SEMINARBEIT_TRANSFERBERICHT.getPattern())
+                                || exam.matches(ModuleRegexPattern.EXAM_SKIZZE.getPattern())
+                );
 
         return printIfIsInvalid(isValid, "Exam", exam);
     }
