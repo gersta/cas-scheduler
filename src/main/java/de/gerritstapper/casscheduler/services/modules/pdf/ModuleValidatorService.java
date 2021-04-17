@@ -124,7 +124,8 @@ public class ModuleValidatorService {
     private boolean isValidExamDuration(Module module) {
         String examDuration = module.getExamDuration();
 
-        boolean isValid = Objects.nonNull(examDuration) && examDuration.matches(ModuleRegexPattern.DIGITS_ONLY.getPattern());
+        boolean isValid = Objects.nonNull(examDuration)
+                && ( examDuration.matches(ModuleRegexPattern.DIGITS_ONLY.getPattern()) | examDuration.matches(ModuleRegexPattern.EXAM_DURATION_PRUEFUNGSORDNUNG.getPattern()));
 
         return printIfIsInvalid(isValid, "Exam Duration", examDuration);
     }

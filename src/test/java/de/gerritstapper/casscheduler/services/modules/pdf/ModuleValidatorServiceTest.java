@@ -368,6 +368,16 @@ class ModuleValidatorServiceTest {
     }
 
     @Test
+    void shouldBeValidForExamDurationSiehePruefungsordnung() {
+        // this means the student should check another document and thus is valid
+        String validExamDuration = "Siehe Pruefungsordnung";
+
+        validModule.setExamDuration(validExamDuration);
+
+        assertTrue(validatorService.isValidModule(validModule));
+    }
+
+    @Test
     void shouldBeInvalidForExamDurationAlphanumeric() {
         String invalidExamDuration = "1h";
 
@@ -377,7 +387,7 @@ class ModuleValidatorServiceTest {
     }
 
     @Test
-    void shouldBeInvalidForExamlDurationAlphabetical() {
+    void shouldBeInvalidForExamDurationAlphabetical() {
         String invalidExamDuration = "Ten";
 
         validModule.setExamDuration(invalidExamDuration);

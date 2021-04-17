@@ -9,6 +9,7 @@ public enum ModuleRegexPattern {
     LECTURING_FORMS_METHODS("([a-zA-Z]|,|\\s){1,}"),
     LETTERS_ONLY("(\\w{1,})"),
     DIGITS_ONLY("\\d{1,}"),
+    EXAM_DURATION_PRUEFUNGSORDNUNG("Siehe Pruefungsordnung"),
     EXAM_MARKING("(ja|Ja|Nein|nein)"),
     GERMAN_DATE("\\d{2}\\.\\d{2}\\.\\d{4}");
 
