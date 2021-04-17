@@ -323,21 +323,30 @@ class ModuleValidatorServiceTest {
     }
 
     @Test
-    void shouldBeValidForAlphabeticalExam() {
-        String validExaml = "Klausur";
+    void shouldBeValidForExamAlphabetical() {
+        String validExam = "Klausur";
 
-        validModule.setExam(validExaml);
+        validModule.setExam(validExam);
 
         assertTrue(validatorService.isValidModule(validModule));
     }
 
     @Test
-    void shouldBeInvalidForExamlContainingNumber() {
-        String invalidExam = "2 Klausuren";
+    void shouldBeValidForExamSeminararbeit() {
+        String validExam = "Seminararbeit / Transferbericht";
 
-        validModule.setExam(invalidExam);
+        validModule.setExam(validExam);
 
-        assertFalse(validatorService.isValidModule(validModule));
+        assertTrue(validatorService.isValidModule(validModule));
+    }
+
+    @Test
+    void shouldBeValidForExamCombinedExam() {
+        String validExam = "Kombinierte Pruefung - Klausur 75% und Seminararbeit 25 %";
+
+        validModule.setExam(validExam);
+
+        assertTrue(validatorService.isValidModule(validModule));
     }
 
     @Test
