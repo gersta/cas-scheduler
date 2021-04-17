@@ -87,6 +87,15 @@ class ModuleValidatorServiceTest {
     }
 
     @Test
+    void shouldBeInvalidForLectureCodeBlank() {
+        String emptyLectureCode = " ";
+
+        validModule.setLectureCode(emptyLectureCode);
+
+        assertFalse(validatorService.isValidModule(validModule));
+    }
+
+    @Test
     void shouldBeValidForLanguageDeutsch() {
         String language = "Deutsch";
 
@@ -149,8 +158,28 @@ class ModuleValidatorServiceTest {
     }
 
     @Test
+    void shouldBeInvalidForLanguageBlank() {
+        String emptyLanguage = " ";
+
+        validModule.setLanguage(emptyLanguage);
+
+        assertFalse(validatorService.isValidModule(validModule));
+    }
+
+    @Test
     void shouldBeValidForLanguageEmptyAndMasterThesis() {
         String language = "";
+        String masterThesisCode = "T3MX0202";
+
+        validModule.setLectureCode(masterThesisCode);
+        validModule.setLanguage(language);
+
+        assertTrue(validatorService.isValidModule(validModule));
+    }
+
+    @Test
+    void shouldBeValidForLanguageBlankAndMasterThesis() {
+        String language = " ";
         String masterThesisCode = "T3MX0202";
 
         validModule.setLectureCode(masterThesisCode);
@@ -215,6 +244,15 @@ class ModuleValidatorServiceTest {
     }
 
     @Test
+    void shouldBeInvalidForDurationBlank() {
+        String emptyDuration = " ";
+
+        validModule.setDuration(emptyDuration);
+
+        assertFalse(validatorService.isValidModule(validModule));
+    }
+
+    @Test
     void shouldBeValidForValidOwner() {
         String owner = "Prof. Dr.-Ing. Harald Stuhler";
 
@@ -244,6 +282,15 @@ class ModuleValidatorServiceTest {
     @Test
     void shouldBeInvalidForOwnerEmpty() {
         String emptyOwner = "";
+
+        validModule.setOwner(emptyOwner);
+
+        assertFalse(validatorService.isValidModule(validModule));
+    }
+
+    @Test
+    void shouldBeInvalidForOwnerBlank() {
+        String emptyOwner = " ";
 
         validModule.setOwner(emptyOwner);
 
@@ -287,6 +334,15 @@ class ModuleValidatorServiceTest {
     }
 
     @Test
+    void shouldBeInvalidForLecturingFormBlank() {
+        String invalidLecturingForms = " ";
+
+        validModule.setLecturingForms(invalidLecturingForms);
+
+        assertFalse(validatorService.isValidModule(validModule));
+    }
+
+    @Test
     void shouldBeValidForLecturingMethodsAlphabetical() {
         String invalidLecturingMethods = "Laborarbeit, Diskussion";
 
@@ -316,6 +372,15 @@ class ModuleValidatorServiceTest {
     @Test
     void shouldBeInvalidForLecturingMethodsEmpty() {
         String invalidLecturingMethods = "";
+
+        validModule.setLecturingMethods(invalidLecturingMethods);
+
+        assertFalse(validatorService.isValidModule(validModule));
+    }
+
+    @Test
+    void shouldBeInvalidForLecturingMethodsBlank() {
+        String invalidLecturingMethods = " ";
 
         validModule.setLecturingMethods(invalidLecturingMethods);
 
@@ -377,6 +442,15 @@ class ModuleValidatorServiceTest {
     }
 
     @Test
+    void shouldBeInvalidForExamBlank() {
+        String invalidExam = " ";
+
+        validModule.setExam(invalidExam);
+
+        assertFalse(validatorService.isValidModule(validModule));
+    }
+
+    @Test
     void shouldBeValidForExamDurationDigitsOnly() {
         String validExamDuration = "100";
 
@@ -425,6 +499,15 @@ class ModuleValidatorServiceTest {
     @Test
     void shouldBeInvalidForExamDurationEmpty() {
         String invalidExamDuration = "";
+
+        validModule.setExamDuration(invalidExamDuration);
+
+        assertFalse(validatorService.isValidModule(validModule));
+    }
+
+    @Test
+    void shouldBeInvalidForExamDurationBlank() {
+        String invalidExamDuration = " ";
 
         validModule.setExamDuration(invalidExamDuration);
 
@@ -504,6 +587,15 @@ class ModuleValidatorServiceTest {
     }
 
     @Test
+    void shouldBeInvalidForExamMarkingBlank() {
+        String inValidExamMarking = " ";
+
+        validModule.setExamMarking(inValidExamMarking);
+
+        assertFalse(validatorService.isValidModule(validModule));
+    }
+
+    @Test
     void shouldBeValidForTotalWorkloadNumeric() {
         String validTotalWorkload = "120";
 
@@ -542,6 +634,15 @@ class ModuleValidatorServiceTest {
     @Test
     void shouldBeInvalidForTotalWorkloadEmpty() {
         String inValidTotalWorkload = "";
+
+        validModule.setTotalWorkload(inValidTotalWorkload);
+
+        assertFalse(validatorService.isValidModule(validModule));
+    }
+
+    @Test
+    void shouldBeInvalidForTotalWorkloadBlank() {
+        String inValidTotalWorkload = " ";
 
         validModule.setTotalWorkload(inValidTotalWorkload);
 
@@ -594,6 +695,15 @@ class ModuleValidatorServiceTest {
     }
 
     @Test
+    void shouldBeInvalidForPresentWorkloadBlank() {
+        String inValidPresentWorkload = " ";
+
+        validModule.setPresentWorkload(inValidPresentWorkload);
+
+        assertFalse(validatorService.isValidModule(validModule));
+    }
+
+    @Test
     void shouldBeValidForSelfStudyWorkloadNumeric() {
         String validSelfStudyWorkload = "120";
 
@@ -632,6 +742,15 @@ class ModuleValidatorServiceTest {
     @Test
     void shouldBeInvalidForSelfStudyWorkloadEmpty() {
         String inValidSelfStudyWorkload = "";
+
+        validModule.setSelfStudyWorkload(inValidSelfStudyWorkload);
+
+        assertFalse(validatorService.isValidModule(validModule));
+    }
+
+    @Test
+    void shouldBeInvalidForSelfStudyWorkloadBlank() {
+        String inValidSelfStudyWorkload = " ";
 
         validModule.setSelfStudyWorkload(inValidSelfStudyWorkload);
 
@@ -684,6 +803,15 @@ class ModuleValidatorServiceTest {
     }
 
     @Test
+    void shouldBeInvalidForEctsPointsBlank() {
+        String inValidEctsPoints = "";
+
+        validModule.setEctsPoints(inValidEctsPoints);
+
+        assertFalse(validatorService.isValidModule(validModule));
+    }
+
+    @Test
     void shouldBeValidForUpdatedOnGermanDateFormat() {
         String validUpdatedOn = "20.04.2017";
 
@@ -713,6 +841,15 @@ class ModuleValidatorServiceTest {
     @Test
     void shouldBeInvalidForUpdatedOnEmpty() {
         String invalidUpdatedOn = "";
+
+        validModule.setUpdatedOn(invalidUpdatedOn);
+
+        assertFalse(validatorService.isValidModule(validModule));
+    }
+
+    @Test
+    void shouldBeInvalidForUpdatedOnBlank() {
+        String invalidUpdatedOn = " ";
 
         validModule.setUpdatedOn(invalidUpdatedOn);
 

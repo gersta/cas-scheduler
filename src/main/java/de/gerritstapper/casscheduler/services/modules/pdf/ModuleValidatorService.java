@@ -46,7 +46,7 @@ public class ModuleValidatorService {
     private boolean isValidLectureCode(Module module) {
         String lectureCode = module.getLectureCode();
 
-        boolean isValid = Objects.nonNull(lectureCode)
+        boolean isValid = Objects.nonNull(lectureCode) && !lectureCode.isBlank()
                 && ( lectureCode.matches(RegexPatterns.LECTURE_CODE.getPattern()) | lectureCode.matches(ModuleRegexPattern.MASTER_THESIS.getPattern()));
 
         return printIfIsInvalid(isValid, "Lecture Code", lectureCode);
@@ -55,8 +55,8 @@ public class ModuleValidatorService {
     private boolean isValidLanguage(Module module) {
         String language = module.getLanguage();
 
-        boolean isValid = Objects.nonNull(language)
-                && ( isDeutsch(language) || isEnglisch(language) || isDeutschAndEnglisch(language) || isMasterThesis(module) );
+        boolean isValid = Objects.nonNull(language) && ( isMasterThesis(module)
+                || ( isDeutsch(language) || isEnglisch(language) || isDeutschAndEnglisch(language) ));
 
         return printIfIsInvalid(isValid, "Language", language);
     }
@@ -82,7 +82,8 @@ public class ModuleValidatorService {
     private boolean isValidDuration(Module module) {
         String duration = module.getDuration();
 
-        boolean isValid = Objects.nonNull(duration) && duration.matches(ModuleRegexPattern.SINGLE_DIGIT.getPattern());
+        boolean isValid = Objects.nonNull(duration) && !duration.isBlank()
+                && duration.matches(ModuleRegexPattern.SINGLE_DIGIT.getPattern());
 
         return printIfIsInvalid(isValid, "Duration", duration);
     }
@@ -90,7 +91,8 @@ public class ModuleValidatorService {
     private boolean isValidOwner(Module module) {
         String owner = module.getOwner();
 
-        boolean isValid = Objects.nonNull(owner) && owner.matches(ModuleRegexPattern.OWNER.getPattern());
+        boolean isValid = Objects.nonNull(owner) && !owner.isBlank()
+                && owner.matches(ModuleRegexPattern.OWNER.getPattern());
 
         return printIfIsInvalid(isValid, "Owner", owner);
     }
@@ -98,7 +100,7 @@ public class ModuleValidatorService {
     private boolean isValidLecturingForms(Module module) {
         String lecturingForms = module.getLecturingForms();
 
-        boolean isValid = Objects.nonNull(lecturingForms)
+        boolean isValid = Objects.nonNull(lecturingForms) && !lecturingForms.isBlank()
                 && lecturingForms.matches(ModuleRegexPattern.LECTURING_FORMS_METHODS.getPattern());
 
         return printIfIsInvalid(isValid, "Lecturing Forms", lecturingForms);
@@ -107,7 +109,7 @@ public class ModuleValidatorService {
     private boolean isValidLecturingMethods(Module module) {
         String lecturingMethods = module.getLecturingMethods();
 
-        boolean isValid = Objects.nonNull(lecturingMethods)
+        boolean isValid = Objects.nonNull(lecturingMethods) && !lecturingMethods.isBlank()
                 && lecturingMethods.matches(ModuleRegexPattern.LECTURING_FORMS_METHODS.getPattern());
 
         return printIfIsInvalid(isValid, "Lecturing Methods", lecturingMethods);
@@ -116,7 +118,7 @@ public class ModuleValidatorService {
     private boolean isValidExam(Module module) {
         String exam = module.getExam();
 
-        boolean isValid = Objects.nonNull(exam) && !exam.isBlank();
+        boolean isValid = Objects.nonNull(exam)&& !exam.isBlank();
 
         return printIfIsInvalid(isValid, "Exam", exam);
     }
@@ -124,7 +126,7 @@ public class ModuleValidatorService {
     private boolean isValidExamDuration(Module module) {
         String examDuration = module.getExamDuration();
 
-        boolean isValid = Objects.nonNull(examDuration)
+        boolean isValid = Objects.nonNull(examDuration) && !examDuration.isBlank()
                 && ( examDuration.matches(ModuleRegexPattern.DIGITS_ONLY.getPattern()) | examDuration.matches(ModuleRegexPattern.EXAM_DURATION_PRUEFUNGSORDNUNG.getPattern()));
 
         return printIfIsInvalid(isValid, "Exam Duration", examDuration);
@@ -133,7 +135,8 @@ public class ModuleValidatorService {
     private boolean isValidExamMarking(Module module) {
         String examMarking = module.getExamMarking();
 
-        boolean isValid = Objects.nonNull(examMarking) && examMarking.matches(ModuleRegexPattern.EXAM_MARKING.getPattern());
+        boolean isValid = Objects.nonNull(examMarking) && !examMarking.isBlank()
+                && examMarking.matches(ModuleRegexPattern.EXAM_MARKING.getPattern());
 
         return printIfIsInvalid(isValid, "Exam Marking", examMarking);
     }
@@ -141,7 +144,7 @@ public class ModuleValidatorService {
     private boolean isValidTotalWorkload(Module module) {
         String totalWorkload = module.getTotalWorkload();
 
-        boolean isValid = Objects.nonNull(totalWorkload)
+        boolean isValid = Objects.nonNull(totalWorkload) && !totalWorkload.isBlank()
                 && totalWorkload.matches(ModuleRegexPattern.DIGITS_ONLY.getPattern());
 
         return printIfIsInvalid(isValid, "Total Workload", totalWorkload);
@@ -150,7 +153,7 @@ public class ModuleValidatorService {
     private boolean isValidPresentWorkload(Module module) {
         String presentWorkload = module.getPresentWorkload();
 
-        boolean isValid = Objects.nonNull(presentWorkload)
+        boolean isValid = Objects.nonNull(presentWorkload) && !presentWorkload.isBlank()
                 && presentWorkload.matches(ModuleRegexPattern.DIGITS_ONLY.getPattern());
 
         return printIfIsInvalid(isValid, "Present Workload", presentWorkload);
@@ -159,7 +162,7 @@ public class ModuleValidatorService {
     private boolean isValidSelfStudyWorkload(Module module) {
         String selfStudyWorkload = module.getSelfStudyWorkload();
 
-        boolean isValid = Objects.nonNull(selfStudyWorkload)
+        boolean isValid = Objects.nonNull(selfStudyWorkload) && !selfStudyWorkload.isBlank()
                 && selfStudyWorkload.matches(ModuleRegexPattern.DIGITS_ONLY.getPattern());
 
         return printIfIsInvalid(isValid, "Self Study Workload", selfStudyWorkload);
@@ -168,7 +171,7 @@ public class ModuleValidatorService {
     private boolean isValidEctsPoints(Module module) {
         String ectsPoints = module.getEctsPoints();
 
-        boolean isValid = Objects.nonNull(ectsPoints)
+        boolean isValid = Objects.nonNull(ectsPoints) && !ectsPoints.isBlank()
                 && ectsPoints.matches(ModuleRegexPattern.DIGITS_ONLY.getPattern());
 
         return printIfIsInvalid(isValid, "Ects Points", ectsPoints);
@@ -177,7 +180,8 @@ public class ModuleValidatorService {
     private boolean isValidUpdatedOn(Module module) {
         String updatedOn = module.getUpdatedOn();
 
-        boolean isValid = Objects.nonNull(updatedOn) && updatedOn.matches(ModuleRegexPattern.GERMAN_DATE.getPattern());
+        boolean isValid = Objects.nonNull(updatedOn) && !updatedOn.isBlank()
+                && updatedOn.matches(ModuleRegexPattern.GERMAN_DATE.getPattern());
 
         return printIfIsInvalid(isValid, "Updated On", updatedOn);
     }
