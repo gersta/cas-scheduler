@@ -16,14 +16,11 @@ import java.util.Map;
 public class ModulePagesGroupingService {
 
     private final ModulePdfTextStripper textStripper;
-    private final ModulesFieldExtractorService fieldExtractorService;
 
     public ModulePagesGroupingService(
-            ModulePdfTextStripper textStripper,
-            ModulesFieldExtractorService fieldExtractorService
+            ModulePdfTextStripper textStripper
     ) {
         this.textStripper = textStripper;
-        this.fieldExtractorService = fieldExtractorService;
     }
 
     public Map<String, List<ModulePdfPage>> groupPdfPagesByModule(PDPageTree pageTree) {

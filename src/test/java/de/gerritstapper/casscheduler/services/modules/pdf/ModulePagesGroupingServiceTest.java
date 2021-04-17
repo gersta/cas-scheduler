@@ -39,7 +39,7 @@ class ModulePagesGroupingServiceTest {
         when(textStripper.getLectureCodeForPage(4)).thenReturn("T3M10507");
         when(textStripper.getLectureCodeForPage(5)).thenReturn("T3M10507");
 
-        groupingService = new ModulePagesGroupingService(textStripper, new ModulesFieldExtractorService());
+        groupingService = new ModulePagesGroupingService(textStripper);
     }
 
     @Test

@@ -17,9 +17,8 @@ class ModulesPdfReaderServiceTest {
     void beforeEach() throws IOException {
         String filename = "M_T_Modulhandbuch_T3M10101.pdf";
 
-        ModulesFieldExtractorService fieldExtractorService = new ModulesFieldExtractorService();
         ModulePdfTextStripper textStripper = new ModulePdfTextStripper(filename);
-        ModulePagesGroupingService groupingService = new ModulePagesGroupingService(textStripper, fieldExtractorService);
+        ModulePagesGroupingService groupingService = new ModulePagesGroupingService(textStripper);
         ModuleDataCleansingService cleansingService = new ModuleDataCleansingService();
         pdfReaderService = new ModulesPdfReaderService(groupingService, textStripper, cleansingService);
     }
