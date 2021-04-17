@@ -37,8 +37,17 @@ class ModuleValidatorServiceTest {
     }
 
     @Test
-    void shouldBeValidForValidLectureCode() {
+    void shouldBeValidForLectureCodeTechnicalFaculty() {
         String validLectureCode = "T3M10507";
+
+        validModule.setLectureCode(validLectureCode);
+
+        assertTrue(validatorService.isValidModule(validModule));
+    }
+
+    @Test
+    void shouldBeValidForLectureCodeMasterThesisTechnicalFaculty() {
+        String validLectureCode = "T3MX0202";
 
         validModule.setLectureCode(validLectureCode);
 
