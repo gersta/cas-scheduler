@@ -23,7 +23,7 @@ public class ModulePdfTextStripper {
     private final PDDocument document;
 
     public ModulePdfTextStripper(
-            @Value("${cas-scheduler.modules.filename}") String filename
+            @Value("${cas-scheduler.modules.pdf.filename}") String filename
     ) throws IOException { // TODO: Get rid of the exception
         textStripper = new PDFTextStripper();
         textStripper.setSortByPosition(true);

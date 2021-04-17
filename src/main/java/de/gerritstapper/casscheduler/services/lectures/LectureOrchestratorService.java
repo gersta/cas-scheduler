@@ -9,6 +9,7 @@ import de.gerritstapper.casscheduler.services.lectures.pdf.LecturePdfReaderServi
 import de.gerritstapper.casscheduler.services.lectures.persistence.DataProcessService;
 import de.gerritstapper.casscheduler.util.JsonFileUtil;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -20,13 +21,23 @@ import java.util.stream.Collectors;
 @Log4j2
 public class LectureOrchestratorService {
 
+    private final String LECTURE_JSON_FILENAME;
+
     private final LecturePdfReaderService pdfService;
     private final DataProcessService dataProcessService;
     private final IcsCreatorService icsCreatorService;
     private final IcsSaverService icsSaverService;
     private final JsonFileUtil jsonFileUtil;
 
-    public LectureOrchestratorService(LecturePdfReaderService pdfService, DataProcessService dataProcessService, IcsCreatorService icsCreatorService, IcsSaverService icsSaverService, JsonFileUtil jsonFileUtil) {
+    public LectureOrchestratorService(
+            @Value("${cas-scheduler.lectures.json.output.filename}") String lecture_json_filename,
+            LecturePdfReaderService pdfService,
+            DataProcessService dataProcessService,
+            IcsCreatorService icsCreatorService,
+            IcsSaverService icsSaverService,
+            JsonFileUtil jsonFileUtil
+    ) {
+        LECTURE_JSON_FILENAME = lecture_json_filename;
         this.pdfService = pdfService;
         this.dataProcessService = dataProcessService;
         this.icsCreatorService = icsCreatorService;
@@ -47,7 +58,7 @@ public class LectureOrchestratorService {
 
         log.info("Created {} daos", daos.size());
 
-        jsonFileUtil.serializeToFile(daos);
+        jsonFileUtil.serializeToFile(daos, LECTURE_JSON_FILENAME);
 
         List<IcsCalendarWrapper> calendars = daos.stream()
                 .map(icsCreatorService::create)

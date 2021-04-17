@@ -8,11 +8,15 @@ cas-scheduler:
       date-pattern: "dd.MM.yyyy"
     json:
       output:
-        lectures: "lectures/json/lectures.json"
+        filename: "lectures/json/lectures.json"
     ics:
       uid: "cas-scheduler"
       prod-id: "-//CAS Scheduler//iCal4j 2.0//EN"
       output: "lectures/ics/"
   modules:
     extract: true
-    filename: "M_T_Modulhandbuch.pdf"
+    pdf:
+      filename: "M_T_Modulhandbuch.pdf"
+    json:
+      output:
+        filename: "modules/json/modules.json"

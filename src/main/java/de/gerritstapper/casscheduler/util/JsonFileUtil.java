@@ -13,14 +13,11 @@ import java.util.List;
 public class JsonFileUtil {
 
     private final ObjectMapper mapper;
-    private final String outputFileName;
 
     public JsonFileUtil(
-            final ObjectMapper mapper,
-            @Value("${cas-scheduler.lectures.json.output.lectures}") String outputFileName
+            final ObjectMapper mapper
     ) {
         this.mapper = mapper;
-        this.outputFileName = outputFileName;
     }
 
     @SneakyThrows
@@ -29,18 +26,18 @@ public class JsonFileUtil {
     }
 
     @SneakyThrows
-    public void serializeToFile(List<?> entities) {
-        cleanUp();
+    public void serializeToFile(List<?> entities, String filename) {
+        cleanUp(filename);
 
         mapper.writeValue(
-                new File(outputFileName),
+                new File(filename),
                 entities
         );
     }
 
-    private void cleanUp() {
-        if ( new File(outputFileName).exists() ) {
-            new File(outputFileName).delete();
+    private void cleanUp(String filename) {
+        if ( new File(filename).exists() ) {
+            new File(filename).delete();
         }
     }
 

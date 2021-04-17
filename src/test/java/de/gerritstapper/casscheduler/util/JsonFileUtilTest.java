@@ -33,7 +33,7 @@ public class JsonFileUtilTest {
 
         filename = "src/test/resources/lectures.json";
 
-        jsonFileUtil = new JsonFileUtil(mapper, filename);
+        jsonFileUtil = new JsonFileUtil(mapper);
 
         lectures = Arrays.asList(
             LectureDao.builder()
@@ -93,7 +93,7 @@ public class JsonFileUtilTest {
 
     @Test
     void shouldCreateJsonFile() {
-        jsonFileUtil.serializeToFile(lectures);
+        jsonFileUtil.serializeToFile(lectures, filename);
 
         assertTrue(new File(filename).exists());
     }

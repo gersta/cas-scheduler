@@ -13,3 +13,4 @@ src/main/resources/lectures.json
 
 # ics files created from pdf
 /lectures
+/modules
