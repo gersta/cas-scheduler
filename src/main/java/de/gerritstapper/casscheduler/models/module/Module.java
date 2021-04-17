@@ -37,6 +37,4 @@ public class Module {
 
     // Metainfo
     private String updatedOn; // STAND VOM
-
-    private String specifics; // BESONDERHEITEN
 }

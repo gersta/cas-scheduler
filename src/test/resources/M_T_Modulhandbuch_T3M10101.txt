@@ -1,0 +1,42 @@
+AUS AKTUELLER ORGA-EINHEIT
+Angewandte Ingenieurmathematik (T3M10101)
+Applied Engineering Mathematics
+FORMALE ANGABEN ZUM MODUL
+MODULNUMMER VERORTUNG IM STUDIENVERLAUF MODULDAUER (SEMESTER) MODULVERANTWORTUNG SPRACHE
+T3M10101 - 1 Prof. Dr. Volker Schulz Deutsch/Englisch
+EINGESETZTE LEHRFORMEN
+LEHRFORMEN LEHRMETHODEN
+Vorlesung, Uebung Lehrvortrag, Diskussion, Gruppenarbeit
+EINGESETZTE PRUEFUNGSFORMEN
+PRUEFUNGSLEISTUNG PRUEFUNGSUMFANG (IN MINUTEN) BENOTUNG
+Klausur 120 ja
+WORKLOAD UND ECTS-LEISTUNGSPUNKTE
+WORKLOAD INSGESAMT (IN H) DAVON PRAESENZZEIT (IN H) DAVON SELBSTSTUDIUM (IN H) ECTS-LEISTUNGSPUNKTE
+150 50 100 5
+QUALIFIKATIONSZIELE UND KOMPETENZEN
+FACHKOMPETENZ
+Die Studierenden entwickeln ein fundiertes Verstaendnis der mathematischen Grundlagen soweit sie fuer komplexe Regelungsaufgaben benötigt werden. Kenntnisse 
+der Tensor-Rechnung dienen zur Bearbeitung von Aufgaben aus dem  Bereich der Werkstoffmechanik und ergaenzen die Vorlesung "Höhere Festigkeitslehre 
+(TM10102)". Die Vektoranalysis und insbesondere die Theorie der Partiellen Differentialgleichungen liefern das Verstaendnis grundlegender numerischer Verfahren, 
+wie sie haeufig im Rahmen von ingenieurwissenschaftlichen Berechnungs- und Simulationsprogrammen eingesetzt werden.
+METHODENKOMPETENZ
+Die Studierenden erwerben die mathematischen Grundlagen, um die Komplexitaet eines gegebenen Problems einschaetzen zu können. In der 
+ingenieurwissenschaftlichen Praxis ist es wichtig, die mathematischen Methoden zu beherrschen, um analytische Abschaetzugen zu machen. Dies dienst zur 
+Ueberpruefung von komplexen Simulationsergebnissen.
+PERSONALE UND SOZIALE KOMPETENZ
+Die Studierenden lernen die Aussagefaehigkeit von numerischen Simulationswerkzeugen zu bewerten.
+UeBERGREIFENDE HANDLUNGSKOMPETENZ
+Die Studierenden entwickeln ein Verstaendnis dafuer, welche Berechnungsverfahren bei einem gegebenen ingenieurwissenschaftlichen Problem angemessen sind.
+LERNEINHEITEN UND INHALTE
+LEHR- UND LERNEINHEITEN PRAESENZZEIT SELBSTSTUDIUM
+Angewandte Ingenieurmathematik 50 100
+- Fourier- und Laplacetransformation, insbesondere Faltungssatz, mit Anwendungen aus der 
+Reglungstechnik
+- Tensorrechnung mit Anwendungen aus der Werkstoffmechanik
+- Einfuehrung des Vektordifferentialoperators (Gradient, Divergenz, Rotation)
+- Ebene und raeumliche Integralsaetze von Gauß und Stokes, Greensche Formeln
+- Lineare Differentialgleichungssysteme
+- Theorie der partiellen Differentialgleichungen (DGL) mit Beispielen zur numerischen 
+Lösungsverfahren. 
+- Anwendungen aus der Waermeleitung, Fluidmechanik und Kontinuumsmechanik
+Stand vom 13.07.2020 T3M10101 // Seite 6

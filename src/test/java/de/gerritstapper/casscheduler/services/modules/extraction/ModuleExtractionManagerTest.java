@@ -1,31 +1,48 @@
-package de.gerritstapper.casscheduler.services.modules.pdf;
+package de.gerritstapper.casscheduler.services.modules.extraction;
 
 import de.gerritstapper.casscheduler.models.module.Module;
+import de.gerritstapper.casscheduler.services.modules.pdf.ModulePdfTextStripper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ModulesPdfReaderServiceTest {
+class ModuleExtractionManagerTest {
 
-    private ModulesPdfReaderService pdfReaderService;
+    private ModuleExtractionManager extractionManager;
+    private String pageContent;
 
     @BeforeEach
     void beforeEach() throws IOException {
-        String filename = "M_T_Modulhandbuch_T3M10101.pdf";
+        ModuleExamExtractionService examExtractionService = new ModuleExamExtractionService();
+        ModuleFormalitiesExtractionService formalitiesExtractionService = new ModuleFormalitiesExtractionService();
+        ModuleGeneralsExtractionService generalsExtractionService = new ModuleGeneralsExtractionService();
+        ModuleLecturingMethodsAndFormsExtractionService lecturingMethodsAndFormsExtractionService = new ModuleLecturingMethodsAndFormsExtractionService();
+        ModuleMetaInfoExtractionService metaInfoExtractionService = new ModuleMetaInfoExtractionService();
+        ModuleWorkloadExtractionService workloadExtractionService = new ModuleWorkloadExtractionService();
 
-        ModulePdfTextStripper textStripper = new ModulePdfTextStripper(filename);
-        ModulePagesGroupingService groupingService = new ModulePagesGroupingService(textStripper);
-        ModuleDataCleansingService cleansingService = new ModuleDataCleansingService();
-        pdfReaderService = new ModulesPdfReaderService(groupingService, textStripper, cleansingService);
+        extractionManager = new ModuleExtractionManager(
+                generalsExtractionService,
+                formalitiesExtractionService,
+                lecturingMethodsAndFormsExtractionService,
+                examExtractionService,
+                workloadExtractionService,
+                metaInfoExtractionService
+        );
+
+        // Instead of relying on the extraction logic of a pdf, take the pages content from a text file
+        Path filename = Path.of("src/test/resources/M_T_Modulhandbuch_T3M10101.txt");
+        pageContent = Files.readString(filename);
     }
 
     @Test
     void shouldExtractLectureCode() {
-        Module module = pdfReaderService.extractModules().get(0);
+        Module module = extractionManager.extractModuleContent(pageContent);
 
         assertAll(
                 () -> assertNotNull(module),
@@ -35,7 +52,7 @@ class ModulesPdfReaderServiceTest {
 
     @Test
     void shouldExtractLectureName() {
-        Module module = pdfReaderService.extractModules().get(0);
+        Module module = extractionManager.extractModuleContent(pageContent);
 
         assertAll(
                 () -> assertNotNull(module),
@@ -43,14 +60,9 @@ class ModulesPdfReaderServiceTest {
         );
     }
 
-    @Disabled
-    void shouldNotFailOnNullLectureName() {
-        fail();
-    }
-
     @Test
     void shouldExtractLectureNameEnglish() {
-        Module module = pdfReaderService.extractModules().get(0);
+        Module module = extractionManager.extractModuleContent(pageContent);
 
         assertAll(
                 () -> assertNotNull(module),
@@ -60,7 +72,7 @@ class ModulesPdfReaderServiceTest {
 
     @Test
     void shouldExtractOwner() {
-        Module module = pdfReaderService.extractModules().get(0);
+        Module module = extractionManager.extractModuleContent(pageContent);
 
         assertAll(
                 () -> assertNotNull(module),
@@ -70,7 +82,7 @@ class ModulesPdfReaderServiceTest {
 
     @Test
     void shouldExtractDuration() {
-        Module module = pdfReaderService.extractModules().get(0);
+        Module module = extractionManager.extractModuleContent(pageContent);
 
         assertAll(
                 () -> assertNotNull(module),
@@ -80,7 +92,7 @@ class ModulesPdfReaderServiceTest {
 
     @Test
     void shouldExtractLanguage() {
-        Module module = pdfReaderService.extractModules().get(0);
+        Module module = extractionManager.extractModuleContent(pageContent);
 
         assertAll(
                 () -> assertNotNull(module),
@@ -90,7 +102,7 @@ class ModulesPdfReaderServiceTest {
 
     @Test
     void shouldExtractExam() {
-        Module module = pdfReaderService.extractModules().get(0);
+        Module module = extractionManager.extractModuleContent(pageContent);
 
         assertAll(
                 () -> assertNotNull(module),
@@ -100,7 +112,7 @@ class ModulesPdfReaderServiceTest {
 
     @Test
     void shouldExtractExamDuration() {
-        Module module = pdfReaderService.extractModules().get(0);
+        Module module = extractionManager.extractModuleContent(pageContent);
 
         assertAll(
                 () -> assertNotNull(module),
@@ -110,7 +122,7 @@ class ModulesPdfReaderServiceTest {
 
     @Test
     void shouldExtractExamMarking() {
-        Module module = pdfReaderService.extractModules().get(0);
+        Module module = extractionManager.extractModuleContent(pageContent);
 
         assertAll(
                 () -> assertNotNull(module),
@@ -120,7 +132,7 @@ class ModulesPdfReaderServiceTest {
 
     @Test
     void shouldExtractTotalWorkload() {
-        Module module = pdfReaderService.extractModules().get(0);
+        Module module = extractionManager.extractModuleContent(pageContent);
 
         assertAll(
                 () -> assertNotNull(module),
@@ -130,7 +142,7 @@ class ModulesPdfReaderServiceTest {
 
     @Test
     void shouldExtractPresentWorkload() {
-        Module module = pdfReaderService.extractModules().get(0);
+        Module module = extractionManager.extractModuleContent(pageContent);
 
         assertAll(
                 () -> assertNotNull(module),
@@ -140,7 +152,7 @@ class ModulesPdfReaderServiceTest {
 
     @Test
     void shouldExtractSelfstudyWorkload() {
-        Module module = pdfReaderService.extractModules().get(0);
+        Module module = extractionManager.extractModuleContent(pageContent);
 
         assertAll(
                 () -> assertNotNull(module),
@@ -150,7 +162,7 @@ class ModulesPdfReaderServiceTest {
 
     @Test
     void shouldExtractEctsPoints() {
-        Module module = pdfReaderService.extractModules().get(0);
+        Module module = extractionManager.extractModuleContent(pageContent);
 
         assertAll(
                 () -> assertNotNull(module),
@@ -160,7 +172,7 @@ class ModulesPdfReaderServiceTest {
 
     @Test
     void shouldExtractUpdatedOn() {
-        Module module = pdfReaderService.extractModules().get(0);
+        Module module = extractionManager.extractModuleContent(pageContent);
 
         assertAll(
                 () -> assertNotNull(module),
@@ -169,21 +181,8 @@ class ModulesPdfReaderServiceTest {
     }
 
     @Test
-    void shouldExtractSpecifics() {
-        Module module = pdfReaderService.extractModules().get(0);
-
-        assertAll(
-                () -> assertNotNull(module),
-                () -> assertEquals(
-                        "Im Rahmen der Vorlesung unterrichten verschiedene Dozierende. Diese sind jeweils ausgewiesene Expertinnen und Experten in Ihrem Fachgebiet.",
-                        module.getSpecifics()
-                )
-        );
-    }
-
-    @Test
     void shouldExtractLecturingForms() { // LEHRFORMEN
-        Module module = pdfReaderService.extractModules().get(0);
+        Module module = extractionManager.extractModuleContent(pageContent);
 
         assertAll(
                 () -> assertNotNull(module),
@@ -196,7 +195,7 @@ class ModulesPdfReaderServiceTest {
 
     @Test
     void shouldExtractLecturingMethods() { // LEHRFORMEN
-        Module module = pdfReaderService.extractModules().get(0);
+        Module module = extractionManager.extractModuleContent(pageContent);
 
         assertAll(
                 () -> assertNotNull(module),
@@ -206,4 +205,5 @@ class ModulesPdfReaderServiceTest {
                 )
         );
     }
+
 }
