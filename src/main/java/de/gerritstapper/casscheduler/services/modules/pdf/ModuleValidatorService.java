@@ -91,8 +91,9 @@ public class ModuleValidatorService {
     private boolean isValidOwner(Module module) {
         String owner = module.getOwner();
 
-        boolean isValid = Objects.nonNull(owner) && !owner.isBlank()
-                && owner.matches(ModuleRegexPattern.OWNER.getPattern());
+        // the owner may be blank
+        boolean isValid = Objects.nonNull(owner) && ( owner.isBlank()
+                || owner.matches(ModuleRegexPattern.OWNER.getPattern()) );
 
         return printIfIsInvalid(isValid, "Owner", owner);
     }

@@ -271,6 +271,24 @@ class ModuleValidatorServiceTest {
     }
 
     @Test
+    void shouldBeValidForOwnerEmpty() {
+        String emptyOwner = "";
+
+        validModule.setOwner(emptyOwner);
+
+        assertTrue(validatorService.isValidModule(validModule));
+    }
+
+    @Test
+    void shouldBeValidForOwnerBlank() {
+        String emptyOwner = " ";
+
+        validModule.setOwner(emptyOwner);
+
+        assertTrue(validatorService.isValidModule(validModule));
+    }
+
+    @Test
     void shouldBeInvalidForAlphaNumericOwner() {
         String owner = "Prof. Dr.-Ing. 13 Stuhler";
 
@@ -284,24 +302,6 @@ class ModuleValidatorServiceTest {
         String owner = null;
 
         validModule.setOwner(owner);
-
-        assertFalse(validatorService.isValidModule(validModule));
-    }
-
-    @Test
-    void shouldBeInvalidForOwnerEmpty() {
-        String emptyOwner = "";
-
-        validModule.setOwner(emptyOwner);
-
-        assertFalse(validatorService.isValidModule(validModule));
-    }
-
-    @Test
-    void shouldBeInvalidForOwnerBlank() {
-        String emptyOwner = " ";
-
-        validModule.setOwner(emptyOwner);
 
         assertFalse(validatorService.isValidModule(validModule));
     }
