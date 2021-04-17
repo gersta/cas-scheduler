@@ -21,10 +21,13 @@ public class ModuleValidatorService {
     public boolean isValidModule(Module module) {
         log.trace("isValid(): {}", module);
 
+        if ( Objects.isNull(module) ) {
+            return false;
+        }
+
         currentLectureCode = module.getLectureCode();
 
-        return Objects.nonNull(module)
-                && isValidLectureCode(module)
+        return isValidLectureCode(module)
                 && isValidLanguage(module)
                 && isValidDuration(module)
                 && isValidOwner(module)

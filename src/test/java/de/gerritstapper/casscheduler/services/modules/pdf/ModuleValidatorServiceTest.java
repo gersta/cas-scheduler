@@ -37,6 +37,11 @@ class ModuleValidatorServiceTest {
     }
 
     @Test
+    void shouldBeInvalidForEntireModuleNull() {
+        assertFalse(validatorService.isValidModule(null));
+    }
+
+    @Test
     void shouldBeValidForLectureCodeTechnicalFaculty() {
         String validLectureCode = "T3M10507";
 
