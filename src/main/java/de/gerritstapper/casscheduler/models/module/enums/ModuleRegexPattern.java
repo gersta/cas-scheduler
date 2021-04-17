@@ -10,9 +10,6 @@ public enum ModuleRegexPattern {
     LETTERS_ONLY("(\\w{1,})"),
     DIGITS_ONLY("\\d{1,}"),
     EXAM_DURATION_PRUEFUNGSORDNUNG("Siehe Pruefungsordnung"),
-    EXAM_SEMINARBEIT_TRANSFERBERICHT("Seminararbeit\\s{0,1}\\/\\s{0,1}Transferbericht"),
-    EXAM_COMBINED("(\\w|\\s|\\-|\\%|\\d)+"),
-    EXAM_SKIZZE("Projekt- bzw. Forschungsskizze"),
     EXAM_MARKING("(ja|Ja|Nein|nein)"),
     GERMAN_DATE("\\d{2}\\.\\d{2}\\.\\d{4}");
 
