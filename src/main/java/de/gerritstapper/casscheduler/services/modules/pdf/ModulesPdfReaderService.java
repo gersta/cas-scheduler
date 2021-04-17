@@ -48,8 +48,9 @@ public class ModulesPdfReaderService {
         try {
             PDPageTree pages = textStripper.getPdfPages();
 
-            return groupingService.groupPdfPagesByModule(pages).values().stream()
-                    .map(this::processModule)
+            return groupingService.groupPdfPagesByModule(pages)
+                    .entrySet().stream()
+                    .map(module -> processModule(module.getKey(), module.getValue()))
                     .collect(Collectors.toList());
         } catch (Exception e) {
             log.error("Error in readPdf ");
@@ -60,7 +61,9 @@ public class ModulesPdfReaderService {
 
     }
 
-    private Module processModule(List<ModulePdfPage> modulePdfPages) {
+    private Module processModule(String lectureCode, List<ModulePdfPage> modulePdfPages) {
+        log.debug("processModule(): {}", lectureCode);
+
         String moduleTextContent = modulePdfPages.stream()
                 .map(page -> textStripper.getTextForPage(page.getPageIndexInDocument()))
                 .map(cleansingService::removeGermanUmlaute)

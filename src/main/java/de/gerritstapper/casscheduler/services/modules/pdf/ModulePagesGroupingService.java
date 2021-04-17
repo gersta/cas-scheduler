@@ -33,37 +33,23 @@ public class ModulePagesGroupingService {
 
         Map<String, List<ModulePdfPage>> pagesPerModule = new HashMap<>();
 
-        String currentModuleLectureCode = "";
-
         for (int i = 0; i < pages.size(); i++) {
             PDPage page = pages.get(i);
             int pageIndexInDocument = i + 1;
 
             String lectureCode = textStripper.getLectureCodeForPage(pageIndexInDocument);
 
-            if ( isNewModule(lectureCode, currentModuleLectureCode) ) {
-                currentModuleLectureCode = lectureCode;
-                pagesPerModule.put(currentModuleLectureCode, new ArrayList<>());
-            }
+            pagesPerModule.putIfAbsent(lectureCode, new ArrayList<>());
 
             ModulePdfPage modulePage = ModulePdfPage.builder()
                     .page(page)
                     .pageIndexInDocument(pageIndexInDocument)
                     .build();
 
-            pagesPerModule.get(currentModuleLectureCode).add(modulePage);
-
+            pagesPerModule.get(lectureCode).add(modulePage);
         }
 
         return pagesPerModule;
-    }
-
-    private boolean isNewModule(String newLectureCode, String currentLectureCode) {
-        return !newLectureCode.equalsIgnoreCase(currentLectureCode);
-    }
-
-    private boolean isFirstPage(int pageIndexInDocument) {
-        return pageIndexInDocument == 1;
     }
 
     private List<PDPage> convertTreeToList(PDPageTree tree) {

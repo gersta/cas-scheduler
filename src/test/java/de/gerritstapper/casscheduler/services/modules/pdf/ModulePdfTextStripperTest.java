@@ -62,4 +62,26 @@ class ModulePdfTextStripperTest {
         );
     }
 
+    @Test
+    void shouldReturnLectueCodeFromPageForMasterThesis() throws IOException {
+        String filename = "M_T_Modulhandbuch_Master_Thesis.pdf";
+
+        textStripper = new ModulePdfTextStripper(filename);
+
+        String result = textStripper.getLectureCodeForPage(1);
+
+        assertEquals("T3MX0202", result);
+    }
+
+    @Test
+    void shoulReturnEmptyStringForMissingLectureCode() throws IOException {
+        String filename = "M_T_Modulhandbuch_Non_Module.pdf";
+
+        textStripper = new ModulePdfTextStripper(filename);
+
+        String result = textStripper.getLectureCodeForPage(1);
+
+        assertEquals("", result);
+    }
+
 }

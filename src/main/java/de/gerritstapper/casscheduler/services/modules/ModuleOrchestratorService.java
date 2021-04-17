@@ -43,8 +43,5 @@ public class ModuleOrchestratorService {
                 .collect(Collectors.toList());
 
         log.info("Extracted {} invalid modules", invalidModules.size());
-
-        log.info("Invalid modules are: ");
-        invalidModules.forEach(System.out::println);
     }
 }

@@ -1,5 +1,7 @@
 package de.gerritstapper.casscheduler.services.modules.pdf;
 
+import de.gerritstapper.casscheduler.models.enums.RegexPatterns;
+import de.gerritstapper.casscheduler.models.module.enums.ModuleRegexPattern;
 import lombok.extern.log4j.Log4j2;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPageTree;
@@ -16,8 +18,6 @@ import java.util.regex.Pattern;
 @Service
 @Log4j2
 public class ModulePdfTextStripper {
-
-    private static final String LECTURE_CODE_BOTTOM_PAGE_PATTERN = "(?<=\\d{2}\\.\\d{2}\\.\\d{4} )(\\w\\d\\w\\d{5})(?= \\/\\/)";
 
     private final PDFTextStripper textStripper;
     private final PDDocument document;
@@ -53,9 +53,9 @@ public class ModulePdfTextStripper {
     public String getLectureCodeForPage(int pageIndex) {
         String content = getTextForPage(pageIndex);
 
-        // date followed by whitespace followed by lecture code followed by double forward slash
-        // Stand vom 13.07.2020 T3M10101 // Seite 6
-        Pattern pattern = Pattern.compile(LECTURE_CODE_BOTTOM_PAGE_PATTERN);
+        String lectureCodePattern = String.format("(%s|%s)", RegexPatterns.LECTURE_CODE.getPattern(), ModuleRegexPattern.MASTER_THESIS.getPattern());
+
+        Pattern pattern = Pattern.compile(lectureCodePattern);
 
         Matcher matcher = pattern.matcher(content);
 
