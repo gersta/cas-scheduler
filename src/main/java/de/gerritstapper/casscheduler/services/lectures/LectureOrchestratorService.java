@@ -1,12 +1,12 @@
 package de.gerritstapper.casscheduler.services.lectures;
 
-import de.gerritstapper.casscheduler.daos.LectureDao;
+import de.gerritstapper.casscheduler.daos.lecture.LectureDao;
 import de.gerritstapper.casscheduler.models.lecture.IcsCalendarWrapper;
 import de.gerritstapper.casscheduler.models.lecture.Lecture;
 import de.gerritstapper.casscheduler.services.lectures.ics.IcsCreatorService;
 import de.gerritstapper.casscheduler.services.lectures.ics.IcsSaverService;
 import de.gerritstapper.casscheduler.services.lectures.pdf.LecturePdfReaderService;
-import de.gerritstapper.casscheduler.services.lectures.persistence.DataProcessService;
+import de.gerritstapper.casscheduler.services.lectures.persistence.LectureDataProcessService;
 import de.gerritstapper.casscheduler.util.JsonFileUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,7 +24,7 @@ public class LectureOrchestratorService {
     private final String LECTURE_JSON_FILENAME;
 
     private final LecturePdfReaderService pdfService;
-    private final DataProcessService dataProcessService;
+    private final LectureDataProcessService dataProcessService;
     private final IcsCreatorService icsCreatorService;
     private final IcsSaverService icsSaverService;
     private final JsonFileUtil jsonFileUtil;
@@ -32,7 +32,7 @@ public class LectureOrchestratorService {
     public LectureOrchestratorService(
             @Value("${cas-scheduler.lectures.json.output.filename}") String lecture_json_filename,
             LecturePdfReaderService pdfService,
-            DataProcessService dataProcessService,
+            LectureDataProcessService dataProcessService,
             IcsCreatorService icsCreatorService,
             IcsSaverService icsSaverService,
             JsonFileUtil jsonFileUtil

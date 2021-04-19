@@ -6,7 +6,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ExtractionPatterns {
     LINEBREAK("\\r?\\n"),
-    WHITESPACE(" ");
+    WHITESPACE(" "),
+    COMMA(",");
 
     @Getter
     private final String pattern;

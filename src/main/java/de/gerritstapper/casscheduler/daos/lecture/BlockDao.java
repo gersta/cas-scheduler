@@ -1,4 +1,4 @@
-package de.gerritstapper.casscheduler.daos;
+package de.gerritstapper.casscheduler.daos.lecture;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

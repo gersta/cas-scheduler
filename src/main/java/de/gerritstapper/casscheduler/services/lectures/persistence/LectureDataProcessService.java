@@ -1,7 +1,7 @@
 package de.gerritstapper.casscheduler.services.lectures.persistence;
 
-import de.gerritstapper.casscheduler.daos.BlockDao;
-import de.gerritstapper.casscheduler.daos.LectureDao;
+import de.gerritstapper.casscheduler.daos.lecture.BlockDao;
+import de.gerritstapper.casscheduler.daos.lecture.LectureDao;
 import de.gerritstapper.casscheduler.models.lecture.DatesTuple;
 import de.gerritstapper.casscheduler.models.lecture.Lecture;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,11 +13,11 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class DataProcessService {
+public class LectureDataProcessService {
 
     private final DateTimeFormatter DATE_FORMAT;
 
-    public DataProcessService(
+    public LectureDataProcessService(
             @Value("${cas-scheduler.lectures.pdf.date-pattern}") String datePattern
     ) {
         this.DATE_FORMAT = DateTimeFormatter.ofPattern(datePattern);

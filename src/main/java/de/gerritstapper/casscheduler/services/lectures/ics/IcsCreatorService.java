@@ -1,7 +1,7 @@
 package de.gerritstapper.casscheduler.services.lectures.ics;
 
-import de.gerritstapper.casscheduler.daos.BlockDao;
-import de.gerritstapper.casscheduler.daos.LectureDao;
+import de.gerritstapper.casscheduler.daos.lecture.BlockDao;
+import de.gerritstapper.casscheduler.daos.lecture.LectureDao;
 import de.gerritstapper.casscheduler.models.lecture.IcsCalendarWrapper;
 import de.gerritstapper.casscheduler.util.DateConverterUtil;
 import lombok.extern.log4j.Log4j2;

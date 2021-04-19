@@ -1,7 +1,7 @@
 package de.gerritstapper.casscheduler.services.lectures;
 
 import de.gerritstapper.casscheduler.models.lecture.DatesTuple;
-import de.gerritstapper.casscheduler.services.lectures.persistence.DataProcessService;
+import de.gerritstapper.casscheduler.services.lectures.persistence.LectureDataProcessService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,14 +9,14 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class DataProcessServiceTest {
+public class LectureDataProcessServiceTest {
 
-    private DataProcessService dataProcessService;
+    private LectureDataProcessService dataProcessService;
 
     @BeforeEach
     void beforeEach() {
         String datePattern = "dd.MM.yyyy";
-        dataProcessService = new DataProcessService(datePattern);
+        dataProcessService = new LectureDataProcessService(datePattern);
     }
 
     @Test
