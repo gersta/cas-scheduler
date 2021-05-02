@@ -21,3 +21,6 @@ cas-scheduler:
     json:
       output:
         filename: "modules/json/modules.json"
+  lecture-modules:
+      json:
+        output: "lecture-modules/json/lecture-modules.json"

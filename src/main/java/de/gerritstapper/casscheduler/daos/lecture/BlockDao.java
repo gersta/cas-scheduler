@@ -13,7 +13,6 @@ import java.time.LocalDate;
 @Builder
 public class BlockDao {
 
-    private Long id;
     private LocalDate blockStart;
     private LocalDate blockEnd;
     private String location;

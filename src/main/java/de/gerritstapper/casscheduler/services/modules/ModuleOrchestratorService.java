@@ -35,7 +35,7 @@ public class ModuleOrchestratorService {
         this.jsonFileUtil = jsonFileUtil;
     }
 
-    public void orchestrate() {
+    public List<ModuleDao> orchestrate() {
         log.info("orchestrate()");
 
         List<Module> modules = modulesPdfReaderService.extractModules();
@@ -65,5 +65,7 @@ public class ModuleOrchestratorService {
         jsonFileUtil.serializeToFile(daos, MODULES_JSON_FILENAME);
 
         log.info("Written {} DAOs to file: {}", daos.size(), MODULES_JSON_FILENAME);
+
+        return daos;
     }
 }

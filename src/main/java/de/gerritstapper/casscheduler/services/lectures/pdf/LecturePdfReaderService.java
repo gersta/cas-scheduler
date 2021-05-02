@@ -82,7 +82,7 @@ public class LecturePdfReaderService {
                     .distinct() // filter all those entries that were read twice due to scanning each page twice
                     .collect(Collectors.toList()); // collect list
 
-        log.info("readPdf(): page index{}. Read {} lectures", pageIndex, lectures.size());
+        log.info("readPdf(): page index {}. Read {} lectures", pageIndex, lectures.size());
 
         closeDocument();
 

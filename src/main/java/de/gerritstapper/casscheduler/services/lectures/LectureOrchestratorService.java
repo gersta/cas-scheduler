@@ -45,7 +45,7 @@ public class LectureOrchestratorService {
         this.jsonFileUtil = jsonFileUtil;
     }
 
-    public void orchestrate() throws IOException {
+    public List<LectureDao> orchestrate() throws IOException {
         log.info("orchestrate()");
 
         List<Lecture> lectures = pdfService.extractLectures(null);
@@ -56,9 +56,11 @@ public class LectureOrchestratorService {
                 .map(dataProcessService::create)
                 .collect(Collectors.toList());
 
-        log.info("Created {} daos", daos.size());
+        log.info("Created {} DAOs", daos.size());
 
         jsonFileUtil.serializeToFile(daos, LECTURE_JSON_FILENAME);
+
+        log.info("Written {} DAOs to file: {}", daos.size(), LECTURE_JSON_FILENAME);
 
         List<IcsCalendarWrapper> calendars = daos.stream()
                 .map(icsCreatorService::create)
@@ -67,5 +69,7 @@ public class LectureOrchestratorService {
                 .collect(Collectors.toList());
 
         log.info("Created {} ics files", calendars.size());
+
+        return daos;
     }
 }

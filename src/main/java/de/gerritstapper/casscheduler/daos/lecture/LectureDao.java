@@ -13,7 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 public class LectureDao {
 
-    Long id;
     String lectureCode;
     String name;
 
