@@ -1,4 +1,4 @@
-package de.gerritstapper.casscheduler.services.lectures.pdf;
+package de.gerritstapper.casscheduler.services.lectures.pdf.technik;
 
 import de.gerritstapper.casscheduler.models.enums.RegexPatterns;
 import de.gerritstapper.casscheduler.models.lecture.enums.LectureRegexPatterns;
@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  */
 @Service
 @Log4j2
-public class LectureFieldExtractorService {
+public class TechnikLectureFieldExtractorService {
 
     /**
      * extract text by given pattern from the content and return

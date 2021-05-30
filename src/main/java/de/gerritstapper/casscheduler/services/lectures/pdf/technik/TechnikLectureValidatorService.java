@@ -1,4 +1,4 @@
-package de.gerritstapper.casscheduler.services.lectures.pdf;
+package de.gerritstapper.casscheduler.services.lectures.pdf.technik;
 
 import de.gerritstapper.casscheduler.models.enums.RegexPatterns;
 import de.gerritstapper.casscheduler.models.lecture.Lecture;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Log4j2
-public class LectureValidatorService {
+public class TechnikLectureValidatorService {
 
     /**
      * checks if a given lecture fulfills the quality standards and is thus valid

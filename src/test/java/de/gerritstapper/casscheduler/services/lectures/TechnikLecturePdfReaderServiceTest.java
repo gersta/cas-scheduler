@@ -1,10 +1,10 @@
 package de.gerritstapper.casscheduler.services.lectures;
 
 import de.gerritstapper.casscheduler.models.lecture.Lecture;
-import de.gerritstapper.casscheduler.services.lectures.pdf.InputDataCleansingService;
-import de.gerritstapper.casscheduler.services.lectures.pdf.LectureFieldExtractorService;
-import de.gerritstapper.casscheduler.services.lectures.pdf.LecturePdfReaderService;
-import de.gerritstapper.casscheduler.services.lectures.pdf.LectureValidatorService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.technik.TechnikInputDataCleansingService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.technik.TechnikLectureFieldExtractorService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.technik.TechnikLecturePdfReaderService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.technik.TechnikLectureValidatorService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,9 +16,9 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class LecturePdfReaderServiceTest {
+public class TechnikLecturePdfReaderServiceTest {
 
-    private static LecturePdfReaderService service;
+    private static TechnikLecturePdfReaderService service;
     
     private static final String FILENAME = "M_T_Test_All_Pages.pdf";
     private static final Double LINE_HEIGHT = 2.0;
@@ -26,10 +26,10 @@ public class LecturePdfReaderServiceTest {
 
     @BeforeEach
     void beforeEach() throws IOException {
-        service = new LecturePdfReaderService(
-            new LectureValidatorService(),
-            new LectureFieldExtractorService(),
-            new InputDataCleansingService(),
+        service = new TechnikLecturePdfReaderService(
+            new TechnikLectureValidatorService(),
+            new TechnikLectureFieldExtractorService(),
+            new TechnikInputDataCleansingService(),
             FILENAME,
             LINE_HEIGHT,
             MINIMAL_Y_OFFSET

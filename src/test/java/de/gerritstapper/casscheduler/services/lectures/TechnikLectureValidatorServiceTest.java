@@ -1,10 +1,10 @@
 package de.gerritstapper.casscheduler.services.lectures;
 
 import de.gerritstapper.casscheduler.models.lecture.Lecture;
-import de.gerritstapper.casscheduler.services.lectures.pdf.LectureFieldExtractorService;
-import de.gerritstapper.casscheduler.services.lectures.pdf.InputDataCleansingService;
-import de.gerritstapper.casscheduler.services.lectures.pdf.LecturePdfReaderService;
-import de.gerritstapper.casscheduler.services.lectures.pdf.LectureValidatorService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.technik.TechnikLectureFieldExtractorService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.technik.TechnikInputDataCleansingService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.technik.TechnikLecturePdfReaderService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.technik.TechnikLectureValidatorService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class LectureValidatorServiceTest {
+public class TechnikLectureValidatorServiceTest {
 
     private static List<Lecture> lectures;
 
@@ -26,10 +26,10 @@ public class LectureValidatorServiceTest {
 
     @BeforeAll
     static void beforeAll() throws IOException {
-        LecturePdfReaderService service = new LecturePdfReaderService(
-                new LectureValidatorService(),
-                new LectureFieldExtractorService(),
-                new InputDataCleansingService(),
+        TechnikLecturePdfReaderService service = new TechnikLecturePdfReaderService(
+                new TechnikLectureValidatorService(),
+                new TechnikLectureFieldExtractorService(),
+                new TechnikInputDataCleansingService(),
                 FILENAME,
                 LINE_HEIGHT,
                 MINIMAL_Y_OFFSET

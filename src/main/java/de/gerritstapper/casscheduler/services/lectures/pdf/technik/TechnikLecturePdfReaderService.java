@@ -1,4 +1,4 @@
-package de.gerritstapper.casscheduler.services.lectures.pdf;
+package de.gerritstapper.casscheduler.services.lectures.pdf.technik;
 
 import static de.gerritstapper.casscheduler.util.MillimeterUtil.mmToUnits;
 
@@ -27,12 +27,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Log4j2
-public class LecturePdfReaderService {
+public class TechnikLecturePdfReaderService {
 
     // DEPENDENCIES
-    private final LectureValidatorService lectureValidatorService;
-    private final LectureFieldExtractorService lectureFieldExtractorService;
-    private final InputDataCleansingService inputDataCleansingService;
+    private final TechnikLectureValidatorService technikLectureValidatorService;
+    private final TechnikLectureFieldExtractorService technikLectureFieldExtractorService;
+    private final TechnikInputDataCleansingService technikInputDataCleansingService;
 
     // CONFIGURATION
     private final double LINE_HEIGHT;
@@ -42,17 +42,17 @@ public class LecturePdfReaderService {
     private final PDFTextStripperByArea stripper;
     private final PDDocument document;
     
-    public LecturePdfReaderService(
-            final LectureValidatorService lectureValidatorService,
-            final LectureFieldExtractorService lectureFieldExtractorService,
-            final InputDataCleansingService inputDataCleansingService,
+    public TechnikLecturePdfReaderService(
+            final TechnikLectureValidatorService technikLectureValidatorService,
+            final TechnikLectureFieldExtractorService technikLectureFieldExtractorService,
+            final TechnikInputDataCleansingService technikInputDataCleansingService,
             @Value("${cas-scheduler.lectures.pdf.filename}") String filename,
             @Value("${cas-scheduler.lectures.pdf.line-height}") Double lineHeight,
             @Value("${cas-scheduler.lectures.pdf.minimal-y-offset}") Integer minimalYOffset
     ) throws IOException {
-        this.lectureValidatorService = lectureValidatorService;
-        this.lectureFieldExtractorService = lectureFieldExtractorService;
-        this.inputDataCleansingService = inputDataCleansingService;
+        this.technikLectureValidatorService = technikLectureValidatorService;
+        this.technikLectureFieldExtractorService = technikLectureFieldExtractorService;
+        this.technikInputDataCleansingService = technikInputDataCleansingService;
         
         // CONFIGURATION
         this.LINE_HEIGHT = lineHeight;
@@ -113,7 +113,7 @@ public class LecturePdfReaderService {
 
         List<Lecture> lectures = IntStream.range(MINIMAL_Y_OFFSET, 600)
                 .mapToObj(step -> readNextRow(page, step))
-                .filter(lectureValidatorService::isValid)
+                .filter(technikLectureValidatorService::isValid)
                 .collect(Collectors.toList());
 
         log.trace("Read {} valid lectures from page {}", lectures.size(), page);
@@ -140,7 +140,7 @@ public class LecturePdfReaderService {
         }
 
         String content = extractText();
-        content = inputDataCleansingService.cleanse(content);
+        content = technikInputDataCleansingService.cleanse(content);
 
         String id = get(PdfColumns.ID, content);
         String name = get(PdfColumns.NAME, content);
@@ -212,14 +212,14 @@ public class LecturePdfReaderService {
         log.trace("get(): {}, {}", column, content);
 
         return switch (column) {
-            case ID -> lectureFieldExtractorService.getId(content);
-            case NAME -> lectureFieldExtractorService.getName(content);
-            case START_ONE -> lectureFieldExtractorService.getStartOne(content);
-            case START_TWO -> lectureFieldExtractorService.getStartTwo(content);
-            case END_ONE -> lectureFieldExtractorService.getEndOne(content);
-            case END_TWO -> lectureFieldExtractorService.getEndTwo(content);
-            case PLACE_ONE -> lectureFieldExtractorService.getPlaceOne(content);
-            case PLACE_TWO -> lectureFieldExtractorService.getPlaceTwo(content);
+            case ID -> technikLectureFieldExtractorService.getId(content);
+            case NAME -> technikLectureFieldExtractorService.getName(content);
+            case START_ONE -> technikLectureFieldExtractorService.getStartOne(content);
+            case START_TWO -> technikLectureFieldExtractorService.getStartTwo(content);
+            case END_ONE -> technikLectureFieldExtractorService.getEndOne(content);
+            case END_TWO -> technikLectureFieldExtractorService.getEndTwo(content);
+            case PLACE_ONE -> technikLectureFieldExtractorService.getPlaceOne(content);
+            case PLACE_TWO -> technikLectureFieldExtractorService.getPlaceTwo(content);
             default -> content;
         };
     }

@@ -1,11 +1,11 @@
-package de.gerritstapper.casscheduler.services.lectures.pdf;
+package de.gerritstapper.casscheduler.services.lectures.pdf.technik;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 @Service
 @Log4j2
-public class InputDataCleansingService {
+public class TechnikInputDataCleansingService {
 
     /**
      * try to cleanse the data from any typos, missing characters and others
