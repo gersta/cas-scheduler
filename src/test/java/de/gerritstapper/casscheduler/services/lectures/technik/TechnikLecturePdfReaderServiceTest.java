@@ -36,11 +36,6 @@ public class TechnikLecturePdfReaderServiceTest {
         );
     }
 
-    @AfterEach
-    void afterEach() throws IOException {
-        service.removeRegions();
-    }
-
     @Test
     public void shouldReturn57LectureObjectsForPageOne() throws IOException {
         // create another local copy to not overwrite the global list

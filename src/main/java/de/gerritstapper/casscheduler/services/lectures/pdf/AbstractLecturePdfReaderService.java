@@ -65,5 +65,5 @@ public abstract class AbstractLecturePdfReaderService {
         document.close();
     }
 
-    public abstract List<Lecture> processPage(PDPage page);
+    protected abstract List<Lecture> processPage(PDPage page);
 }

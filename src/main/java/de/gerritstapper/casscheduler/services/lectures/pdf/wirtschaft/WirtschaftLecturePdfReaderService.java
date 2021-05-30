@@ -22,7 +22,7 @@ public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderS
     }
 
     @Override
-    public List<Lecture> processPage(PDPage page) {
+    protected List<Lecture> processPage(PDPage page) {
         return null;
     }
 }

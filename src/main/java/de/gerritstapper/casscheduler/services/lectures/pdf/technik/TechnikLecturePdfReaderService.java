@@ -95,7 +95,7 @@ public class TechnikLecturePdfReaderService extends AbstractLecturePdfReaderServ
      * @param page: pdf page from the given pdf document
      * @return: list of valid {@link Lecture} instances scraped from the given pdf page
      */
-    public List<Lecture> processPage(PDPage page) {
+    protected List<Lecture> processPage(PDPage page) {
         log.trace("processPage(): {}", page);
 
         List<Lecture> lectures = IntStream.range(MINIMAL_Y_OFFSET, 600)
@@ -114,7 +114,7 @@ public class TechnikLecturePdfReaderService extends AbstractLecturePdfReaderServ
      * @param nextY: the Y coordinate on the page for the next row to read content from
      * @return: returns the instance of {@link Lecture} that was read at the given Y coordinate
      */
-    public Lecture readNextRow(PDPage page, double nextY) {
+    private Lecture readNextRow(PDPage page, double nextY) {
         log.trace("readNextRow(): {}, {}", page, nextY);
 
         addRegions(nextY);
@@ -162,7 +162,7 @@ public class TechnikLecturePdfReaderService extends AbstractLecturePdfReaderServ
      * uses the LINE_HEIGHT specified as a static parameter of the class
      * @param y: the Y coordinate of the row that is about to be extracted from the {@link PDPage}
      */
-    public void addRegions(double y) {
+    private void addRegions(double y) {
         log.trace("addRegions(): {}", y);
 
         // x, y, width, height
@@ -174,7 +174,7 @@ public class TechnikLecturePdfReaderService extends AbstractLecturePdfReaderServ
      * actually read the text for the given region from the {@link PDPage} and remove new lines
      * @return: the content that was scraped from the given region
      */
-    public String extractText() {
+    private String extractText() {
         log.trace("extractText()");
 
         return stripper.getTextForRegion(PdfColumns.ROW.name()).replace("\n", "");
@@ -183,7 +183,7 @@ public class TechnikLecturePdfReaderService extends AbstractLecturePdfReaderServ
     /**
      * reset the stripper by removing all associated regions
      */
-    public void removeRegions() {
+    private void removeRegions() {
         log.info("removeRegions()");
 
         stripper.removeRegion(PdfColumns.ROW.name());
@@ -195,7 +195,7 @@ public class TechnikLecturePdfReaderService extends AbstractLecturePdfReaderServ
      * @param content: the value for the given column
      * @return
      */
-    public String get(PdfColumns column, String content) {
+    private String get(PdfColumns column, String content) {
         log.trace("get(): {}, {}", column, content);
 
         return switch (column) {

@@ -35,8 +35,6 @@ public class TechnikLectureValidatorServiceTest {
                 MINIMAL_Y_OFFSET
         );
         lectures = service.extractLectures(null);
-
-        service.removeRegions();
     }
 
     @Test
