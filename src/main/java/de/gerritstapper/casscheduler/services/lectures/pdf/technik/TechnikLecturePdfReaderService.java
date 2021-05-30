@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.StreamSupport;
 
+import de.gerritstapper.casscheduler.services.lectures.pdf.AbstractLecturePdfReaderService;
 import lombok.extern.log4j.Log4j2;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -27,7 +28,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Log4j2
-public class TechnikLecturePdfReaderService {
+public class TechnikLecturePdfReaderService extends AbstractLecturePdfReaderService {
 
     // DEPENDENCIES
     private final TechnikLectureValidatorService technikLectureValidatorService;
@@ -40,7 +41,6 @@ public class TechnikLecturePdfReaderService {
 
     // STATE
     private final PDFTextStripperByArea stripper;
-    private final PDDocument document;
     
     public TechnikLecturePdfReaderService(
             final TechnikLectureValidatorService technikLectureValidatorService,
@@ -50,6 +50,8 @@ public class TechnikLecturePdfReaderService {
             @Value("${cas-scheduler.lectures.pdf.line-height}") Double lineHeight,
             @Value("${cas-scheduler.lectures.pdf.minimal-y-offset}") Integer minimalYOffset
     ) throws IOException {
+        super(filename);
+
         this.technikLectureValidatorService = technikLectureValidatorService;
         this.technikLectureFieldExtractorService = technikLectureFieldExtractorService;
         this.technikInputDataCleansingService = technikInputDataCleansingService;
@@ -61,8 +63,6 @@ public class TechnikLecturePdfReaderService {
         // STATE 
         stripper = new PDFTextStripperByArea();
         stripper.setSortByPosition(true);
-
-        document = getDocument(filename);
     }
 
     /**
@@ -87,19 +87,6 @@ public class TechnikLecturePdfReaderService {
         closeDocument();
 
         return lectures;
-    }
-
-    /**
-     * reads the pdf document from the classpath
-     * @param filename: the name of the pdf document to scrape
-     * @return: an instance of {@link PDDocument} wrapping the pdf document
-     * @throws IOException
-     */
-    private PDDocument getDocument(String filename) throws IOException {
-        log.info("getDocument(): {}", filename);
-
-        String filePath = Objects.requireNonNull(getClass().getClassLoader().getResource(filename)).getFile();
-        return PDDocument.load(new File(filePath));
     }
 
     /**
@@ -222,11 +209,5 @@ public class TechnikLecturePdfReaderService {
             case PLACE_TWO -> technikLectureFieldExtractorService.getPlaceTwo(content);
             default -> content;
         };
-    }
-
-    public void closeDocument() throws IOException {
-        log.info("closeDocument()");
-
-        document.close();
     }
 }

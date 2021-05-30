@@ -1,4 +1,4 @@
-package de.gerritstapper.casscheduler.services.lectures;
+package de.gerritstapper.casscheduler.services.lectures.technik;
 
 import de.gerritstapper.casscheduler.models.lecture.Lecture;
 import de.gerritstapper.casscheduler.services.lectures.pdf.technik.TechnikInputDataCleansingService;
@@ -20,7 +20,7 @@ public class TechnikLecturePdfReaderServiceTest {
 
     private static TechnikLecturePdfReaderService service;
     
-    private static final String FILENAME = "M_T_Test_All_Pages.pdf";
+    private static final String FILENAME = "M_T_Lecture_All_Pages.pdf";
     private static final Double LINE_HEIGHT = 2.0;
     private static final Integer MINIMAL_Y_OFFSET = 55;
 
@@ -39,7 +39,6 @@ public class TechnikLecturePdfReaderServiceTest {
     @AfterEach
     void afterEach() throws IOException {
         service.removeRegions();
-        service.closeDocument();
     }
 
     @Test

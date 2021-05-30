@@ -1,4 +1,4 @@
-package de.gerritstapper.casscheduler.services.lectures;
+package de.gerritstapper.casscheduler.services.lectures.technik;
 
 import de.gerritstapper.casscheduler.models.lecture.Lecture;
 import de.gerritstapper.casscheduler.services.lectures.pdf.technik.TechnikLectureFieldExtractorService;
@@ -20,7 +20,7 @@ public class TechnikLectureValidatorServiceTest {
 
     private static List<Lecture> lectures;
 
-    private static final String FILENAME = "M_T_Test_All_Pages.pdf";
+    private static final String FILENAME = "M_T_Lecture_All_Pages.pdf";
     private static final Double LINE_HEIGHT = 2.0;
     private static final Integer MINIMAL_Y_OFFSET = 55;
 
@@ -37,7 +37,6 @@ public class TechnikLectureValidatorServiceTest {
         lectures = service.extractLectures(null);
 
         service.removeRegions();
-        service.closeDocument();
     }
 
     @Test
