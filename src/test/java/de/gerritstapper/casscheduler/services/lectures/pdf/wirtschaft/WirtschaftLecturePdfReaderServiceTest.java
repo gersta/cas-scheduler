@@ -16,10 +16,14 @@ class WirtschaftLecturePdfReaderServiceTest {
 
     @BeforeEach
     void beforeEach() throws IOException {
-        pdfReaderService = new WirtschaftLecturePdfReaderService("M_W_Lecture_All_Pages.pdf");
+        pdfReaderService = new WirtschaftLecturePdfReaderService(
+                "M_W_Lecture_All_Pages.pdf",
+                55,
+                2.0
+        );
     }
 
-    @Disabled
+    @Test
     void shouldReadAllLecturesFromPdf() throws IOException {
         List<Lecture> result = pdfReaderService.extractLectures(null);
 
