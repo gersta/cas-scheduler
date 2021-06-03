@@ -19,17 +19,21 @@ import static de.gerritstapper.casscheduler.util.MillimeterUtil.mmToUnits;
 @Log4j2
 public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderService {
 
+    private final WirtschaftLectureFieldExtractorService fieldExtractorService;
+
     private final PDFTextStripperByArea stripper;
 
     private final int MINIMAL_Y_OFFSET;
     private final double LINE_HEIGHT;
 
     public WirtschaftLecturePdfReaderService(
+            WirtschaftLectureFieldExtractorService fieldExtractorService,
             String filename,
             int minimalYOffset,
             double lineHeight
     ) throws IOException {
         super(filename);
+        this.fieldExtractorService = fieldExtractorService;
 
         this.stripper = new PDFTextStripperByArea();
         stripper.setSortByPosition(true);
@@ -55,16 +59,16 @@ public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderS
             e.printStackTrace();
         }
 
-        String id = extractId();
-        String name = extractName();
+        String id = extractContent(PdfColumns.ID);
+        String name = extractContent(PdfColumns.NAME);
 
-        String startOne = extractStartOne();
-        String endOne = extractEndOne();
-        String placeOne = extractPlaceOne();
+        String startOne = extractContent(PdfColumns.START_ONE);
+        String endOne = extractContent(PdfColumns.END_ONE);
+        String placeOne = extractContent(PdfColumns.PLACE_ONE);
 
-        String startTwo = extractStartTwo();
-        String endTwo = extractEndTwo();
-        String placeTwo = extractPlaceTwo();
+        String startTwo = extractContent(PdfColumns.START_TWO);
+        String endTwo = extractContent(PdfColumns.END_TWO);
+        String placeTwo = extractContent(PdfColumns.PLACE_TWO);
 
         return Lecture.builder()
                 .lectureCode(id)
@@ -154,40 +158,20 @@ public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderS
         stripper.addRegion(PdfColumns.PLACE_TWO.name(), secondBlockPlace);
     }
 
-    private String extractId() {
-        return extractText(PdfColumns.ID);
+    private String extractContent(PdfColumns column) {
+        String content = stripContent(column);
+
+        return switch (column) {
+            case ID -> fieldExtractorService.getId(content);
+            case NAME -> fieldExtractorService.getName(content);
+            case START_ONE, START_TWO -> fieldExtractorService.getStart(content);
+            case END_ONE, END_TWO -> fieldExtractorService.getEnd(content);
+            case PLACE_ONE, PLACE_TWO -> fieldExtractorService.getLocation(content);
+            default -> content;
+        };
     }
 
-    private String extractName() {
-        return extractText(PdfColumns.NAME);
-    }
-
-    private String extractStartOne() {
-        return extractText(PdfColumns.START_ONE);
-    }
-
-    private String extractEndOne() {
-        return extractText(PdfColumns.END_ONE);
-    }
-
-    private String extractPlaceOne() {
-        return extractText(PdfColumns.PLACE_ONE);
-    }
-
-    private String extractStartTwo() {
-        return extractText(PdfColumns.START_TWO);
-    }
-
-    private String extractEndTwo() {
-        return extractText(PdfColumns.END_TWO);
-    }
-
-    private String extractPlaceTwo() {
-        return extractText(PdfColumns.PLACE_TWO);
-    }
-
-
-    private String extractText(PdfColumns column) {
+    private String stripContent(PdfColumns column) {
         log.trace("extractText(): {}", column);
 
         return stripper.getTextForRegion(column.name()).replace("\n", "");

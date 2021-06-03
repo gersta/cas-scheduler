@@ -17,6 +17,7 @@ class WirtschaftLecturePdfReaderServiceTest {
     @BeforeEach
     void beforeEach() throws IOException {
         pdfReaderService = new WirtschaftLecturePdfReaderService(
+                new WirtschaftLectureFieldExtractorService(),
                 "M_W_Lecture_All_Pages.pdf",
                 55,
                 2.0
@@ -26,6 +27,8 @@ class WirtschaftLecturePdfReaderServiceTest {
     @Test
     void shouldReadAllLecturesFromPdf() throws IOException {
         List<Lecture> result = pdfReaderService.extractLectures(null);
+
+        result.forEach(System.out::println);
 
         assertEquals(188, result.size());
     }
