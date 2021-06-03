@@ -64,21 +64,21 @@ public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderS
 
         String startOne = extractContent(PdfColumns.START_ONE);
         String endOne = extractContent(PdfColumns.END_ONE);
-        String placeOne = extractContent(PdfColumns.PLACE_ONE);
+        String locationOne = extractContent(PdfColumns.LOCATION_ONE);
 
         String startTwo = extractContent(PdfColumns.START_TWO);
         String endTwo = extractContent(PdfColumns.END_TWO);
-        String placeTwo = extractContent(PdfColumns.PLACE_TWO);
+        String locationTwo = extractContent(PdfColumns.LOCATION_TWO);
 
         return Lecture.builder()
                 .lectureCode(id)
                 .name(name)
                 .startOne(startOne)
                 .endOne(endOne)
-                .locationOne(placeOne)
+                .locationOne(locationOne)
                 .startTwo(startTwo)
                 .endTwo(endTwo)
-                .locationTwo(placeTwo)
+                .locationTwo(locationTwo)
                 .build();
     }
 
@@ -119,9 +119,9 @@ public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderS
         );
 
         Rectangle2D firstBlockPlace = new Rectangle2D.Double(
-                LecturePdfDimensions.FIRST_BLOCK_PLCAE.getX(),
+                LecturePdfDimensions.FIRST_BLOCK_LOCATION.getX(),
                 mmToUnits(y),
-                LecturePdfDimensions.FIRST_BLOCK_PLCAE.getWidth(),
+                LecturePdfDimensions.FIRST_BLOCK_LOCATION.getWidth(),
                 mmToUnits(LINE_HEIGHT)
         );
 
@@ -140,9 +140,9 @@ public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderS
         );
 
         Rectangle2D secondBlockPlace = new Rectangle2D.Double(
-                LecturePdfDimensions.SECOND_BLOCK_PLACE.getX(),
+                LecturePdfDimensions.SECOND_BLOCK_LOCATION.getX(),
                 mmToUnits(y),
-                LecturePdfDimensions.SECOND_BLOCK_PLACE.getWidth(),
+                LecturePdfDimensions.SECOND_BLOCK_LOCATION.getWidth(),
                 mmToUnits(LINE_HEIGHT)
         );
 
@@ -151,11 +151,11 @@ public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderS
 
         stripper.addRegion(PdfColumns.START_ONE.name(), firstBlockStart);
         stripper.addRegion(PdfColumns.END_ONE.name(), firstBlockEnd);
-        stripper.addRegion(PdfColumns.PLACE_ONE.name(), firstBlockPlace);
+        stripper.addRegion(PdfColumns.LOCATION_ONE.name(), firstBlockPlace);
 
         stripper.addRegion(PdfColumns.START_TWO.name(), secondBlockStart);
         stripper.addRegion(PdfColumns.END_TWO.name(), secondBlockEnd);
-        stripper.addRegion(PdfColumns.PLACE_TWO.name(), secondBlockPlace);
+        stripper.addRegion(PdfColumns.LOCATION_TWO.name(), secondBlockPlace);
     }
 
     private String extractContent(PdfColumns column) {
@@ -166,7 +166,7 @@ public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderS
             case NAME -> fieldExtractorService.getName(content);
             case START_ONE, START_TWO -> fieldExtractorService.getStart(content);
             case END_ONE, END_TWO -> fieldExtractorService.getEnd(content);
-            case PLACE_ONE, PLACE_TWO -> fieldExtractorService.getLocation(content);
+            case LOCATION_ONE, LOCATION_TWO -> fieldExtractorService.getLocation(content);
             default -> content;
         };
     }

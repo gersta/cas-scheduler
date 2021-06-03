@@ -96,23 +96,23 @@ public class TechnikLectureFieldExtractorService {
         return get(content, LectureRegexPatterns.END.getPattern(), position).replace("-", "").strip();
     }
 
-    public String getPlaceOne(String content) {
-        log.trace("getPlaceOne(): {}", content);
+    public String getLocationOne(String content) {
+        log.trace("getLocationOne(): {}", content);
 
-        return getPlace(content, 1);
+        return getLocation(content, 1);
     }
 
-    public String getPlaceTwo(String content) {
-        log.trace("getPlaceTwo(): {}", content);
+    public String getLocationTwo(String content) {
+        log.trace("getLocationTwo(): {}", content);
 
-        return getPlace(content, 2);
+        return getLocation(content, 2);
     }
 
-    private String getPlace(String content, int position) {
-        log.trace("getPlace(): {}, {}", content, position);
+    private String getLocation(String content, int position) {
+        log.trace("getLocation(): {}, {}", content, position);
 
         content = replaceGermanOe(content);
-        return get(content, LectureRegexPatterns.PLACE.getPattern(), position).replace("(", "").replace(")", "");
+        return get(content, LectureRegexPatterns.LOCATION.getPattern(), position).replace("(", "").replace(")", "");
     }
 
     private String replaceGermanOe(String input) {

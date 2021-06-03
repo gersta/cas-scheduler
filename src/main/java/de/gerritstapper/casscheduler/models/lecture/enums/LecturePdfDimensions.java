@@ -14,10 +14,10 @@ public enum LecturePdfDimensions {
     NAME(75, 225),
     FIRST_BLOCK_START(305, 20),
     FIRST_BLOCK_END(330, 30),
-    FIRST_BLOCK_PLCAE(360, 20),
+    FIRST_BLOCK_LOCATION(360, 20),
     SECOND_BLOCK_START(400, 15),
     SECOND_BLOCK_END(425, 30),
-    SECOND_BLOCK_PLACE(455, 470);
+    SECOND_BLOCK_LOCATION(455, 470);
 
     private final int x;
     private final int width;

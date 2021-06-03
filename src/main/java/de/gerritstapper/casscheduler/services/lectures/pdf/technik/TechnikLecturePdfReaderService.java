@@ -3,18 +3,15 @@ package de.gerritstapper.casscheduler.services.lectures.pdf.technik;
 import static de.gerritstapper.casscheduler.util.MillimeterUtil.mmToUnits;
 
 import java.awt.geom.Rectangle2D;
-import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.StreamSupport;
 
 import de.gerritstapper.casscheduler.services.lectures.pdf.AbstractLecturePdfReaderService;
 import lombok.extern.log4j.Log4j2;
-import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
 
@@ -134,11 +131,11 @@ public class TechnikLecturePdfReaderService extends AbstractLecturePdfReaderServ
 
         String startOne = get(PdfColumns.START_ONE, content);
         String endOne = get(PdfColumns.END_ONE, content);
-        String placeOne = get(PdfColumns.PLACE_ONE, content);
+        String placeOne = get(PdfColumns.LOCATION_ONE, content);
 
         String startTwo = get(PdfColumns.START_TWO, content);
         String endTwo = get(PdfColumns.END_TWO, content);
-        String placeTwo = get(PdfColumns.PLACE_TWO, content);
+        String placeTwo = get(PdfColumns.LOCATION_TWO, content);
 
         Lecture lecture = Lecture.builder()
                 .lectureCode(id)
@@ -205,8 +202,8 @@ public class TechnikLecturePdfReaderService extends AbstractLecturePdfReaderServ
             case START_TWO -> technikLectureFieldExtractorService.getStartTwo(content);
             case END_ONE -> technikLectureFieldExtractorService.getEndOne(content);
             case END_TWO -> technikLectureFieldExtractorService.getEndTwo(content);
-            case PLACE_ONE -> technikLectureFieldExtractorService.getPlaceOne(content);
-            case PLACE_TWO -> technikLectureFieldExtractorService.getPlaceTwo(content);
+            case LOCATION_ONE -> technikLectureFieldExtractorService.getLocationOne(content);
+            case LOCATION_TWO -> technikLectureFieldExtractorService.getLocationTwo(content);
             default -> content;
         };
     }

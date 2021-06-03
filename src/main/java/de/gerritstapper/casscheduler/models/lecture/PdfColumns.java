@@ -5,9 +5,9 @@ public enum PdfColumns {
     NAME,
     START_ONE,
     END_ONE,
-    PLACE_ONE,
+    LOCATION_ONE,
     START_TWO,
     END_TWO,
-    PLACE_TWO,
+    LOCATION_TWO,
     ROW // instead of a single column, take the entire row
 }
