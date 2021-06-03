@@ -2,6 +2,7 @@ package de.gerritstapper.casscheduler.services.lectures.pdf.wirtschaft;
 
 import de.gerritstapper.casscheduler.models.lecture.Lecture;
 import de.gerritstapper.casscheduler.models.lecture.PdfColumns;
+import de.gerritstapper.casscheduler.models.lecture.enums.LecturePdfDimensions;
 import de.gerritstapper.casscheduler.services.lectures.pdf.AbstractLecturePdfReaderService;
 import lombok.extern.log4j.Log4j2;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -54,11 +55,26 @@ public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderS
             e.printStackTrace();
         }
 
-        String content = extractText();
-        System.out.println(content);
+        String id = extractId();
+        String name = extractName();
+
+        String startOne = extractStartOne();
+        String endOne = extractEndOne();
+        String placeOne = extractPlaceOne();
+
+        String startTwo = extractStartTwo();
+        String endTwo = extractEndTwo();
+        String placeTwo = extractPlaceTwo();
 
         return Lecture.builder()
-                .lectureCode(content)
+                .lectureCode(id)
+                .name(name)
+                .startOne(startOne)
+                .endOne(endOne)
+                .locationOne(placeOne)
+                .startTwo(startTwo)
+                .endTwo(endTwo)
+                .locationTwo(placeTwo)
                 .build();
     }
 
@@ -70,18 +86,110 @@ public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderS
     private void addRegions(double y) {
         log.trace("addRegions(): {}", y);
 
-        // x, y, width, height
-        Rectangle2D row = new Rectangle2D.Double(mmToUnits(15), mmToUnits(y), mmToUnits(210), mmToUnits(LINE_HEIGHT));
-        stripper.addRegion(PdfColumns.ROW.name(), row);
+        Rectangle2D id = new Rectangle2D.Double(
+                LecturePdfDimensions.ID.getX(),
+                mmToUnits(y),
+                LecturePdfDimensions.ID.getWidth(),
+                mmToUnits(LINE_HEIGHT)
+        );
+
+        Rectangle2D name = new Rectangle2D.Double(
+                LecturePdfDimensions.NAME.getX(),
+                mmToUnits(y),
+                LecturePdfDimensions.NAME.getWidth(),
+                mmToUnits(LINE_HEIGHT)
+        );
+
+        Rectangle2D firstBlockStart = new Rectangle2D.Double(
+                LecturePdfDimensions.FIRST_BLOCK_START.getX(),
+                mmToUnits(y),
+                LecturePdfDimensions.FIRST_BLOCK_START.getWidth(),
+                mmToUnits(LINE_HEIGHT)
+        );
+
+        Rectangle2D firstBlockEnd = new Rectangle2D.Double(
+                LecturePdfDimensions.FIRST_BLOCK_END.getX(),
+                mmToUnits(y),
+                LecturePdfDimensions.FIRST_BLOCK_END.getWidth(),
+                mmToUnits(LINE_HEIGHT)
+        );
+
+        Rectangle2D firstBlockPlace = new Rectangle2D.Double(
+                LecturePdfDimensions.FIRST_BLOCK_PLCAE.getX(),
+                mmToUnits(y),
+                LecturePdfDimensions.FIRST_BLOCK_PLCAE.getWidth(),
+                mmToUnits(LINE_HEIGHT)
+        );
+
+        Rectangle2D secondBlockStart = new Rectangle2D.Double(
+                LecturePdfDimensions.SECOND_BLOCK_START.getX(),
+                mmToUnits(y),
+                LecturePdfDimensions.SECOND_BLOCK_START.getWidth(),
+                mmToUnits(LINE_HEIGHT)
+        );
+
+        Rectangle2D secondBlockEnd = new Rectangle2D.Double(
+                LecturePdfDimensions.SECOND_BLOCK_END.getX(),
+                mmToUnits(y),
+                LecturePdfDimensions.SECOND_BLOCK_END.getWidth(),
+                mmToUnits(LINE_HEIGHT)
+        );
+
+        Rectangle2D secondBlockPlace = new Rectangle2D.Double(
+                LecturePdfDimensions.SECOND_BLOCK_PLACE.getX(),
+                mmToUnits(y),
+                LecturePdfDimensions.SECOND_BLOCK_PLACE.getWidth(),
+                mmToUnits(LINE_HEIGHT)
+        );
+
+        stripper.addRegion(PdfColumns.ID.name(), id);
+        stripper.addRegion(PdfColumns.NAME.name(), name);
+
+        stripper.addRegion(PdfColumns.START_ONE.name(), firstBlockStart);
+        stripper.addRegion(PdfColumns.END_ONE.name(), firstBlockEnd);
+        stripper.addRegion(PdfColumns.PLACE_ONE.name(), firstBlockPlace);
+
+        stripper.addRegion(PdfColumns.START_TWO.name(), secondBlockStart);
+        stripper.addRegion(PdfColumns.END_TWO.name(), secondBlockEnd);
+        stripper.addRegion(PdfColumns.PLACE_TWO.name(), secondBlockPlace);
     }
 
-    /**
-     * actually read the text for the given region from the {@link PDPage} and remove new lines
-     * @return: the content that was scraped from the given region
-     */
-    private String extractText() {
-        log.trace("extractText()");
+    private String extractId() {
+        return extractText(PdfColumns.ID);
+    }
 
-        return stripper.getTextForRegion(PdfColumns.ROW.name()).replace("\n", "");
+    private String extractName() {
+        return extractText(PdfColumns.NAME);
+    }
+
+    private String extractStartOne() {
+        return extractText(PdfColumns.START_ONE);
+    }
+
+    private String extractEndOne() {
+        return extractText(PdfColumns.END_ONE);
+    }
+
+    private String extractPlaceOne() {
+        return extractText(PdfColumns.PLACE_ONE);
+    }
+
+    private String extractStartTwo() {
+        return extractText(PdfColumns.START_TWO);
+    }
+
+    private String extractEndTwo() {
+        return extractText(PdfColumns.END_TWO);
+    }
+
+    private String extractPlaceTwo() {
+        return extractText(PdfColumns.PLACE_TWO);
+    }
+
+
+    private String extractText(PdfColumns column) {
+        log.trace("extractText(): {}", column);
+
+        return stripper.getTextForRegion(column.name()).replace("\n", "");
     }
 }
