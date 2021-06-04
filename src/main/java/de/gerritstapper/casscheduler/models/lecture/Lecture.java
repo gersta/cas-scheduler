@@ -3,7 +3,7 @@ package de.gerritstapper.casscheduler.models.lecture;
 import lombok.*;
 
 @Data
-@Builder
+@Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
 public class Lecture {

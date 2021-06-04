@@ -26,6 +26,8 @@ public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderS
     private final int MINIMAL_Y_OFFSET;
     private final double LINE_HEIGHT;
 
+    private Lecture lastLecture;
+
     public WirtschaftLecturePdfReaderService(
             WirtschaftLectureFieldExtractorService fieldExtractorService,
             String filename,
@@ -70,7 +72,18 @@ public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderS
         String endTwo = extractContent(PdfColumns.END_TWO);
         String locationTwo = extractContent(PdfColumns.LOCATION_TWO);
 
-        return Lecture.builder()
+        if ( isAdditionalBlock(name) ) {
+            return lastLecture.toBuilder()
+                    .startOne(startOne)
+                    .endOne(endOne)
+                    .locationOne(locationOne)
+                    .startTwo(startTwo)
+                    .endTwo(endTwo)
+                    .locationTwo(locationTwo)
+                    .build();
+        }
+
+        Lecture lecture = Lecture.builder()
                 .lectureCode(id)
                 .name(name)
                 .startOne(startOne)
@@ -80,6 +93,14 @@ public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderS
                 .endTwo(endTwo)
                 .locationTwo(locationTwo)
                 .build();
+
+        log.trace("Extracted lecture: {}", lecture);
+
+        if ( id.startsWith("W3M") ) {
+            lastLecture = lecture;
+        }
+
+        return lecture;
     }
 
     /**
@@ -175,5 +196,9 @@ public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderS
         log.trace("extractText(): {}", column);
 
         return stripper.getTextForRegion(column.name()).replace("\n", "");
+    }
+
+    private boolean isAdditionalBlock(String name) {
+        return name.contains("weiterer Termin");
     }
 }
