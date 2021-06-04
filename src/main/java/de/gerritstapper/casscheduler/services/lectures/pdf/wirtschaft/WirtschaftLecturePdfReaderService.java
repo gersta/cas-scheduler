@@ -19,23 +19,25 @@ import static de.gerritstapper.casscheduler.util.MillimeterUtil.mmToUnits;
 @Log4j2
 public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderService {
 
-    private final WirtschaftLectureFieldExtractorService fieldExtractorService;
-
-    private final PDFTextStripperByArea stripper;
-
     private final int MINIMAL_Y_OFFSET;
     private final double LINE_HEIGHT;
+
+    private final WirtschaftLectureFieldExtractorService fieldExtractorService;
+    private final WirtschaftLectureValidationService validationService;
+
+    private final PDFTextStripperByArea stripper;
 
     private Lecture lastLecture;
 
     public WirtschaftLecturePdfReaderService(
             WirtschaftLectureFieldExtractorService fieldExtractorService,
-            String filename,
+            WirtschaftLectureValidationService validationService, String filename,
             int minimalYOffset,
             double lineHeight
     ) throws IOException {
         super(filename);
         this.fieldExtractorService = fieldExtractorService;
+        this.validationService = validationService;
 
         this.stripper = new PDFTextStripperByArea();
         stripper.setSortByPosition(true);
@@ -46,9 +48,9 @@ public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderS
 
     @Override
     protected List<Lecture> processPage(PDPage page) {
-        return IntStream.range(MINIMAL_Y_OFFSET, 600)
+        return IntStream.range(MINIMAL_Y_OFFSET, 750)
                 .mapToObj(step -> readNextRow(page, step))
-                .filter(lecture -> lecture.getLectureCode().contains("W3M")) // filter all the information lines
+                .filter(validationService::isValid)
                 .collect(Collectors.toList());
     }
 
@@ -199,6 +201,6 @@ public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderS
     }
 
     private boolean isAdditionalBlock(String name) {
-        return name.contains("weiterer Termin");
+        return name.contains("weiterer Termin") || name.contains("weitere Termine");
     }
 }
