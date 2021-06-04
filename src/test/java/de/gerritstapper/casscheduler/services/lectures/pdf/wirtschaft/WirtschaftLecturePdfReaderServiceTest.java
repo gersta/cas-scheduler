@@ -19,9 +19,7 @@ class WirtschaftLecturePdfReaderServiceTest {
         pdfReaderService = new WirtschaftLecturePdfReaderService(
                 new WirtschaftLectureFieldExtractorService(),
                 new WirtschaftLectureValidationService(),
-                "M_W_Lecture_All_Pages.pdf",
-                55,
-                2.0
+                "M_W_Lecture_All_Pages.pdf"
         );
     }
 
@@ -32,8 +30,6 @@ class WirtschaftLecturePdfReaderServiceTest {
     @Test
     void shouldReadAllLecturesFromPdfInclAdditionalBlocks() throws IOException {
         List<Lecture> result = pdfReaderService.extractLectures(null);
-
-        result.forEach(System.out::println);
 
         assertEquals(187, result.size());
     }
@@ -48,9 +44,30 @@ class WirtschaftLecturePdfReaderServiceTest {
     void shouldReadAllLecturesInclW3M10001GM1B() throws IOException {
         List<Lecture> result = pdfReaderService.extractLectures(null);
 
+        assertEquals(188, result.size());
+    }
+
+    @Test
+    void shouldRead57LecturesFromPageOne() throws IOException {
+        List<Lecture> result = pdfReaderService.extractLectures(0);
+
+        assertEquals(56, result.size());
+    }
+
+    @Test
+    void shouldRead67LecturesFromPageTwo() throws IOException {
+        List<Lecture> result = pdfReaderService.extractLectures(1);
+
         result.forEach(System.out::println);
 
-        assertEquals(188, result.size());
+        assertEquals(67, result.size());
+    }
+
+    @Test
+    void shouldRead64LecturesFromPageThree() throws IOException {
+        List<Lecture> result = pdfReaderService.extractLectures(2);
+
+        assertEquals(64, result.size());
     }
 
 }

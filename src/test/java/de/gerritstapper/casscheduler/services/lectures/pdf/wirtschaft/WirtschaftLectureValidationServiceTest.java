@@ -76,4 +76,74 @@ class WirtschaftLectureValidationServiceTest {
         assertFalse(validationService.isValid(invalidLecture));
     }
 
+    /**
+     * Start & End dates
+     */
+    @Test
+    void shouldDetectInvalidLectureForAllDatesEmpty() {
+        Lecture invalidLecture = validLecture.toBuilder()
+                .startOne("")
+                .endOne("")
+                .startTwo("")
+                .endTwo("")
+                .build();
+
+        assertFalse(validationService.isValid(invalidLecture));
+    }
+
+    @Test
+    void shouldDetectInvalidLectureForAllDatesBlank() {
+        Lecture invalidLecture = validLecture.toBuilder()
+                .startOne(" ")
+                .endOne(" ")
+                .startTwo(" ")
+                .endTwo(" ")
+                .build();
+
+        assertFalse(validationService.isValid(invalidLecture));
+    }
+
+    @Test
+    void shouldDetectValidLectureWithAtleastOneEndDatePresent() {
+        Lecture alsoValidLecture = validLecture.toBuilder()
+                .endOne("")
+                .endTwo("10.10.2021")
+                .build();
+
+        assertTrue(validationService.isValid(alsoValidLecture));
+    }
+
+    /**
+     * Location
+     */
+    @Test
+    void shouldDetectInvalidLectureForAllLocationsEmpty() {
+        Lecture invalidLecture = validLecture.toBuilder()
+                .locationOne("")
+                .locationTwo("")
+                .build();
+
+        assertFalse(validationService.isValid(invalidLecture));
+    }
+
+    @Test
+    void shouldDetectInvalidLectureForAllLocationsBlank() {
+        Lecture invalidLecture = validLecture.toBuilder()
+                .locationOne(" ")
+                .locationTwo(" ")
+                .build();
+
+        assertFalse(validationService.isValid(invalidLecture));
+    }
+
+    @Test
+    void shouldDetectValidLectureWithAtleastOneLocationPresent() {
+        Lecture alsoValidLecture = validLecture.toBuilder()
+                .locationOne("HN")
+                .locationTwo("")
+                .build();
+
+        assertTrue(validationService.isValid(alsoValidLecture));
+    }
+
 }

@@ -19,8 +19,8 @@ import static de.gerritstapper.casscheduler.util.MillimeterUtil.mmToUnits;
 @Log4j2
 public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderService {
 
-    private final int MINIMAL_Y_OFFSET;
-    private final double LINE_HEIGHT;
+    private static final int MINIMAL_Y_OFFSET_PT = 150;
+    private static final double LINE_HEIGHT_PT = 7;
 
     private final WirtschaftLectureFieldExtractorService fieldExtractorService;
     private final WirtschaftLectureValidationService validationService;
@@ -31,9 +31,8 @@ public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderS
 
     public WirtschaftLecturePdfReaderService(
             WirtschaftLectureFieldExtractorService fieldExtractorService,
-            WirtschaftLectureValidationService validationService, String filename,
-            int minimalYOffset,
-            double lineHeight
+            WirtschaftLectureValidationService validationService,
+            String filename
     ) throws IOException {
         super(filename);
         this.fieldExtractorService = fieldExtractorService;
@@ -41,14 +40,11 @@ public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderS
 
         this.stripper = new PDFTextStripperByArea();
         stripper.setSortByPosition(true);
-
-        MINIMAL_Y_OFFSET = minimalYOffset;
-        LINE_HEIGHT = lineHeight;
     }
 
     @Override
     protected List<Lecture> processPage(PDPage page) {
-        return IntStream.range(MINIMAL_Y_OFFSET, 750)
+        return IntStream.range(MINIMAL_Y_OFFSET_PT, 750)
                 .mapToObj(step -> readNextRow(page, step))
                 .filter(validationService::isValid)
                 .collect(Collectors.toList());
@@ -115,58 +111,58 @@ public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderS
 
         Rectangle2D id = new Rectangle2D.Double(
                 LecturePdfDimensions.ID.getX(),
-                mmToUnits(y),
+                y,
                 LecturePdfDimensions.ID.getWidth(),
-                mmToUnits(LINE_HEIGHT)
+                LINE_HEIGHT_PT
         );
 
         Rectangle2D name = new Rectangle2D.Double(
                 LecturePdfDimensions.NAME.getX(),
-                mmToUnits(y),
+                y,
                 LecturePdfDimensions.NAME.getWidth(),
-                mmToUnits(LINE_HEIGHT)
+                LINE_HEIGHT_PT
         );
 
         Rectangle2D firstBlockStart = new Rectangle2D.Double(
                 LecturePdfDimensions.FIRST_BLOCK_START.getX(),
-                mmToUnits(y),
+                y,
                 LecturePdfDimensions.FIRST_BLOCK_START.getWidth(),
-                mmToUnits(LINE_HEIGHT)
+                LINE_HEIGHT_PT
         );
 
         Rectangle2D firstBlockEnd = new Rectangle2D.Double(
                 LecturePdfDimensions.FIRST_BLOCK_END.getX(),
-                mmToUnits(y),
+                y,
                 LecturePdfDimensions.FIRST_BLOCK_END.getWidth(),
-                mmToUnits(LINE_HEIGHT)
+                LINE_HEIGHT_PT
         );
 
         Rectangle2D firstBlockPlace = new Rectangle2D.Double(
                 LecturePdfDimensions.FIRST_BLOCK_LOCATION.getX(),
-                mmToUnits(y),
+                y,
                 LecturePdfDimensions.FIRST_BLOCK_LOCATION.getWidth(),
-                mmToUnits(LINE_HEIGHT)
+                LINE_HEIGHT_PT
         );
 
         Rectangle2D secondBlockStart = new Rectangle2D.Double(
                 LecturePdfDimensions.SECOND_BLOCK_START.getX(),
-                mmToUnits(y),
+                y,
                 LecturePdfDimensions.SECOND_BLOCK_START.getWidth(),
-                mmToUnits(LINE_HEIGHT)
+                LINE_HEIGHT_PT
         );
 
         Rectangle2D secondBlockEnd = new Rectangle2D.Double(
                 LecturePdfDimensions.SECOND_BLOCK_END.getX(),
-                mmToUnits(y),
+                y,
                 LecturePdfDimensions.SECOND_BLOCK_END.getWidth(),
-                mmToUnits(LINE_HEIGHT)
+                LINE_HEIGHT_PT
         );
 
         Rectangle2D secondBlockPlace = new Rectangle2D.Double(
                 LecturePdfDimensions.SECOND_BLOCK_LOCATION.getX(),
-                mmToUnits(y),
+                y,
                 LecturePdfDimensions.SECOND_BLOCK_LOCATION.getWidth(),
-                mmToUnits(LINE_HEIGHT)
+                LINE_HEIGHT_PT
         );
 
         stripper.addRegion(PdfColumns.ID.name(), id);
