@@ -15,6 +15,7 @@ public class BlockDao {
 
     private LocalDate blockStart;
     private LocalDate blockEnd;
+    private boolean singleDayBlock;
     private String location;
     private String filename;
 }
