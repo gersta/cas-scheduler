@@ -2,7 +2,6 @@ package de.gerritstapper.casscheduler.services.lectures.pdf;
 
 import de.gerritstapper.casscheduler.models.lecture.Lecture;
 import de.gerritstapper.casscheduler.models.lecture.enums.*;
-import de.gerritstapper.casscheduler.services.lectures.pdf.wirtschaft.WirtschaftLectureFieldExtractorService;
 import lombok.extern.log4j.Log4j2;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
@@ -19,13 +18,13 @@ public class CasLecturePdfTextStripper {
     private static final int MINIMAL_Y_OFFSET_PT = 150;
     private static final double LINE_HEIGHT_PT = 7;
 
-    private final WirtschaftLectureFieldExtractorService fieldExtractorService;
+    private final LectureFieldExtractorService fieldExtractorService;
     private final PDFTextStripperByArea stripper;
 
     private Lecture lastLecture;
 
     public CasLecturePdfTextStripper(
-            WirtschaftLectureFieldExtractorService fieldExtractorService
+            LectureFieldExtractorService fieldExtractorService
     ) throws IOException {
         this.fieldExtractorService = fieldExtractorService;
         this.stripper = new PDFTextStripperByArea();

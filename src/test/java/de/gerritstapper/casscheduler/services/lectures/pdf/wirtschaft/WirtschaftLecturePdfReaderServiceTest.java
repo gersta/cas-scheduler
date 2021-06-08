@@ -2,6 +2,7 @@ package de.gerritstapper.casscheduler.services.lectures.pdf.wirtschaft;
 
 import de.gerritstapper.casscheduler.models.lecture.Lecture;
 import de.gerritstapper.casscheduler.services.lectures.pdf.CasLecturePdfTextStripper;
+import de.gerritstapper.casscheduler.services.lectures.pdf.LectureFieldExtractorService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ class WirtschaftLecturePdfReaderServiceTest {
 
     @BeforeEach
     void beforeEach() throws IOException {
-        var extractor = new WirtschaftLectureFieldExtractorService();
+        var extractor = new LectureFieldExtractorService();
         var stripper = new CasLecturePdfTextStripper(extractor);
 
         pdfReaderService = new WirtschaftLecturePdfReaderService(

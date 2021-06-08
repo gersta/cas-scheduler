@@ -2,10 +2,8 @@ package de.gerritstapper.casscheduler.services.lectures.pdf.technik;
 
 import de.gerritstapper.casscheduler.models.lecture.Lecture;
 import de.gerritstapper.casscheduler.services.lectures.pdf.CasLecturePdfTextStripper;
-import de.gerritstapper.casscheduler.services.lectures.pdf.technik.TechnikLecturePdfReaderService;
-import de.gerritstapper.casscheduler.services.lectures.pdf.technik.TechnikLectureValidatorService;
-import de.gerritstapper.casscheduler.services.lectures.pdf.wirtschaft.WirtschaftLectureFieldExtractorService;
-import de.gerritstapper.casscheduler.services.lectures.pdf.wirtschaft.WirtschaftLectureValidationService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.LectureFieldExtractorService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.LecturePostProcessingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,13 +22,13 @@ public class TechnikLecturePdfReaderServiceTest {
 
     @BeforeEach
     void beforeEach() throws IOException {
-        var extractor = new WirtschaftLectureFieldExtractorService();
+        var extractor = new LectureFieldExtractorService();
 
         service = new TechnikLecturePdfReaderService(
                 new CasLecturePdfTextStripper(extractor),
                 new TechnikLectureValidatorService(),
-                FILENAME
-        );
+                FILENAME,
+                new LecturePostProcessingService());
     }
 
     @Test

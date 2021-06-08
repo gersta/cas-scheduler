@@ -1,21 +1,5 @@
 package de.gerritstapper.casscheduler.services.lectures.pdf.technik;
 
-import de.gerritstapper.casscheduler.models.lecture.Lecture;
-import de.gerritstapper.casscheduler.services.lectures.pdf.CasLecturePdfTextStripper;
-import de.gerritstapper.casscheduler.services.lectures.pdf.technik.TechnikLecturePdfReaderService;
-import de.gerritstapper.casscheduler.services.lectures.pdf.technik.TechnikLectureValidatorService;
-import de.gerritstapper.casscheduler.services.lectures.pdf.wirtschaft.WirtschaftLectureFieldExtractorService;
-import de.gerritstapper.casscheduler.services.lectures.pdf.wirtschaft.WirtschaftLectureValidationService;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /*public class TechnikLectureValidatorServiceTest {

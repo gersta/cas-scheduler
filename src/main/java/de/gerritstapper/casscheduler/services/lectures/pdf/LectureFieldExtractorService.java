@@ -1,4 +1,4 @@
-package de.gerritstapper.casscheduler.services.lectures.pdf.wirtschaft;
+package de.gerritstapper.casscheduler.services.lectures.pdf;
 
 import de.gerritstapper.casscheduler.models.lecture.enums.LectureRegexPatterns;
 import lombok.extern.log4j.Log4j2;
@@ -6,7 +6,7 @@ import lombok.extern.log4j.Log4j2;
 import java.util.regex.Pattern;
 
 @Log4j2
-public class WirtschaftLectureFieldExtractorService {
+public class LectureFieldExtractorService {
 
     public String getId(String content) {
         return get(content, LectureRegexPatterns.ID);

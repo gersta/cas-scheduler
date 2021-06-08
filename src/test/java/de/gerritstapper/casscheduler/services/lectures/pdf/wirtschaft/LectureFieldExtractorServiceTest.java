@@ -1,17 +1,18 @@
 package de.gerritstapper.casscheduler.services.lectures.pdf.wirtschaft;
 
+import de.gerritstapper.casscheduler.services.lectures.pdf.LectureFieldExtractorService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class WirtschaftLectureFieldExtractorServiceTest {
+class LectureFieldExtractorServiceTest {
 
-    private WirtschaftLectureFieldExtractorService extractorService;
+    private LectureFieldExtractorService extractorService;
 
     @BeforeEach
     void beforeEach() {
-        extractorService = new WirtschaftLectureFieldExtractorService();
+        extractorService = new LectureFieldExtractorService();
     }
 
     /**

@@ -4,7 +4,7 @@ import de.gerritstapper.casscheduler.models.lecture.Lecture;
 import de.gerritstapper.casscheduler.models.lecture.enums.Faculty;
 import de.gerritstapper.casscheduler.services.lectures.pdf.AbstractLecturePdfReaderService;
 import de.gerritstapper.casscheduler.services.lectures.pdf.CasLecturePdfTextStripper;
-import de.gerritstapper.casscheduler.services.lectures.pdf.wirtschaft.WirtschaftLectureValidationService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.LecturePostProcessingService;
 import lombok.extern.log4j.Log4j2;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,16 +24,18 @@ public class TechnikLecturePdfReaderService extends AbstractLecturePdfReaderServ
     // DEPENDENCIES
     private final CasLecturePdfTextStripper pdfTextStripper;
     private final TechnikLectureValidatorService validatorService;
+    private final LecturePostProcessingService postProcessingService;
     
     public TechnikLecturePdfReaderService(
             final CasLecturePdfTextStripper pdfTextStripper,
             final TechnikLectureValidatorService validatorService,
-            @Value("${cas-scheduler.lectures.pdf.filename}") String filename
-    ) throws IOException {
+            @Value("${cas-scheduler.lectures.pdf.filename}") String filename,
+            LecturePostProcessingService postProcessingService) throws IOException {
         super(filename);
 
         this.pdfTextStripper = pdfTextStripper;
         this.validatorService = validatorService;
+        this.postProcessingService = postProcessingService;
     }
 
     /**
@@ -47,6 +49,7 @@ public class TechnikLecturePdfReaderService extends AbstractLecturePdfReaderServ
 
         List<Lecture> lectures = pdfTextStripper.stripLectures(page, Faculty.TECHNIK).stream()
                 .filter(validatorService::isValid)
+                .map(postProcessingService::postProcess)
                 .collect(Collectors.toList());
 
         log.trace("Read {} valid lectures from page {}", lectures.size(), page);
