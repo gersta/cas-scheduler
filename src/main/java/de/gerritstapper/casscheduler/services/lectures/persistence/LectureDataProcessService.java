@@ -37,21 +37,21 @@ public class LectureDataProcessService {
     }
 
     private List<BlockDao> createBlocks(Lecture lecture) {
-        DatesTuple<LocalDate, LocalDate> firstBlockDates = getDates(lecture.getStartOne(), lecture.getEndOne());
-        DatesTuple<LocalDate, LocalDate> secondBlockDates = getDates(lecture.getStartTwo(), lecture.getEndTwo());
+        DatesTuple<LocalDate, LocalDate> firstBlockDates = getDates(lecture.getFirstBlockStart(), lecture.getFirstBlockEnd());
+        DatesTuple<LocalDate, LocalDate> secondBlockDates = getDates(lecture.getSecondBlockStart(), lecture.getSecondBlockEnd());
 
         // TODO: refactor this to be versatile on the number of blocks
         BlockDao firstBlock = BlockDao.builder()
                                 .blockStart(firstBlockDates.getStart())
                                 .blockEnd(firstBlockDates.getEnd())
-                                .location(lecture.getLocationOne())
+                                .location(lecture.getFirstBlockLocation())
                                 .filename(createFileName(lecture, firstBlockDates.getStart(), true))
                                 .build();
 
         BlockDao secondBlock = BlockDao.builder()
                                 .blockStart(secondBlockDates.getStart())
                                 .blockEnd(secondBlockDates.getEnd())
-                                .location(lecture.getLocationOne())
+                                .location(lecture.getFirstBlockLocation())
                                 .filename(createFileName(lecture, secondBlockDates.getStart(), false))
                                 .build();
 

@@ -1,6 +1,5 @@
 package de.gerritstapper.casscheduler.services.lectures.pdf.technik;
 
-import de.gerritstapper.casscheduler.models.enums.RegexPatterns;
 import de.gerritstapper.casscheduler.models.lecture.Lecture;
 import de.gerritstapper.casscheduler.models.lecture.enums.LectureRegexPatterns;
 import lombok.extern.log4j.Log4j2;
@@ -24,19 +23,19 @@ public class TechnikLectureValidatorService {
         return
                 isValidId(lecture.getLectureCode()) &&
                 !lecture.getName().isBlank() &&
-                isValidStart(lecture.getStartOne()) &&
-                isValidEnd(lecture.getEndOne()) &&
-                isValidPlace(lecture.getLocationOne()) &&
-                isValidStart(lecture.getStartTwo()) &&
-                isValidEnd(lecture.getEndTwo()) &&
-                isValidPlace(lecture.getLocationTwo());
+                isValidStart(lecture.getFirstBlockStart()) &&
+                isValidEnd(lecture.getFirstBlockEnd()) &&
+                isValidPlace(lecture.getFirstBlockLocation()) &&
+                isValidStart(lecture.getSecondBlockStart()) &&
+                isValidEnd(lecture.getSecondBlockEnd()) &&
+                isValidPlace(lecture.getSecondBlockLocation());
     }
 
     public boolean isValidId(String id) {
         log.trace("isValidId(): {}", id);
 
         // matches capitalLetter - digit - capitalLetter - 5 digits
-        return (!id.isBlank() && id.matches(RegexPatterns.LECTURE_CODE.getPattern()));
+        return (!id.isBlank() && id.matches(LectureRegexPatterns.ID.getPattern()));
     }
 
     public boolean isValidStart(String start) {
@@ -55,7 +54,6 @@ public class TechnikLectureValidatorService {
     public boolean isValidPlace(String place) {
         log.trace("isValidPlace(): {}", place);
 
-        // matches (RV), (MOS), (S)
-        return (!place.isBlank() && place.length() > 0 && place.length() <= 3);
+        return (!place.isBlank() && place.matches(LectureRegexPatterns.LOCATION.getPattern()));
     }
 }

@@ -20,12 +20,12 @@ class WirtschaftLectureValidationServiceTest {
         validLecture = Lecture.builder()
                 .lectureCode("W3M10001")
                 .name("GM I: Anwendungsorientierte Forschung (ACS)")
-                .startOne("08.10.")
-                .endOne("10.10.2020")
-                .locationOne("HN")
-                .startTwo("09.11.")
-                .endTwo("10.11.2020")
-                .locationTwo("HN")
+                .firstBlockStart("08.10.")
+                .firstBlockEnd("10.10.2020")
+                .firstBlockLocation("HN")
+                .secondBlockStart("09.11.")
+                .secondBlockEnd("10.11.2020")
+                .secondBlockLocation("HN")
                 .build();
     }
 
@@ -82,10 +82,10 @@ class WirtschaftLectureValidationServiceTest {
     @Test
     void shouldDetectInvalidLectureForAllDatesEmpty() {
         Lecture invalidLecture = validLecture.toBuilder()
-                .startOne("")
-                .endOne("")
-                .startTwo("")
-                .endTwo("")
+                .firstBlockStart("")
+                .firstBlockEnd("")
+                .secondBlockStart("")
+                .secondBlockEnd("")
                 .build();
 
         assertFalse(validationService.isValid(invalidLecture));
@@ -94,10 +94,10 @@ class WirtschaftLectureValidationServiceTest {
     @Test
     void shouldDetectInvalidLectureForAllDatesBlank() {
         Lecture invalidLecture = validLecture.toBuilder()
-                .startOne(" ")
-                .endOne(" ")
-                .startTwo(" ")
-                .endTwo(" ")
+                .firstBlockStart(" ")
+                .firstBlockEnd(" ")
+                .secondBlockStart(" ")
+                .secondBlockEnd(" ")
                 .build();
 
         assertFalse(validationService.isValid(invalidLecture));
@@ -106,8 +106,8 @@ class WirtschaftLectureValidationServiceTest {
     @Test
     void shouldDetectValidLectureWithAtleastOneEndDatePresent() {
         Lecture alsoValidLecture = validLecture.toBuilder()
-                .endOne("")
-                .endTwo("10.10.2021")
+                .firstBlockEnd("")
+                .secondBlockEnd("10.10.2021")
                 .build();
 
         assertTrue(validationService.isValid(alsoValidLecture));
@@ -119,8 +119,8 @@ class WirtschaftLectureValidationServiceTest {
     @Test
     void shouldDetectInvalidLectureForAllLocationsEmpty() {
         Lecture invalidLecture = validLecture.toBuilder()
-                .locationOne("")
-                .locationTwo("")
+                .firstBlockLocation("")
+                .secondBlockLocation("")
                 .build();
 
         assertFalse(validationService.isValid(invalidLecture));
@@ -129,8 +129,8 @@ class WirtschaftLectureValidationServiceTest {
     @Test
     void shouldDetectInvalidLectureForAllLocationsBlank() {
         Lecture invalidLecture = validLecture.toBuilder()
-                .locationOne(" ")
-                .locationTwo(" ")
+                .firstBlockLocation(" ")
+                .secondBlockLocation(" ")
                 .build();
 
         assertFalse(validationService.isValid(invalidLecture));
@@ -139,8 +139,8 @@ class WirtschaftLectureValidationServiceTest {
     @Test
     void shouldDetectValidLectureWithAtleastOneLocationPresent() {
         Lecture alsoValidLecture = validLecture.toBuilder()
-                .locationOne("HN")
-                .locationTwo("")
+                .firstBlockLocation("HN")
+                .secondBlockLocation("")
                 .build();
 
         assertTrue(validationService.isValid(alsoValidLecture));

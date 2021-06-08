@@ -1,6 +1,7 @@
 package de.gerritstapper.casscheduler.services.lectures.pdf.wirtschaft;
 
 import de.gerritstapper.casscheduler.models.lecture.Lecture;
+import de.gerritstapper.casscheduler.services.lectures.pdf.CasLecturePdfTextStripper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -16,22 +17,14 @@ class WirtschaftLecturePdfReaderServiceTest {
 
     @BeforeEach
     void beforeEach() throws IOException {
+        var extractor = new WirtschaftLectureFieldExtractorService();
+        var stripper = new CasLecturePdfTextStripper(extractor);
+
         pdfReaderService = new WirtschaftLecturePdfReaderService(
-                new WirtschaftLectureFieldExtractorService(),
+                stripper,
                 new WirtschaftLectureValidationService(),
                 "M_W_Lecture_All_Pages.pdf"
         );
-    }
-
-    /**
-     * reads all rows including those with "weitere Termine"
-     * @throws IOException
-     */
-    @Test
-    void shouldReadAllLecturesFromPdfInclAdditionalBlocks() throws IOException {
-        List<Lecture> result = pdfReaderService.extractLectures(null);
-
-        assertEquals(187, result.size());
     }
 
     /**
@@ -51,6 +44,7 @@ class WirtschaftLecturePdfReaderServiceTest {
     void shouldRead57LecturesFromPageOne() throws IOException {
         List<Lecture> result = pdfReaderService.extractLectures(0);
 
+        // TODO: keep W3M10001 -> GM1B in mind which cannot yet be read
         assertEquals(56, result.size());
     }
 

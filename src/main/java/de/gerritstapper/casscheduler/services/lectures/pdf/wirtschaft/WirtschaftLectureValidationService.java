@@ -28,13 +28,13 @@ public class WirtschaftLectureValidationService {
     }
 
     private boolean atleastOneValidLocation(Lecture lecture) {
-        List<String> locations = List.of(lecture.getLocationOne(), lecture.getLocationTwo());
+        List<String> locations = List.of(lecture.getFirstBlockLocation(), lecture.getSecondBlockLocation());
 
         return locations.stream().anyMatch(this::isValidValue);
     }
 
     private boolean atleastOneValidEndDate(Lecture lecture) {
-        List<String> endDates = List.of(lecture.getEndOne(), lecture.getEndTwo());
+        List<String> endDates = List.of(lecture.getFirstBlockEnd(), lecture.getSecondBlockEnd());
 
         return endDates.stream().anyMatch(this::isValidValue);
     }

@@ -10,12 +10,12 @@ public class Lecture {
     
     String lectureCode;
     String name;
-    String startOne;
-    String endOne;
-    String locationOne;
-    String startTwo;
-    String endTwo;
-    String locationTwo;
+    String firstBlockStart;
+    String firstBlockEnd;
+    String firstBlockLocation;
+    String secondBlockStart;
+    String secondBlockEnd;
+    String secondBlockLocation;
 
     @EqualsAndHashCode.Exclude
     Double coordinate;

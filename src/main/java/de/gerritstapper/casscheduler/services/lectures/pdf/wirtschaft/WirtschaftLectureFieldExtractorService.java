@@ -1,6 +1,6 @@
 package de.gerritstapper.casscheduler.services.lectures.pdf.wirtschaft;
 
-import de.gerritstapper.casscheduler.models.lecture.enums.WirtschaftLectureRegexPatterns;
+import de.gerritstapper.casscheduler.models.lecture.enums.LectureRegexPatterns;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.regex.Pattern;
@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 public class WirtschaftLectureFieldExtractorService {
 
     public String getId(String content) {
-        return get(content, WirtschaftLectureRegexPatterns.ID);
+        return get(content, LectureRegexPatterns.ID);
     }
 
     public String getName(String content) {
@@ -17,18 +17,18 @@ public class WirtschaftLectureFieldExtractorService {
     }
 
     public String getStart(String content) {
-        return get(content, WirtschaftLectureRegexPatterns.START);
+        return get(content, LectureRegexPatterns.START);
     }
 
     public String getEnd(String content) {
-        return get(content, WirtschaftLectureRegexPatterns.END);
+        return get(content, LectureRegexPatterns.END);
     }
 
     public String getLocation(String content) {
-        return get(content, WirtschaftLectureRegexPatterns.LOCATION);
+        return get(content, LectureRegexPatterns.LOCATION);
     }
 
-    private String get(String content, WirtschaftLectureRegexPatterns pattern) {
+    private String get(String content, LectureRegexPatterns pattern) {
         Pattern regex = Pattern.compile(pattern.getPattern());
 
         var matcher = regex.matcher(content);

@@ -9,7 +9,7 @@ import lombok.Getter;
  */
 @AllArgsConstructor
 @Getter
-public enum LecturePdfDimensions {
+public enum WirtschaftLecturePdfDimensions {
     ID(40, 32),
     NAME(75, 225),
     FIRST_BLOCK_START(305, 20),
@@ -17,7 +17,7 @@ public enum LecturePdfDimensions {
     FIRST_BLOCK_LOCATION(360, 20),
     SECOND_BLOCK_START(400, 15),
     SECOND_BLOCK_END(425, 30),
-    SECOND_BLOCK_LOCATION(455, 470);
+    SECOND_BLOCK_LOCATION(455, 15);
 
     private final int x;
     private final int width;
