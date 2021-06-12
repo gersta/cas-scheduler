@@ -50,13 +50,15 @@ public class LectureOrchestratorService {
         this.jsonFileUtil = jsonFileUtil;
     }
 
-    public List<LectureDao> orchestrate() throws IOException {
+    public List<LectureDao> orchestrate() {
         log.info("orchestrate()");
 
         List<Lecture> lectures = Stream.of(
-                technikPdfService.extractLectures(null),
-                wirtschaftPdfService.extractLectures(null)
+                technikPdfService,
+                wirtschaftPdfService
         )
+                .parallel()
+                .map(abstractLecturePdfReaderService -> abstractLecturePdfReaderService.extractLectures(null))
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
 

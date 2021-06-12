@@ -4,21 +4,25 @@ import de.gerritstapper.casscheduler.models.lecture.Lecture;
 import lombok.extern.log4j.Log4j2;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageTree;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Log4j2
 public abstract class AbstractLecturePdfReaderService {
 
     protected final PDDocument document;
 
+    private final String filename;
+
     protected AbstractLecturePdfReaderService(String filename) throws IOException {
+        this.filename = filename;
         this.document = getDocument(filename);
     }
 
@@ -28,20 +32,30 @@ public abstract class AbstractLecturePdfReaderService {
      * @return: list of {@link Lecture} instances scraped from the given pdf document (and page)
      * @throws IOException
      */
-    public List<Lecture> extractLectures(Integer pageIndex) throws IOException {
-        log.info("readPdf(): page index {}", pageIndex);
+    public List<Lecture> extractLectures(Integer pageIndex) {
+        log.info("readPdf(): page index {} of {}", pageIndex, filename);
 
-        // iterate over all pages
-        List<Lecture> lectures = StreamSupport.stream(document.getPages().spliterator(), false)
-                .filter(page -> pageIndex == null || page.equals(document.getPage(pageIndex))) // only take a specific page if filter is set
-                .map(this::processPage) // process each of them
-                .flatMap(Collection::stream) // flatMap to list of lectures
-                .distinct() // filter all those entries that were read twice due to scanning each page twice
-                .collect(Collectors.toList()); // collect list
+        List<Lecture> lectures = new ArrayList<>();
 
-        log.info("readPdf(): page index {}. Read {} lectures", pageIndex, lectures.size());
+        List<PDPage> pages = convertTreeToList(document.getPages());
 
-        closeDocument();
+        try {
+            lectures = pages.stream()
+                    .parallel()
+                    .map(this::processPage)
+                    .flatMap(Collection::stream)
+                    .distinct()
+                    .collect(Collectors.toList());
+
+            log.info("extractLectures(): page index {}. Read {} lectures", pageIndex, lectures.size());
+
+            closeDocument();
+        } catch (IOException exception) {
+            log.error("Problem in extractLecture({})", pageIndex);
+
+            exception.printStackTrace();
+        }
+
 
         return lectures;
     }
@@ -60,9 +74,16 @@ public abstract class AbstractLecturePdfReaderService {
     }
 
     protected void closeDocument() throws IOException {
-        log.info("closeDocument()");
+        log.info("closeDocument(): {}", filename);
 
         document.close();
+    }
+
+    private List<PDPage> convertTreeToList(PDPageTree tree) {
+        List<PDPage> pages = new ArrayList<>();
+        tree.iterator().forEachRemaining(pages::add);
+
+        return pages;
     }
 
     protected abstract List<Lecture> processPage(PDPage page);

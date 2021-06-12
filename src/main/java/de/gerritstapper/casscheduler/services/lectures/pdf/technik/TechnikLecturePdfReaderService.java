@@ -48,6 +48,7 @@ public class TechnikLecturePdfReaderService extends AbstractLecturePdfReaderServ
         log.info("processPage(): {}", page);
 
         List<Lecture> lectures = pdfTextStripper.stripLectures(page, Faculty.TECHNIK).stream()
+                .parallel()
                 .filter(validatorService::isValid)
                 .map(postProcessingService::postProcess)
                 .collect(Collectors.toList());
