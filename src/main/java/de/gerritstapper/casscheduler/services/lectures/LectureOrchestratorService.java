@@ -6,6 +6,7 @@ import de.gerritstapper.casscheduler.models.lecture.Lecture;
 import de.gerritstapper.casscheduler.services.lectures.ics.IcsCreatorService;
 import de.gerritstapper.casscheduler.services.lectures.ics.IcsSaverService;
 import de.gerritstapper.casscheduler.services.lectures.pdf.technik.TechnikLecturePdfReaderService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.wirtschaft.WirtschaftLecturePdfReaderService;
 import de.gerritstapper.casscheduler.services.lectures.persistence.LectureDataProcessService;
 import de.gerritstapper.casscheduler.util.JsonFileUtil;
 import lombok.extern.log4j.Log4j2;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Log4j2
@@ -24,6 +26,7 @@ public class LectureOrchestratorService {
     private final String LECTURE_JSON_FILENAME;
 
     private final TechnikLecturePdfReaderService technikPdfService;
+    private final WirtschaftLecturePdfReaderService wirtschaftPdfService;
     private final LectureDataProcessService dataProcessService;
     private final IcsCreatorService icsCreatorService;
     private final IcsSaverService icsSaverService;
@@ -32,6 +35,7 @@ public class LectureOrchestratorService {
     public LectureOrchestratorService(
             @Value("${cas-scheduler.lectures.json.output.filename}") String lecture_json_filename,
             TechnikLecturePdfReaderService technikPdfService,
+            WirtschaftLecturePdfReaderService wirtschaftPdfService,
             LectureDataProcessService dataProcessService,
             IcsCreatorService icsCreatorService,
             IcsSaverService icsSaverService,
@@ -39,6 +43,7 @@ public class LectureOrchestratorService {
     ) {
         LECTURE_JSON_FILENAME = lecture_json_filename;
         this.technikPdfService = technikPdfService;
+        this.wirtschaftPdfService = wirtschaftPdfService;
         this.dataProcessService = dataProcessService;
         this.icsCreatorService = icsCreatorService;
         this.icsSaverService = icsSaverService;
@@ -48,11 +53,16 @@ public class LectureOrchestratorService {
     public List<LectureDao> orchestrate() throws IOException {
         log.info("orchestrate()");
 
-        List<Lecture> technikLectures = technikPdfService.extractLectures(null);
+        List<Lecture> lectures = Stream.of(
+                technikPdfService.extractLectures(null),
+                wirtschaftPdfService.extractLectures(null)
+        )
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
 
-        log.info("Extracted {} lectures", technikLectures.size());
+        log.info("Extracted {} lectures", lectures.size());
 
-        List<LectureDao> daos = technikLectures.stream()
+        List<LectureDao> daos = lectures.stream()
                 .map(dataProcessService::create)
                 .collect(Collectors.toList());
 

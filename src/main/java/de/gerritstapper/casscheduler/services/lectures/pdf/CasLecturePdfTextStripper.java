@@ -5,6 +5,7 @@ import de.gerritstapper.casscheduler.models.lecture.enums.*;
 import lombok.extern.log4j.Log4j2;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
+import org.springframework.stereotype.Service;
 
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Log4j2
+@Service
 public class CasLecturePdfTextStripper {
 
     private static final int MINIMAL_Y_OFFSET_PT = 150;

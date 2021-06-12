@@ -2,9 +2,9 @@ cas-scheduler:
   lectures:
     extract: true
     pdf:
-      filename: "M_T_Lehrveranstaltungen.pdf"
-      line-height: 2.0
-      minimal-y-offset: 55 # at least 55mm offset from the top of the page. Saves on empty iteration steps to find first line
+      filename:
+        technik: "M_T_Lehrveranstaltungen.pdf"
+        wirtschaft: "M_W_Lehrveranstaltungen.pdf"
       date-pattern: "dd.MM.yyyy"
     json:
       output:

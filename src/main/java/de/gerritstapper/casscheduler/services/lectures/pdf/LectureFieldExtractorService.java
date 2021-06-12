@@ -2,10 +2,12 @@ package de.gerritstapper.casscheduler.services.lectures.pdf;
 
 import de.gerritstapper.casscheduler.models.lecture.enums.LectureRegexPatterns;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Service;
 
 import java.util.regex.Pattern;
 
 @Log4j2
+@Service
 public class LectureFieldExtractorService {
 
     public String getId(String content) {

@@ -6,12 +6,15 @@ import de.gerritstapper.casscheduler.services.lectures.pdf.AbstractLecturePdfRea
 import de.gerritstapper.casscheduler.services.lectures.pdf.CasLecturePdfTextStripper;
 import lombok.extern.log4j.Log4j2;
 import org.apache.pdfbox.pdmodel.PDPage;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Log4j2
+@Service
 public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderService {
 
     private final CasLecturePdfTextStripper pdfTextStripper;
@@ -20,9 +23,10 @@ public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderS
     public WirtschaftLecturePdfReaderService(
             CasLecturePdfTextStripper pdfTextStripper,
             WirtschaftLectureValidationService validationService,
-            String filename
+            @Value("${cas-scheduler.lectures.pdf.filename.wirtschaft}") String filename
     ) throws IOException {
         super(filename);
+
         this.pdfTextStripper = pdfTextStripper;
         this.validationService = validationService;
     }

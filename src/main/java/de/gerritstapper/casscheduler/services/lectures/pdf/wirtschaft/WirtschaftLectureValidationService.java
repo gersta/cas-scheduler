@@ -2,6 +2,7 @@ package de.gerritstapper.casscheduler.services.lectures.pdf.wirtschaft;
 
 import de.gerritstapper.casscheduler.models.lecture.Lecture;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * the start, end and location of the missing block are all empty/blank
  */
 @Log4j2
+@Service
 public class WirtschaftLectureValidationService {
 
     public boolean isValid(Lecture lecture) {

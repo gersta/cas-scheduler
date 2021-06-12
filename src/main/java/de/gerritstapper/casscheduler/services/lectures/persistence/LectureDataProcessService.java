@@ -93,7 +93,7 @@ public class LectureDataProcessService {
     }
 
     private String createFileName(Lecture lecture, LocalDate start, String block) {
-        return String.format("%s_start_%s_%s.ics", lecture.getName(), start, block);
+        return String.format("%s_start_%s_%s.ics", lecture.getLectureCode(), start, block);
     }
 
     /**

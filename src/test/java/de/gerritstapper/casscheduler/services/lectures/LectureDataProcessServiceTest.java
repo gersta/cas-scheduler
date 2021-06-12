@@ -71,7 +71,7 @@ public class LectureDataProcessServiceTest {
     @Test
     void shouldCreateFilenameContainingLectureNameBlockNumberStartDate() {
         var lecture = Lecture.builder()
-                .name("Angewandte Informatik")
+                .lectureCode("T3M10001")
                 .firstBlockStart("20.10.")
                 .firstBlockEnd("21.10.2020")
                 .secondBlockStart(EMPTY)
@@ -81,7 +81,7 @@ public class LectureDataProcessServiceTest {
         LectureDao result = dataProcessService.create(lecture);
 
         assertEquals(
-                "Angewandte Informatik_start_2020-10-20_1st-Block.ics",
+                "T3M10001_start_2020-10-20_1st-Block.ics",
                 result.getBlocks().get(0).getFilename()
         );
     }

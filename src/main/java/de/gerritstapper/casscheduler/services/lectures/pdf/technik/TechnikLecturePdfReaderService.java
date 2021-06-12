@@ -29,7 +29,7 @@ public class TechnikLecturePdfReaderService extends AbstractLecturePdfReaderServ
     public TechnikLecturePdfReaderService(
             final CasLecturePdfTextStripper pdfTextStripper,
             final TechnikLectureValidatorService validatorService,
-            @Value("${cas-scheduler.lectures.pdf.filename}") String filename,
+            @Value("${cas-scheduler.lectures.pdf.filename.technik}") String filename,
             LecturePostProcessingService postProcessingService) throws IOException {
         super(filename);
 
