@@ -34,12 +34,16 @@ public class CasLecturePdfTextStripper {
     }
 
     public List<Lecture> stripLectures(PDPage page, Faculty faculty) {
+        log.info("Reading lectures from page {} for faculty {}", page, faculty);
+
         return IntStream.range(MINIMAL_Y_OFFSET_PT, 760)
                 .mapToObj(step -> readNextRow(page, step, faculty))
                 .collect(Collectors.toList());
     }
 
     private Lecture readNextRow(PDPage page, double nextY, Faculty faculty) {
+        log.debug("Reading next row from page {} at {} for faculty {}", page, nextY, faculty);
+
         String id = extractContent(page, nextY, faculty, PdfColumns.ID);
         String name = extractContent(page, nextY, faculty, PdfColumns.NAME);
 
@@ -73,7 +77,7 @@ public class CasLecturePdfTextStripper {
                 .secondBlockLocation(locationTwo)
                 .build();
 
-        log.trace("Extracted lecture: {}", lecture);
+        log.debug("Extracted lecture: {} at {}", lecture, nextY);
 
         if ( id.matches(LectureRegexPatterns.ID.getPattern()) ) {
             lastLecture = lecture;

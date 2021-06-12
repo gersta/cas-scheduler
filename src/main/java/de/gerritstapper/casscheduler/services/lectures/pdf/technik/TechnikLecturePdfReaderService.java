@@ -45,7 +45,7 @@ public class TechnikLecturePdfReaderService extends AbstractLecturePdfReaderServ
      * @return: list of valid {@link Lecture} instances scraped from the given pdf page
      */
     protected List<Lecture> processPage(PDPage page) {
-        log.trace("processPage(): {}", page);
+        log.info("processPage(): {}", page);
 
         List<Lecture> lectures = pdfTextStripper.stripLectures(page, Faculty.TECHNIK).stream()
                 .filter(validatorService::isValid)

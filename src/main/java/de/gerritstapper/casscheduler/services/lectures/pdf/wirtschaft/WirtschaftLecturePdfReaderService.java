@@ -33,6 +33,8 @@ public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderS
 
     @Override
     protected List<Lecture> processPage(PDPage page) {
+        log.info("Processing page {}", page);
+
         return pdfTextStripper.stripLectures(page, Faculty.WIRTSCHAFT).stream()
                 .filter(validationService::isValid)
                 .collect(Collectors.toList());
