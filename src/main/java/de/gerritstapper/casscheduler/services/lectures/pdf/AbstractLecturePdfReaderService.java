@@ -28,12 +28,11 @@ public abstract class AbstractLecturePdfReaderService {
 
     /**
      * extract the lectures from the pdf document passed from the constructor
-     * @param pageIndex: the page of the document to scrape or null in case of all pages
      * @return: list of {@link Lecture} instances scraped from the given pdf document (and page)
      * @throws IOException
      */
-    public List<Lecture> extractLectures(Integer pageIndex) {
-        log.info("readPdf(): page index {} of {}", pageIndex, filename);
+    public List<Lecture> extractLectures() {
+        log.info("readPdf(): {}", filename);
 
         List<Lecture> lectures = new ArrayList<>();
 
@@ -47,11 +46,11 @@ public abstract class AbstractLecturePdfReaderService {
                     .distinct()
                     .collect(Collectors.toList());
 
-            log.info("extractLectures(): page index {}. Read {} lectures", pageIndex, lectures.size());
+            log.info("extractLectures(): Read {} lectures", lectures.size());
 
             closeDocument();
         } catch (IOException exception) {
-            log.error("Problem in extractLecture({})", pageIndex);
+            log.error("Problem in extractLecture({})", filename);
 
             exception.printStackTrace();
         }

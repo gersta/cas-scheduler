@@ -33,8 +33,7 @@ public class TechnikLecturePdfReaderServiceTest {
 
     @Test
     public void shouldReturn274LecturesFromAllPages() {
-        // create another local copy to not overwrite the global list
-        List<Lecture> lectures = service.extractLectures(0);
+        List<Lecture> lectures = service.extractLectures();
 
         assertEquals(274, lectures.size());
     }

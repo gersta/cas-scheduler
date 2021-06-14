@@ -5,6 +5,7 @@ import de.gerritstapper.casscheduler.models.lecture.IcsCalendarWrapper;
 import de.gerritstapper.casscheduler.models.lecture.Lecture;
 import de.gerritstapper.casscheduler.services.lectures.ics.IcsCreatorService;
 import de.gerritstapper.casscheduler.services.lectures.ics.IcsSaverService;
+import de.gerritstapper.casscheduler.services.lectures.pdf.AbstractLecturePdfReaderService;
 import de.gerritstapper.casscheduler.services.lectures.pdf.technik.TechnikLecturePdfReaderService;
 import de.gerritstapper.casscheduler.services.lectures.pdf.wirtschaft.WirtschaftLecturePdfReaderService;
 import de.gerritstapper.casscheduler.services.lectures.persistence.LectureDataProcessService;
@@ -58,7 +59,7 @@ public class LectureOrchestratorService {
                 wirtschaftPdfService
         )
                 .parallel()
-                .map(abstractLecturePdfReaderService -> abstractLecturePdfReaderService.extractLectures(null))
+                .map(AbstractLecturePdfReaderService::extractLectures)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
 
