@@ -37,14 +37,14 @@ class WirtschaftLecturePdfReaderServiceTest {
      */
     @Disabled
     void shouldReadAllLecturesInclW3M10001GM1B() {
-        List<Lecture> result = pdfReaderService.extractLectures(null);
+        List<Lecture> result = pdfReaderService.extractLectures();
 
         assertEquals(188, result.size());
     }
 
     @Test
     void shouldReadAllLectures() {
-        List<Lecture> result = pdfReaderService.extractLectures(null);
+        List<Lecture> result = pdfReaderService.extractLectures();
 
         assertEquals(187, result.size());
     }
