@@ -19,16 +19,19 @@ public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderS
 
     private final CasLecturePdfTextStripper pdfTextStripper;
     private final WirtschaftLectureValidationService validationService;
+    private final WirtschaftLectureAdditionalInfoExtractorService additionalInfoExtractorService;
 
     public WirtschaftLecturePdfReaderService(
             CasLecturePdfTextStripper pdfTextStripper,
             WirtschaftLectureValidationService validationService,
+            WirtschaftLectureAdditionalInfoExtractorService additionalInfoExtractorService,
             @Value("${cas-scheduler.lectures.pdf.filename.wirtschaft}") String filename
     ) throws IOException {
         super(filename);
 
         this.pdfTextStripper = pdfTextStripper;
         this.validationService = validationService;
+        this.additionalInfoExtractorService = additionalInfoExtractorService;
     }
 
     @Override
@@ -38,6 +41,7 @@ public class WirtschaftLecturePdfReaderService extends AbstractLecturePdfReaderS
         return pdfTextStripper.stripLectures(page, Faculty.WIRTSCHAFT).stream()
                 .parallel()
                 .filter(validationService::isValid)
+                .map(additionalInfoExtractorService::extractAdditionalInformation)
                 .collect(Collectors.toList());
     }
 }

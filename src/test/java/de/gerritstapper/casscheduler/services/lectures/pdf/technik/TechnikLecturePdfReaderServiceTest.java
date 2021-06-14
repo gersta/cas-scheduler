@@ -32,59 +32,11 @@ public class TechnikLecturePdfReaderServiceTest {
     }
 
     @Test
-    public void shouldReturn57LectureObjectsForPageOne() throws IOException {
+    public void shouldReturn274LecturesFromAllPages() {
         // create another local copy to not overwrite the global list
         List<Lecture> lectures = service.extractLectures(0);
 
-        assertEquals(57, lectures.size());
-    }
-
-    @Test
-    public void shouldReturn66LectureObjectsForPageTwo() throws IOException {
-        List<Lecture> lectures = service.extractLectures(1);
-
-        assertEquals(66, lectures.size());
-    }
-
-    @Test
-    public void shouldReturn30LectureObjectsForPageThree() throws IOException {
-        List<Lecture> lectures = service.extractLectures(2);
-        // TODO: decide whether to consider lectures that do not have dates and locations, but rather a note
-
-        assertEquals(30, lectures.size());
-    }
-
-    @Test
-    public void shouldReturn58LectureObjectsForPageFour() throws IOException {
-        List<Lecture> lectures = service.extractLectures(3);
-        lectures.forEach(System.out::println);
-        assertEquals(58, lectures.size());
-    }
-
-    @Test
-    public void shouldReturn64LectureObjectsForPageFive() throws IOException {
-        List<Lecture> lectures = service.extractLectures(4);
-
-        lectures.forEach(System.out::println);
-
-        assertEquals(63, lectures.size());
-    }
-
-    @Test
-    public void shouldRecognizeBothLectureBlocks() throws IOException {
-        Lecture threeDTechnology = service.extractLectures(4).stream()
-                                        .filter(lecture -> lecture.getLectureCode().equals("T3M30320"))
-                                        .findFirst()
-                                        .get();
-
-        System.out.println(threeDTechnology);
-
-        assertAll(
-                () -> assertEquals("28.10.", threeDTechnology.getFirstBlockStart()),
-                () -> assertEquals("30.10.2021", threeDTechnology.getFirstBlockEnd()),
-                () -> assertEquals("29.11.", threeDTechnology.getSecondBlockStart()),
-                () -> assertEquals("01.12.2021", threeDTechnology.getSecondBlockEnd())
-        );
+        assertEquals(274, lectures.size());
     }
 
 }

@@ -2,6 +2,8 @@ package de.gerritstapper.casscheduler.models.lecture;
 
 import lombok.*;
 
+import java.util.List;
+
 @Data
 @Builder(toBuilder = true)
 @AllArgsConstructor
@@ -16,6 +18,8 @@ public class Lecture {
     String secondBlockStart;
     String secondBlockEnd;
     String secondBlockLocation;
+
+    List<String> additionalInformation;
 
     @EqualsAndHashCode.Exclude
     Double coordinate;

@@ -24,6 +24,7 @@ class WirtschaftLecturePdfReaderServiceTest {
         pdfReaderService = new WirtschaftLecturePdfReaderService(
                 stripper,
                 new WirtschaftLectureValidationService(),
+                new WirtschaftLectureAdditionalInfoExtractorService(),
                 "M_W_Lecture_All_Pages.pdf"
         );
     }
@@ -35,34 +36,17 @@ class WirtschaftLecturePdfReaderServiceTest {
      * is not read properly and thus missing here. All others seem to be present
      */
     @Disabled
-    void shouldReadAllLecturesInclW3M10001GM1B() throws IOException {
+    void shouldReadAllLecturesInclW3M10001GM1B() {
         List<Lecture> result = pdfReaderService.extractLectures(null);
 
         assertEquals(188, result.size());
     }
 
     @Test
-    void shouldRead57LecturesFromPageOne() throws IOException {
-        List<Lecture> result = pdfReaderService.extractLectures(0);
+    void shouldReadAllLectures() {
+        List<Lecture> result = pdfReaderService.extractLectures(null);
 
-        // TODO: keep W3M10001 -> GM1B in mind which cannot yet be read
-        assertEquals(56, result.size());
-    }
-
-    @Test
-    void shouldRead67LecturesFromPageTwo() throws IOException {
-        List<Lecture> result = pdfReaderService.extractLectures(1);
-
-        result.forEach(System.out::println);
-
-        assertEquals(67, result.size());
-    }
-
-    @Test
-    void shouldRead64LecturesFromPageThree() throws IOException {
-        List<Lecture> result = pdfReaderService.extractLectures(2);
-
-        assertEquals(64, result.size());
+        assertEquals(187, result.size());
     }
 
 }
