@@ -2,16 +2,17 @@ package de.gerritstapper.casscheduler.services.lectures.pdf.wirtschaft;
 
 import de.gerritstapper.casscheduler.models.lecture.Lecture;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Log4j2
+@Service
 public class WirtschaftLectureAdditionalInfoExtractorService {
 
     private static final String ADDITIONAL_INFO_PATTERN = "(?<=\\().*(?=\\))";
