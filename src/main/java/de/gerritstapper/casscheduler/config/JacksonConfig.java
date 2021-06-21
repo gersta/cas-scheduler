@@ -1,4 +1,4 @@
-package de.gerritstapper.casscheduler.config.jackson;
+package de.gerritstapper.casscheduler.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;

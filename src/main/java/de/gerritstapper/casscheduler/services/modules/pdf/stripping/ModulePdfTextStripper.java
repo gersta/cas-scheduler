@@ -1,4 +1,4 @@
-package de.gerritstapper.casscheduler.services.modules.pdf;
+package de.gerritstapper.casscheduler.services.modules.pdf.stripping;
 
 import de.gerritstapper.casscheduler.models.enums.RegexPatterns;
 import de.gerritstapper.casscheduler.models.module.enums.ModuleRegexPattern;
@@ -6,8 +6,6 @@ import lombok.extern.log4j.Log4j2;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPageTree;
 import org.apache.pdfbox.text.PDFTextStripper;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +13,6 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@Service
 @Log4j2
 public class ModulePdfTextStripper {
 
@@ -23,7 +20,7 @@ public class ModulePdfTextStripper {
     private final PDDocument document;
 
     public ModulePdfTextStripper(
-            @Value("${cas-scheduler.modules.pdf.filename}") String filename
+            String filename
     ) throws IOException { // TODO: Get rid of the exception
         textStripper = new PDFTextStripper();
         textStripper.setSortByPosition(true);
@@ -31,11 +28,11 @@ public class ModulePdfTextStripper {
         document = getDocument(filename);
     }
 
-    public PDPageTree getPdfPages() {
+    protected PDPageTree getPdfPages() {
         return document.getPages();
     }
 
-    public String getTextForPage(int pageIndex) {
+    protected String getTextForPage(int pageIndex) {
         try {
             textStripper.setStartPage(pageIndex);
             textStripper.setEndPage(pageIndex);
@@ -50,7 +47,7 @@ public class ModulePdfTextStripper {
         }
     }
 
-    public String getLectureCodeForPage(int pageIndex) {
+    protected String getLectureCodeForPage(int pageIndex) {
         String content = getTextForPage(pageIndex);
 
         String lectureCodePattern = String.format("(%s|%s)", RegexPatterns.LECTURE_CODE.getPattern(), ModuleRegexPattern.MASTER_THESIS.getPattern());

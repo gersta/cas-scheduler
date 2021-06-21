@@ -16,7 +16,9 @@ cas-scheduler:
   modules:
     extract: true
     pdf:
-      filename: "M_T_Modulhandbuch.pdf"
+      filename:
+        technik: "M_T_Modulhandbuch.pdf"
+        wirtschaft: "M_W_Modulhandbuch.pdf"
       date-pattern: "dd.MM.yyyy"
     json:
       output:

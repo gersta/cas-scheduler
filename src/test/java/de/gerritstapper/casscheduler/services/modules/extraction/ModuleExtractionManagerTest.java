@@ -1,9 +1,7 @@
 package de.gerritstapper.casscheduler.services.modules.extraction;
 
 import de.gerritstapper.casscheduler.models.module.Module;
-import de.gerritstapper.casscheduler.services.modules.pdf.ModulePdfTextStripper;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
