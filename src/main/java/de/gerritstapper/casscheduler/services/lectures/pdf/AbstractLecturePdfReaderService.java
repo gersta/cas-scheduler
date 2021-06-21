@@ -46,7 +46,7 @@ public abstract class AbstractLecturePdfReaderService {
                     .distinct()
                     .collect(Collectors.toList());
 
-            log.info("extractLectures(): Read {} lectures", lectures.size());
+            log.info("extractLectures(): Read {} lectures from {}", lectures.size(), filename);
 
             closeDocument();
         } catch (IOException exception) {

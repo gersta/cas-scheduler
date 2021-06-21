@@ -85,4 +85,46 @@ class ModuleExamExtractionServiceTest {
         );
     }
 
+    @Test
+    void shouldExtractMultilineExamForm() {
+        String content = """
+                Kombinierte Modulprüfung - Klausur und Programmentwurf (geplante
+                Gewichtung: 50% - 50 %) Siehe Pruefungsordnung Bestanden/ Nicht-Bestanden
+                """;
+
+        ExamInfo examInfo = examExtractionService.extractExam(content);
+
+        assertAll(
+                () -> assertNotNull(examInfo),
+                () -> assertEquals("Kombinierte Modulprüfung - Klausur und Programmentwurf (geplante Gewichtung: 50% - 50 %)", examInfo.getExam())
+        );
+    }
+
+    @Test
+    void shouldExtractExamMarkingBestandenNichtBestanden() {
+        String content = """
+                Kombinierte Modulprüfung - Klausur und Programmentwurf (geplante
+                Gewichtung: 50% - 50 %) Siehe Pruefungsordnung Bestanden/ Nicht-Bestanden
+                """;
+
+        ExamInfo examInfo = examExtractionService.extractExam(content);
+
+        assertAll(
+                () -> assertNotNull(examInfo),
+                () -> assertEquals("Bestanden/ Nicht-Bestanden", examInfo.getExamMarking())
+        );
+    }
+
+    @Test
+    void shouldExtractExamMarkingTeilgenommen() {
+        String content = "Transferbericht Siehe Pruefungsordnung Teilgenommen";
+
+        ExamInfo examInfo = examExtractionService.extractExam(content);
+
+        assertAll(
+                () -> assertNotNull(examInfo),
+                () -> assertEquals("Teilgenommen", examInfo.getExamMarking())
+        );
+    }
+
 }

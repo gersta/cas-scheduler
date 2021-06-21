@@ -33,12 +33,13 @@ public class ModuleExamExtractionService implements IExtractionHelper {
 
     private ExamInfo extractWithDurationSiehePruefungsordnung(String examLine) {
         String[] examInfo = examLine
-                            .replace(ModuleRegexPattern.EXAM_DURATION_PRUEFUNGSORDNUNG.getPattern(), "")
-                            .split(ExtractionPatterns.WHITESPACE.getPattern());
+                            .split(ModuleRegexPattern.EXAM_DURATION_PRUEFUNGSORDNUNG.getPattern());
 
-        String examMarking = examInfo[examInfo.length - 1];
+        String exam = examInfo[0]
+                            .replaceAll(ExtractionPatterns.LINEBREAK.getPattern(), ExtractionPatterns.WHITESPACE.getPattern())
+                            .strip();
 
-        String exam = concatenateExamArrayInfoParts(examInfo, 0, examInfo.length - 1);
+        String examMarking = examInfo[1].strip();
 
         return ExamInfo.builder()
                 .exam(exam)
