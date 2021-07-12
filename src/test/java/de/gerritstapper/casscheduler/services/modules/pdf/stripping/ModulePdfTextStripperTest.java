@@ -1,10 +1,13 @@
 package de.gerritstapper.casscheduler.services.modules.pdf.stripping;
 
-import de.gerritstapper.casscheduler.services.modules.pdf.stripping.ModulePdfTextStripper;
+import de.gerritstapper.casscheduler.models.module.CasPdPage;
+import org.apache.pdfbox.pdmodel.PDPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,69 +23,43 @@ class ModulePdfTextStripperTest {
     }
 
     @Test
-    void shouldReturnTextFromPageOneForIndexOne() {
+    void shouldReturnTextForPageOne() {
         String pageOneTextStart = "AUS AKTUELLER ORGA-EINHEIT";
 
-        String result = textStripper.getTextForPage(1);
+        CasPdPage result = textStripper.getPdfPages().get(0);
 
-        assertTrue(result.startsWith(pageOneTextStart));
+        assertTrue(result.getPageContent().startsWith(pageOneTextStart));
     }
 
     @Test
-    void shouldReturnTextFromPageOneForIndexTwo() {
+    void shouldReturnTextForPageTwo() {
         String pageTwoTextStart = "LERNEINHEITEN UND INHALTE";
 
-        String result = textStripper.getTextForPage(2);
+        CasPdPage result = textStripper.getPdfPages().get(1);
 
-        assertTrue(result.startsWith(pageTwoTextStart));
+        assertTrue(result.getPageContent().startsWith(pageTwoTextStart));
     }
 
     @Test
-    void shouldReturnEmptyTextForIndexOutOfBounds() {
-        String emptyText = "";
+    void shouldConvertPdPageTreeOfInputDocumentIntoListOfPages() {
+        List<CasPdPage> pages = textStripper.getPdfPages();
 
-        String result = textStripper.getTextForPage(1000);
-
-        assertEquals(emptyText, result);
+        assertEquals(5, pages.size());
     }
 
     @Test
-    void shouldReturnLectureCodeForPageIndex() {
-        String pageOneLectureCode = textStripper.getLectureCodeForPage(1);
-        String pageTwoLectureCode = textStripper.getLectureCodeForPage(2);
-        String pageThreeLectureCode = textStripper.getLectureCodeForPage(3);
-        String pageFourLectureCode = textStripper.getLectureCodeForPage(4);
-        String pageFiveLectureCode = textStripper.getLectureCodeForPage(5);
+    void shouldReturnPageContentForEachPageOfTheDocument() {
+        List<CasPdPage> pages = textStripper.getPdfPages();
+
+        long numberOfPagesWithContentOrUpdateTimestamp = pages.stream()
+                .filter(page -> Objects.nonNull(page.getPageContent()))
+                .filter(page -> page.getPageContent().contains("Stand vom 13.07.2020"))
+                .count();
 
         assertAll(
-                () -> assertEquals("T3M10506", pageOneLectureCode),
-                () -> assertEquals("T3M10506", pageTwoLectureCode),
-                () -> assertEquals("T3M10507", pageThreeLectureCode),
-                () -> assertEquals("T3M10507", pageFourLectureCode),
-                () -> assertEquals("T3M10507", pageFiveLectureCode)
+                () -> assertEquals(5, pages.size()),
+                () -> assertEquals(5, numberOfPagesWithContentOrUpdateTimestamp)
         );
-    }
-
-    @Test
-    void shouldReturnLectueCodeFromPageForMasterThesis() throws IOException {
-        String filename = "M_T_Modulhandbuch_Master_Thesis.pdf";
-
-        textStripper = new ModulePdfTextStripper(filename);
-
-        String result = textStripper.getLectureCodeForPage(1);
-
-        assertEquals("T3MX0202", result);
-    }
-
-    @Test
-    void shoulReturnEmptyStringForMissingLectureCode() throws IOException {
-        String filename = "M_T_Modulhandbuch_Non_Module.pdf";
-
-        textStripper = new ModulePdfTextStripper(filename);
-
-        String result = textStripper.getLectureCodeForPage(1);
-
-        assertEquals("", result);
     }
 
 }

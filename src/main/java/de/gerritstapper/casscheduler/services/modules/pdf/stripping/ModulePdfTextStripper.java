@@ -1,14 +1,18 @@
 package de.gerritstapper.casscheduler.services.modules.pdf.stripping;
 
 import de.gerritstapper.casscheduler.models.enums.RegexPatterns;
+import de.gerritstapper.casscheduler.models.module.CasPdPage;
 import de.gerritstapper.casscheduler.models.module.enums.ModuleRegexPattern;
 import lombok.extern.log4j.Log4j2;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageTree;
 import org.apache.pdfbox.text.PDFTextStripper;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,11 +32,34 @@ public class ModulePdfTextStripper {
         document = getDocument(filename);
     }
 
-    protected PDPageTree getPdfPages() {
-        return document.getPages();
+    protected List<CasPdPage> getPdfPages() {
+        List<PDPage> inputPages = convertTreeToList(document.getPages());
+        ArrayList<CasPdPage> pagesWithContent = new ArrayList<>();
+
+        for (int i = 0; i < inputPages.size(); i++) {
+            PDPage page = inputPages.get(i);
+            int indexInDocument = i + 1;
+            String content = getTextForPage(indexInDocument);
+
+            CasPdPage casPage = CasPdPage.builder()
+                    .page(page)
+                    .pageContent(content)
+                    .build();
+
+            pagesWithContent.add(casPage);
+        }
+
+        return pagesWithContent;
     }
 
-    protected String getTextForPage(int pageIndex) {
+    private List<PDPage> convertTreeToList(PDPageTree tree) {
+        List<PDPage> pages = new ArrayList<>();
+        tree.iterator().forEachRemaining(pages::add);
+
+        return pages;
+    }
+
+    private String getTextForPage(int pageIndex) {
         try {
             textStripper.setStartPage(pageIndex);
             textStripper.setEndPage(pageIndex);
@@ -45,23 +72,6 @@ public class ModulePdfTextStripper {
 
             return "";
         }
-    }
-
-    protected String getLectureCodeForPage(int pageIndex) {
-        String content = getTextForPage(pageIndex);
-
-        String lectureCodePattern = String.format("(%s|%s)", RegexPatterns.LECTURE_CODE.getPattern(), ModuleRegexPattern.MASTER_THESIS.getPattern());
-
-        Pattern pattern = Pattern.compile(lectureCodePattern);
-
-        Matcher matcher = pattern.matcher(content);
-
-        if ( matcher.find() ) {
-            String lectureCode = matcher.group();
-            return lectureCode;
-        }
-
-        return "";
     }
 
     /** TODO: move this to a common class for both pdf ders

@@ -12,7 +12,6 @@ import org.apache.pdfbox.pdmodel.PDPage;
 @Builder
 public class ModulePdfPage {
 
-    private int pageIndexInDocument;
     private PDPage page;
     private String content;
 }
