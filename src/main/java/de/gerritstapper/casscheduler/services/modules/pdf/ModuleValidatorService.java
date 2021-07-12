@@ -60,7 +60,7 @@ public class ModuleValidatorService {
 
     private boolean isValidName(Module module) {
         String name = module.getLectureName();
-
+        
         boolean isValid = Objects.nonNull(name) && !name.isEmpty() && !name.isBlank();
 
         return printIfIsInvalid(isValid, "Lecture Name", name);
