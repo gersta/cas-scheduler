@@ -47,7 +47,11 @@ public class ModuleValidatorService {
         String lectureCode = module.getLectureCode();
 
         boolean isValid = Objects.nonNull(lectureCode) && !lectureCode.isBlank()
-                && ( lectureCode.matches(RegexPatterns.LECTURE_CODE.getPattern()) | lectureCode.matches(ModuleRegexPattern.MASTER_THESIS.getPattern()));
+                && (
+                        lectureCode.matches(RegexPatterns.LECTURE_CODE.getPattern()) ||
+                        lectureCode.matches(ModuleRegexPattern.MASTER_THESIS.getPattern()) ||
+                        lectureCode.matches(ModuleRegexPattern.MUTLIDISCIPLINARY_COMPETENCES.getPattern())
+        );
 
         return printIfIsInvalid(isValid, "Lecture Code", lectureCode);
     }

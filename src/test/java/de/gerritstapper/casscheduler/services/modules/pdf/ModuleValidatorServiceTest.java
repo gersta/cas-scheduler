@@ -865,4 +865,13 @@ class ModuleValidatorServiceTest {
         assertFalse(validatorService.isValidModule(validModule));
     }
 
+    @Test
+    void shouldBeValidForLectureCodeOfMultidisciplinaryCompetences() {
+        String code = "XMX0101";
+
+        validModule.setLectureCode(code);
+
+        assertTrue(validatorService.isValidModule(validModule));
+    }
+
 }
