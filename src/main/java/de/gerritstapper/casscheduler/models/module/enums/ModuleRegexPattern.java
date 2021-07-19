@@ -7,8 +7,8 @@ public enum ModuleRegexPattern {
     LECTURE_CODE_MASTER_THESIS("[A-Z]{1}\\d{1}[A-Z]{1}[A-Z]{1}\\d{4}"),
     LECTURE_CODE_MULTIDIS_COMPETENCES("XMX0101"),
     SINGLE_DIGIT("\\d"),
-    OWNER("(\\p{L}|\\s|\\.|-)+"), // use the {1, } notation to define a min length of 1
-    LECTURING_FORMS_METHODS("([a-zA-Z]|,|\\s){1,}"),
+    OWNER("(\\p{L}|\\s|\\.|-)+"),
+    LECTURING_FORMS_METHODS("([a-zA-Z]|,|\\s|\\-){1,}"), // use the {1, } notation to define a min length of 1
     DIGITS_ONLY("\\d{1,}"),
     LANGUAGE_NOT_AVAILABLE("N/A"),
     EXAM_DURATION_PRUEFUNGSORDNUNG("Siehe Pruefungsordnung"),

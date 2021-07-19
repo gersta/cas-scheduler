@@ -376,8 +376,17 @@ class ModuleValidatorServiceTest {
     }
 
     @Test
-    void shouldBeValidForLecturingMethodsAlphabetical() {
+    void shouldBeValidForLecturingMethodsContainingLettersOnly() {
         String invalidLecturingMethods = "Laborarbeit, Diskussion";
+
+        validModule.setLecturingMethods(invalidLecturingMethods);
+
+        assertTrue(validatorService.isValidModule(validModule));
+    }
+
+    @Test
+    void shouldBeValidForLecturingMethodsContainingHyphon() {
+        String invalidLecturingMethods = "blended-learning";
 
         validModule.setLecturingMethods(invalidLecturingMethods);
 
@@ -421,7 +430,7 @@ class ModuleValidatorServiceTest {
     }
 
     @Test
-    void shouldBeValidForExamAlphabetical() {
+    void shouldBeValidForExamLettersOnly() {
         String validExam = "Klausur";
 
         validModule.setExam(validExam);
@@ -512,7 +521,7 @@ class ModuleValidatorServiceTest {
     }
 
     @Test
-    void shouldBeInvalidForExamDurationAlphabetical() {
+    void shouldBeInvalidForExamDurationLettersOnly() {
         String invalidExamDuration = "Ten";
 
         validModule.setExamDuration(invalidExamDuration);
@@ -665,7 +674,7 @@ class ModuleValidatorServiceTest {
     }
 
     @Test
-    void shouldBeInvalidForTotalWorkloadAlphabetical() {
+    void shouldBeInvalidForTotalWorkloadLettersOnly() {
         String inValidTotalWorkload = "Ten";
 
         validModule.setTotalWorkload(inValidTotalWorkload);
@@ -719,7 +728,7 @@ class ModuleValidatorServiceTest {
     }
 
     @Test
-    void shouldBeInvalidForPresentWorkloadAlphabetical() {
+    void shouldBeInvalidForPresentWorkloadLettersOnly() {
         String inValidPresentWorkload = "Ten";
 
         validModule.setPresentWorkload(inValidPresentWorkload);
@@ -773,7 +782,7 @@ class ModuleValidatorServiceTest {
     }
 
     @Test
-    void shouldBeInvalidForSelfStudyWorkloadAlphabetical() {
+    void shouldBeInvalidForSelfStudyWorkloadLettersOnly() {
         String inValidSelfStudyWorkload = "Ten";
 
         validModule.setSelfStudyWorkload(inValidSelfStudyWorkload);
@@ -827,7 +836,7 @@ class ModuleValidatorServiceTest {
     }
 
     @Test
-    void shouldBeInvalidForEctsPointsAlphabetical() {
+    void shouldBeInvalidForEctsPointsLettersOnly() {
         String inValidEctsPoints = "Ten";
 
         validModule.setEctsPoints(inValidEctsPoints);
