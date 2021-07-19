@@ -1,6 +1,5 @@
 package de.gerritstapper.casscheduler.services.modules.pdf.stripping;
 
-import de.gerritstapper.casscheduler.models.enums.RegexPatterns;
 import de.gerritstapper.casscheduler.models.module.enums.ModuleRegexPattern;
 import lombok.extern.log4j.Log4j2;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -50,7 +49,7 @@ public class ModulePdfTextStripper {
     protected String getLectureCodeForPage(int pageIndex) {
         String content = getTextForPage(pageIndex);
 
-        String lectureCodePattern = String.format("(%s|%s)", RegexPatterns.LECTURE_CODE.getPattern(), ModuleRegexPattern.MASTER_THESIS.getPattern());
+        String lectureCodePattern = String.format("(%s|%s)", ModuleRegexPattern.LECTURE_CODE.getPattern(), ModuleRegexPattern.LECTURE_CODE_MASTER_THESIS.getPattern());
 
         Pattern pattern = Pattern.compile(lectureCodePattern);
 

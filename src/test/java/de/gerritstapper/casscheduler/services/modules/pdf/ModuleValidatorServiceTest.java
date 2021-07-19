@@ -60,6 +60,15 @@ class ModuleValidatorServiceTest {
     }
 
     @Test
+    void shouldBeValidForLectureCodeMultidisciplinaryCompetences() {
+        String validLectureCode = "XMX0101";
+
+        validModule.setLectureCode(validLectureCode);
+
+        assertTrue(validatorService.isValidModule(validModule));
+    }
+
+    @Test
     void shouldBeInvalidForInvalidLectureCode() {
         String invalidLectureCode = "ABC";
 

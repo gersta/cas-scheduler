@@ -1,6 +1,5 @@
 package de.gerritstapper.casscheduler.services.modules.pdf;
 
-import de.gerritstapper.casscheduler.models.enums.RegexPatterns;
 import de.gerritstapper.casscheduler.models.module.Module;
 import de.gerritstapper.casscheduler.models.module.enums.ModuleRegexPattern;
 import lombok.extern.log4j.Log4j2;
@@ -47,7 +46,11 @@ public class ModuleValidatorService {
         String lectureCode = module.getLectureCode();
 
         boolean isValid = Objects.nonNull(lectureCode) && !lectureCode.isBlank()
-                && ( lectureCode.matches(RegexPatterns.LECTURE_CODE.getPattern()) | lectureCode.matches(ModuleRegexPattern.MASTER_THESIS.getPattern()));
+                && (
+                        lectureCode.matches(ModuleRegexPattern.LECTURE_CODE.getPattern()) ||
+                        lectureCode.matches(ModuleRegexPattern.LECTURE_CODE_MASTER_THESIS.getPattern()) ||
+                        lectureCode.matches(ModuleRegexPattern.LECTURE_CODE_MULTIDIS_COMPETENCES.getPattern())
+        );
 
         return printIfIsInvalid(isValid, "Lecture Code", lectureCode);
     }
@@ -76,7 +79,7 @@ public class ModuleValidatorService {
     private boolean isMasterThesis(Module module) {
         String lectureCode = module.getLectureCode();
 
-        return Objects.nonNull(lectureCode) && lectureCode.matches(ModuleRegexPattern.MASTER_THESIS.getPattern());
+        return Objects.nonNull(lectureCode) && lectureCode.matches(ModuleRegexPattern.LECTURE_CODE_MASTER_THESIS.getPattern());
     }
 
     private boolean isValidDuration(Module module) {

@@ -3,7 +3,9 @@ package de.gerritstapper.casscheduler.models.module.enums;
 import lombok.Getter;
 
 public enum ModuleRegexPattern {
-    MASTER_THESIS("[A-Z]{1}\\d{1}[A-Z]{1}[A-Z]{1}\\d{4}"),
+    LECTURE_CODE("[A-Z]{1}\\d{1}[A-Z]{1}\\d{5}"),
+    LECTURE_CODE_MASTER_THESIS("[A-Z]{1}\\d{1}[A-Z]{1}[A-Z]{1}\\d{4}"),
+    LECTURE_CODE_MULTIDIS_COMPETENCES("XMX0101"),
     SINGLE_DIGIT("\\d"),
     OWNER("(\\p{L}|\\s|\\.|-)+"), // use the {1, } notation to define a min length of 1
     LECTURING_FORMS_METHODS("([a-zA-Z]|,|\\s){1,}"),
