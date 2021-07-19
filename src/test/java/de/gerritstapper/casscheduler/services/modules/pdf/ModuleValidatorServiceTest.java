@@ -131,6 +131,20 @@ class ModuleValidatorServiceTest {
         assertTrue(validatorService.isValidModule(validModule));
     }
 
+    /**
+     * in case the language information is not present in the pdf, the @{@link de.gerritstapper.casscheduler.services.modules.extraction.ModuleFormalitiesExtractionService}
+     * instead inserts N/A as a replacement. This must therefor also be a valid value for the language to
+     * pass the validation
+     */
+    @Test
+    void shouldBeValidForLanguageNA() {
+        String language = "N/A";
+
+        validModule.setLanguage(language);
+
+        assertTrue(validatorService.isValidModule(validModule));
+    }
+
     @Test
     void shouldBeInvalidForLanguageLatin() {
         String language = "Latin";
@@ -139,6 +153,7 @@ class ModuleValidatorServiceTest {
 
         assertFalse(validatorService.isValidModule(validModule));
     }
+
     @Test
     void shouldBeInvalidForLanguageNumeric() {
         String language = "55";

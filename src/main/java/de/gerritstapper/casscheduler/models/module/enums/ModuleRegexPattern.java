@@ -9,8 +9,8 @@ public enum ModuleRegexPattern {
     SINGLE_DIGIT("\\d"),
     OWNER("(\\p{L}|\\s|\\.|-)+"), // use the {1, } notation to define a min length of 1
     LECTURING_FORMS_METHODS("([a-zA-Z]|,|\\s){1,}"),
-    LETTERS_ONLY("(\\w{1,})"),
     DIGITS_ONLY("\\d{1,}"),
+    LANGUAGE_NOT_AVAILABLE("N/A"),
     EXAM_DURATION_PRUEFUNGSORDNUNG("Siehe Pruefungsordnung"),
     EXAM_MARKING("(ja|Ja|Nein|nein)"),
     EXAM_MARKING_PASSED_NOT_PASSED("Bestanden/ Nicht-Bestanden"),

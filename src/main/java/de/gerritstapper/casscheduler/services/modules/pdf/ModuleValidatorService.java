@@ -59,7 +59,12 @@ public class ModuleValidatorService {
         String language = module.getLanguage();
 
         boolean isValid = Objects.nonNull(language) && ( isMasterThesis(module)
-                || ( isDeutsch(language) || isEnglisch(language) || isDeutschAndEnglisch(language) ));
+                || (
+                        isDeutsch(language) ||
+                        isEnglisch(language) ||
+                        isDeutschAndEnglisch(language) ||
+                        language.matches(ModuleRegexPattern.LANGUAGE_NOT_AVAILABLE.getPattern())
+        ));
 
         return printIfIsInvalid(isValid, "Language", language);
     }
