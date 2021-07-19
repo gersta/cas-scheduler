@@ -64,8 +64,7 @@ class ModulePagesGroupingServiceTest {
         when(textStripper.getPdfPages()).thenReturn(pdfPages);
 
         groupingService = new ModulePagesGroupingService(
-                textStripper,
-                new ModuleDataCleansingService()
+                textStripper
         );
     }
 
@@ -133,8 +132,7 @@ class ModulePagesGroupingServiceTest {
         when(textStripperMock.getPdfPages()).thenReturn(pagesWithMultipleLectureCodes);
 
         ModulePagesGroupingService groupingService = new ModulePagesGroupingService(
-                textStripperMock,
-                new ModuleDataCleansingService()
+                textStripperMock
         );
 
         Map<String, List<ModulePdfPage>> result = groupingService.groupPdfPagesByModule();
@@ -162,8 +160,7 @@ class ModulePagesGroupingServiceTest {
         when(textStripperMock.getPdfPages()).thenReturn(pageWithoutLectureCode);
 
         ModulePagesGroupingService groupingService = new ModulePagesGroupingService(
-                textStripperMock,
-                new ModuleDataCleansingService()
+                textStripperMock
         );
 
         Map<String, List<ModulePdfPage>> result = groupingService.groupPdfPagesByModule();

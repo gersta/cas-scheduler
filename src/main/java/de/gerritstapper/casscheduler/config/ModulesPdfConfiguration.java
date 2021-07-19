@@ -21,8 +21,7 @@ public class ModulesPdfConfiguration {
         return new ModulePagesGroupingService(
                 new ModulePdfTextStripper(
                         filename
-                ),
-                new ModuleDataCleansingService()
+                )
         );
     }
 
@@ -34,8 +33,7 @@ public class ModulesPdfConfiguration {
         return new ModulePagesGroupingService(
                 new ModulePdfTextStripper(
                         filename
-                ),
-                new ModuleDataCleansingService()
+                )
         );
     }
 }

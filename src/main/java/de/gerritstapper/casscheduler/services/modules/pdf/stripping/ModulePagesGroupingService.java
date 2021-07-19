@@ -20,14 +20,11 @@ import java.util.regex.Pattern;
 public class ModulePagesGroupingService {
 
     private final ModulePdfTextStripper textStripper;
-    private final ModuleDataCleansingService cleansingService;
 
     public ModulePagesGroupingService(
-            ModulePdfTextStripper textStripper,
-            ModuleDataCleansingService cleansingService
+            ModulePdfTextStripper textStripper
     ) {
         this.textStripper = textStripper;
-        this.cleansingService = cleansingService;
     }
 
     public Map<String, List<ModulePdfPage>> groupPdfPagesByModule() {
