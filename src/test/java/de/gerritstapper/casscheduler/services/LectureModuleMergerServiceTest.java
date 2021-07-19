@@ -120,7 +120,7 @@ class LectureModuleMergerServiceTest {
     }
 
     @Test
-    void shouldReturnLecuteModuleFlaggedForMissingModule() {
+    void shouldReturnLectureModuleFlaggedForMissingModule() {
         LectureDao lecture = LectureDao.builder()
                 .lectureCode("ABC")
                 .build();
@@ -134,6 +134,26 @@ class LectureModuleMergerServiceTest {
                 () -> assertNotNull(resultWithoutModule),
                 () -> assertEquals("ABC", resultWithoutModule.getLectureCode()),
                 () -> assertFalse(resultWithoutModule.isModuleAvailable())
+        );
+    }
+
+    @Test
+    void shouldCopyAdditionalInformationFromLectureToLectureModuleDao() {
+        LectureDao lecture = LectureDao.builder()
+                .lectureCode("ABC")
+                .additionalInformation(Arrays.asList("WiSe", "Zertifikationsprogramm"))
+                .build();
+
+        ModuleDao module = ModuleDao.builder().lectureCode("ABC").build();
+
+        List<LectureModuleDao> result = lectureModuleMergerService.mergeLecturesWithModules(
+                Collections.singletonList(lecture),
+                Collections.singletonList(module)
+        );
+
+        assertAll(
+                () -> assertNotNull(result),
+                () -> assertLinesMatch(Arrays.asList("WiSe", "Zertifikationsprogramm"), result.get(0).getAdditionalInformation())
         );
     }
 

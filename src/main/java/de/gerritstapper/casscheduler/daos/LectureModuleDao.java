@@ -21,6 +21,8 @@ public class LectureModuleDao {
     private String lectureName;
     private String lectureNameEnglish;
 
+    private List<String> additionalInformation;
+
     private List<BlockDao> blocks;
 
     private String owner;

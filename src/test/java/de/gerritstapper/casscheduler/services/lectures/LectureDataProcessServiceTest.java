@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -84,5 +85,20 @@ public class LectureDataProcessServiceTest {
                 "T3M10001_start_2020-10-20_1st-Block.ics",
                 result.getBlocks().get(0).getFilename()
         );
+    }
+
+    @Test
+    void shouldCopyAdditionalInformationFromLectureToLectureDao() {
+        Lecture lecture = Lecture.builder()
+                .additionalInformation(Arrays.asList("WiSe", "Zertifikatsprogramm"))
+                .firstBlockStart("20.10.")
+                .firstBlockEnd("21.10.2020")
+                .secondBlockStart(EMPTY)
+                .secondBlockEnd(EMPTY)
+                .build();
+
+        LectureDao result = dataProcessService.create(lecture);
+
+        assertLinesMatch(Arrays.asList("WiSe", "Zertifikatsprogramm"), result.getAdditionalInformation());
     }
 }

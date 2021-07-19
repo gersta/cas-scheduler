@@ -36,6 +36,7 @@ public class LectureModuleMergerService {
                     .moduleAvailable(true)
                     .lectureCode(module.getLectureCode())
                     .lectureName(module.getLectureName())
+                    .additionalInformation(lecture.getAdditionalInformation())
                     .lectureNameEnglish(module.getLectureNameEnglish())
                     .blocks(lecture.getBlocks())
                     .owner(module.getOwner())

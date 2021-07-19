@@ -9,9 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class LectureDataProcessService {
@@ -34,6 +32,7 @@ public class LectureDataProcessService {
                 .lectureCode(lecture.getLectureCode())
                 .name(lecture.getName())
                 .blocks(createBlocks(lecture))
+                .additionalInformation(copyAdditionalInformation(lecture))
                 .build();
     }
 
@@ -94,6 +93,10 @@ public class LectureDataProcessService {
 
     private String createFileName(Lecture lecture, LocalDate start, String block) {
         return String.format("%s_start_%s_%s.ics", lecture.getLectureCode(), start, block);
+    }
+
+    private List<String> copyAdditionalInformation(Lecture lecture) {
+        return Objects.nonNull(lecture.getAdditionalInformation()) ? lecture.getAdditionalInformation() : Collections.emptyList();
     }
 
     /**

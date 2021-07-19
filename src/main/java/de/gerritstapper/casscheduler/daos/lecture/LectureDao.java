@@ -16,5 +16,7 @@ public class LectureDao {
     String lectureCode;
     String name;
 
+    List<String> additionalInformation;
+
     List<BlockDao> blocks;
 }
