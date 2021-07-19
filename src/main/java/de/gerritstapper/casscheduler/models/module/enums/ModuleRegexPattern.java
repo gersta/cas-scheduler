@@ -12,6 +12,7 @@ public enum ModuleRegexPattern {
     EXAM_DURATION_PRUEFUNGSORDNUNG("Siehe Pruefungsordnung"),
     EXAM_MARKING("(ja|Ja|Nein|nein)"),
     EXAM_MARKING_PASSED_NOT_PASSED("Bestanden/ Nicht-Bestanden"),
+    EXAM_MARKING_PARTICIPATED("Teilgenommen"),
     GERMAN_DATE("\\d{2}\\.\\d{2}\\.\\d{4}");
 
     @Getter
