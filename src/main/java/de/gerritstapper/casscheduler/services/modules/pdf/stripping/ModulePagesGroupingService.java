@@ -4,10 +4,8 @@ import de.gerritstapper.casscheduler.models.enums.RegexPatterns;
 import de.gerritstapper.casscheduler.models.module.CasPdPage;
 import de.gerritstapper.casscheduler.models.module.ModulePdfPage;
 import de.gerritstapper.casscheduler.models.module.enums.ModuleRegexPattern;
-import de.gerritstapper.casscheduler.services.modules.pdf.ModuleDataCleansingService;
 import lombok.extern.log4j.Log4j2;
 import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageTree;
 
 import java.util.ArrayList;
 import java.util.HashMap;

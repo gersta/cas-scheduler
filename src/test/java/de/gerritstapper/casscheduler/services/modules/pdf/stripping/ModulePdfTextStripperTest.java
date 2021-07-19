@@ -1,7 +1,6 @@
 package de.gerritstapper.casscheduler.services.modules.pdf.stripping;
 
 import de.gerritstapper.casscheduler.models.module.CasPdPage;
-import org.apache.pdfbox.pdmodel.PDPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +18,7 @@ class ModulePdfTextStripperTest {
     void beforeEach() throws IOException {
         String filename = "M_T_Modulhandbuch_Grouping.pdf";
 
-        textStripper = new ModulePdfTextStripper(filename);
+        textStripper = new ModulePdfTextStripper(filename, new ModuleDataCleansingService());
     }
 
     @Test

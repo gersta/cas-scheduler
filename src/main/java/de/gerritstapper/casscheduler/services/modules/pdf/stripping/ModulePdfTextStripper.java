@@ -1,8 +1,6 @@
 package de.gerritstapper.casscheduler.services.modules.pdf.stripping;
 
-import de.gerritstapper.casscheduler.models.enums.RegexPatterns;
 import de.gerritstapper.casscheduler.models.module.CasPdPage;
-import de.gerritstapper.casscheduler.models.module.enums.ModuleRegexPattern;
 import lombok.extern.log4j.Log4j2;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -14,21 +12,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Log4j2
 public class ModulePdfTextStripper {
 
     private final PDFTextStripper textStripper;
     private final PDDocument document;
+    private final ModuleDataCleansingService cleansingService;
 
     public ModulePdfTextStripper(
-            String filename
-    ) throws IOException { // TODO: Get rid of the exception
+            String filename,
+            ModuleDataCleansingService cleansingService
+    ) throws IOException {
+        this.cleansingService = cleansingService; // TODO: Get rid of the exception
+
         textStripper = new PDFTextStripper();
         textStripper.setSortByPosition(true);
-
         document = getDocument(filename);
     }
 
@@ -64,7 +63,9 @@ public class ModulePdfTextStripper {
             textStripper.setStartPage(pageIndex);
             textStripper.setEndPage(pageIndex);
 
-            return textStripper.getText(document);
+            String pageContent = textStripper.getText(document);
+
+            return cleansingService.removeGermanUmlaute(pageContent);
         } catch (IOException ioException) {
             log.error("IO Exception appeared at getTextForPage() with index {}", pageIndex);
 

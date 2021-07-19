@@ -2,22 +2,15 @@ package de.gerritstapper.casscheduler.services.modules.pdf.stripping;
 
 import de.gerritstapper.casscheduler.models.module.CasPdPage;
 import de.gerritstapper.casscheduler.models.module.ModulePdfPage;
-import de.gerritstapper.casscheduler.services.modules.pdf.ModuleDataCleansingService;
-import de.gerritstapper.casscheduler.services.modules.pdf.stripping.ModulePagesGroupingService;
-import de.gerritstapper.casscheduler.services.modules.pdf.stripping.ModulePdfTextStripper;
-import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 class ModulePagesGroupingServiceTest {
