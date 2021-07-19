@@ -1,53 +1,63 @@
 package de.gerritstapper.casscheduler.services.modules.pdf.stripping;
 
+import de.gerritstapper.casscheduler.models.module.CasPdPage;
 import de.gerritstapper.casscheduler.models.module.ModulePdfPage;
-import de.gerritstapper.casscheduler.services.modules.pdf.ModuleDataCleansingService;
-import de.gerritstapper.casscheduler.services.modules.pdf.stripping.ModulePagesGroupingService;
-import de.gerritstapper.casscheduler.services.modules.pdf.stripping.ModulePdfTextStripper;
-import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 class ModulePagesGroupingServiceTest {
 
-    private static final String FIRST_MODULE = "T3M10506";
-    private static final String SECOND_MODULE = "T3M10507";
-
     private ModulePagesGroupingService groupingService;
 
     @BeforeEach
-    void beforeEach() throws IOException {
-        String filename = "M_T_Modulhandbuch_Grouping.pdf";
-
-        PDDocument document = PDDocument.load(new File("src/test/resources/" + filename));
-
+    void beforeEach() {
         ModulePdfTextStripper textStripper = Mockito.mock(ModulePdfTextStripper.class);
 
-        when(textStripper.getPdfPages()).thenReturn(document.getPages());
-        when(textStripper.getTextForPage(anyInt())).thenReturn("");
+        PDPage dummyPage = new PDPage();
+        List<CasPdPage> pdfPages = Arrays.asList(
+                CasPdPage.builder()
+                        .page(dummyPage)
+                        .pageContent("""
+                                Embedded Systems im Kraftfahrzeug (T3M10506)Automotive Embedded Systems
+                                Stand vom 13.07.2020 T3M10506 // Seite 72
+                                """)
+                        .build(),
+                CasPdPage.builder()
+                        .page(dummyPage)
+                        .pageContent("""
+                                LERNEINHEITEN UND INHALTE
+                                Stand vom 13.07.2020 T3M10506 // Seite 73
+                                """)
+                        .build(),
+                CasPdPage.builder()
+                        .page(dummyPage)
+                        .pageContent("""
+                                Verbrennungsmotoren (Grundlagen) (T3M10507)Combustion Engines (Basics)
+                                Stand vom 13.07.2020 T3M10507 // Seite 74
+                                """)
+                        .build(),
+                CasPdPage.builder()
+                        .page(dummyPage)
+                        .pageContent("""
+                                QUALIFIKATIONSZIELE UND KOMPETENZEN
+                                INFORMATION TO ANY OTHER LECTURE: T3M10506
+                                Stand vom 13.07.2020 T3M10507 // Seite 75
+                                """)
+                        .build()
+        );
 
-        when(textStripper.getLectureCodeForPage(1)).thenReturn("T3M10506");
-        when(textStripper.getLectureCodeForPage(2)).thenReturn("T3M10506");
-        when(textStripper.getLectureCodeForPage(3)).thenReturn("T3M10507");
-        when(textStripper.getLectureCodeForPage(4)).thenReturn("T3M10507");
-        when(textStripper.getLectureCodeForPage(5)).thenReturn("T3M10507");
+        when(textStripper.getPdfPages()).thenReturn(pdfPages);
 
         groupingService = new ModulePagesGroupingService(
-                textStripper,
-                new ModuleDataCleansingService()
+                textStripper
         );
     }
 
@@ -70,35 +80,87 @@ class ModulePagesGroupingServiceTest {
 
         int numberOfPages = totalPages.size();
 
-        assertEquals(5, numberOfPages);
+        assertEquals(4, numberOfPages);
     }
 
     @Test
     void shouldGroupTwoPagesForFirstModule() {
         Map<String, List<ModulePdfPage>> result = groupingService.groupPdfPagesByModule();
 
-        List<ModulePdfPage> pages = result.get(FIRST_MODULE);
+        List<ModulePdfPage> pages = result.get("T3M10506");
 
         assertEquals(2, pages.size());
     }
 
     @Test
-    void shouldGroupThreePagesForSecondModule() {
+    void shouldGroupTwoPagesForSecondModule() {
         Map<String, List<ModulePdfPage>> result = groupingService.groupPdfPagesByModule();
 
-        List<ModulePdfPage> pages = result.get(SECOND_MODULE);
+        List<ModulePdfPage> pages = result.get("T3M10507");
 
-        assertEquals(3, pages.size());
+        assertEquals(2, pages.size());
     }
 
     @Test
-    void shouldMapEachPdPageToItsIndexInDocument() {
+    void shouldIgnoreLectureCodesWhichAreNotPartOfTheLastLineOfThePageContent() {
+        List<CasPdPage> pagesWithMultipleLectureCodes = Arrays.asList(
+                CasPdPage.builder()
+                        .page(new PDPage())
+                        .pageContent("""
+                                Verbrennungsmotoren (Grundlagen) (T3M10507)Combustion Engines (Basics)
+                                Stand vom 13.07.2020 T3M10507 // Seite 74
+                                """)
+                        .build(),
+                CasPdPage.builder()
+                        .page(new PDPage())
+                        .pageContent("""
+                                QUALIFIKATIONSZIELE UND KOMPETENZEN
+                                INFORMATION TO ANY OTHER LECTURE: T3M10506
+                                Stand vom 13.07.2020 T3M10507 // Seite 75
+                                """)
+                        .build()
+        );
+
+        ModulePdfTextStripper textStripperMock = Mockito.mock(ModulePdfTextStripper.class);
+        when(textStripperMock.getPdfPages()).thenReturn(pagesWithMultipleLectureCodes);
+
+        ModulePagesGroupingService groupingService = new ModulePagesGroupingService(
+                textStripperMock
+        );
+
         Map<String, List<ModulePdfPage>> result = groupingService.groupPdfPagesByModule();
 
-        assertTrue(
-                result.values().stream()
-                        .flatMap(Collection::stream)
-                        .allMatch(page -> page.getPageIndexInDocument() > 0)
+        assertAll(
+                () -> assertEquals(1, result.keySet().size()),
+                () -> assertEquals(2, result.get("T3M10507").size()),
+                () -> assertNull(result.get("T3M10506"))
+        );
+    }
+
+    @Test
+    void shoulReturnEmptyStringForMissingLectureCode() {
+        List<CasPdPage> pageWithoutLectureCode = Collections.singletonList(
+                CasPdPage.builder()
+                        .page(new PDPage())
+                        .pageContent("""
+                                Verbrennungsmotoren (Grundlagen) Combustion Engines (Basics)
+                                Stand vom 13.07.2020 // Seite 74
+                                """)
+                        .build()
+        );
+
+        ModulePdfTextStripper textStripperMock = Mockito.mock(ModulePdfTextStripper.class);
+        when(textStripperMock.getPdfPages()).thenReturn(pageWithoutLectureCode);
+
+        ModulePagesGroupingService groupingService = new ModulePagesGroupingService(
+                textStripperMock
+        );
+
+        Map<String, List<ModulePdfPage>> result = groupingService.groupPdfPagesByModule();
+
+        assertAll(
+                () -> assertEquals(1, result.keySet().size()),
+                () -> assertEquals(1, result.get("").size())
         );
     }
 

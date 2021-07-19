@@ -1,50 +1,47 @@
 package de.gerritstapper.casscheduler.services.modules.pdf.stripping;
 
+import de.gerritstapper.casscheduler.models.enums.RegexPatterns;
+import de.gerritstapper.casscheduler.models.module.CasPdPage;
 import de.gerritstapper.casscheduler.models.module.ModulePdfPage;
-import de.gerritstapper.casscheduler.services.modules.pdf.ModuleDataCleansingService;
+import de.gerritstapper.casscheduler.models.module.enums.ModuleRegexPattern;
 import lombok.extern.log4j.Log4j2;
 import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageTree;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Log4j2
 public class ModulePagesGroupingService {
 
     private final ModulePdfTextStripper textStripper;
-    private final ModuleDataCleansingService cleansingService;
 
     public ModulePagesGroupingService(
-            ModulePdfTextStripper textStripper,
-            ModuleDataCleansingService cleansingService
+            ModulePdfTextStripper textStripper
     ) {
         this.textStripper = textStripper;
-        this.cleansingService = cleansingService;
     }
 
     public Map<String, List<ModulePdfPage>> groupPdfPagesByModule() {
         log.info("groupPdfPagesByModule()");
 
-        List<PDPage> pages = getPages();
+        List<CasPdPage> pages = textStripper.getPdfPages();
 
         Map<String, List<ModulePdfPage>> pagesPerModule = new HashMap<>();
 
-        for (int i = 0; i < pages.size(); i++) {
-            PDPage page = pages.get(i);
-            int pageIndexInDocument = i + 1;
+        for (CasPdPage casPage : pages) {
+            PDPage pdPage = casPage.getPage();
 
-            String lectureCode = textStripper.getLectureCodeForPage(pageIndexInDocument);
-            String pageContent = getPageContent(pageIndexInDocument);
+            String lectureCode = getLectureCodeForPage(casPage.getPageContent());
 
             pagesPerModule.putIfAbsent(lectureCode, new ArrayList<>());
 
             ModulePdfPage modulePage = ModulePdfPage.builder()
-                    .page(page)
-                    .pageIndexInDocument(pageIndexInDocument)
-                    .content(pageContent)
+                    .page(pdPage)
+                    .content(casPage.getPageContent())
                     .build();
 
             pagesPerModule.get(lectureCode).add(modulePage);
@@ -53,24 +50,26 @@ public class ModulePagesGroupingService {
         return pagesPerModule;
     }
 
-    private List<PDPage> getPages() {
-        return convertTreeToList(
-                textStripper.getPdfPages()
-        );
+    private String getLectureCodeForPage(String pageContent) {
+        String lastLine = getLastLineOfContent(pageContent);
+
+        String lectureCodePattern = String.format("(%s|%s)", RegexPatterns.LECTURE_CODE.getPattern(), ModuleRegexPattern.LECTURE_CODE_MASTER_THESIS.getPattern());
+
+        Pattern pattern = Pattern.compile(lectureCodePattern);
+
+        Matcher matcher = pattern.matcher(lastLine);
+
+        if ( matcher.find() ) {
+            String lectureCode = matcher.group();
+            return lectureCode;
+        }
+
+        return "";
     }
 
-    private List<PDPage> convertTreeToList(PDPageTree tree) {
-        List<PDPage> pages = new ArrayList<>();
-        tree.iterator().forEachRemaining(pages::add);
+    private String getLastLineOfContent(String content) {
+        String[] lines = content.split(RegexPatterns.LINE_BREAK.getPattern());
 
-        return pages;
-    }
-
-    private String getPageContent(int pageIndex) {
-        log.debug("getPageContent(): {}", pageIndex);
-
-        return cleansingService.removeGermanUmlaute(
-                textStripper.getTextForPage(pageIndex)
-        );
+        return lines[lines.length-1];
     }
 }

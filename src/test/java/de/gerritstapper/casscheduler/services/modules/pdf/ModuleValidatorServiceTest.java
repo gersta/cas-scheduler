@@ -916,4 +916,63 @@ class ModuleValidatorServiceTest {
         assertFalse(validatorService.isValidModule(validModule));
     }
 
+    @Test
+    void shouldBeValidForLectureCodeOfMultidisciplinaryCompetences() {
+        String code = "XMX0101";
+
+        validModule.setLectureCode(code);
+
+        assertTrue(validatorService.isValidModule(validModule));
+    }
+
+    @Test
+    void shouldBeInvalidForEmptyLectureName() {
+        String name = "";
+
+        validModule.setLectureName(name);
+
+        assertFalse(validatorService.isValidModule(validModule));
+    }
+
+    @Test
+    void shouldBeInvalidForBlankLectureName() {
+        String name = " ";
+
+        validModule.setLectureName(name);
+
+        assertFalse(validatorService.isValidModule(validModule));
+    }
+
+    @Test
+    void shouldBeInvalidForNullLectureName() {
+        validModule.setLectureName(null);
+
+        assertFalse(validatorService.isValidModule(validModule));
+    }
+
+    @Test
+    void shouldBeInvalidForEmptyLectureNameEnglish() {
+        String englishName = "";
+
+        validModule.setLectureNameEnglish(englishName);
+
+        assertFalse(validatorService.isValidModule(validModule));
+    }
+
+    @Test
+    void shouldBeInvalidForBlankLectureNameEnglish() {
+        String englishName = " ";
+
+        validModule.setLectureNameEnglish(englishName);
+
+        assertFalse(validatorService.isValidModule(validModule));
+    }
+
+    @Test
+    void shouldBeInvalidForNullLectureNameEnglish() {
+        validModule.setLectureNameEnglish(null);
+
+        assertFalse(validatorService.isValidModule(validModule));
+    }
+
 }

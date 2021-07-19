@@ -27,6 +27,8 @@ public class ModuleValidatorService {
         currentLectureCode = module.getLectureCode();
 
         return isValidLectureCode(module)
+                && isValidName(module)
+                && isValidEnglishName(module)
                 && isValidLanguage(module)
                 && isValidDuration(module)
                 && isValidOwner(module)
@@ -53,6 +55,22 @@ public class ModuleValidatorService {
         );
 
         return printIfIsInvalid(isValid, "Lecture Code", lectureCode);
+    }
+
+    private boolean isValidName(Module module) {
+        String name = module.getLectureName();
+        
+        boolean isValid = Objects.nonNull(name) && !name.isEmpty() && !name.isBlank();
+
+        return printIfIsInvalid(isValid, "Lecture Name", name);
+    }
+
+    private boolean isValidEnglishName(Module module) {
+        String nameEnglish = module.getLectureNameEnglish();
+
+        boolean isValid = Objects.nonNull(nameEnglish) && !nameEnglish.isEmpty() && !nameEnglish.isBlank();
+
+        return printIfIsInvalid(isValid, "Lecture Name English", nameEnglish);
     }
 
     private boolean isValidLanguage(Module module) {

@@ -1,6 +1,6 @@
 package de.gerritstapper.casscheduler.config;
 
-import de.gerritstapper.casscheduler.services.modules.pdf.ModuleDataCleansingService;
+import de.gerritstapper.casscheduler.services.modules.pdf.stripping.ModuleDataCleansingService;
 import de.gerritstapper.casscheduler.services.modules.pdf.stripping.ModulePagesGroupingService;
 import de.gerritstapper.casscheduler.services.modules.pdf.stripping.ModulePdfTextStripper;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,9 +20,9 @@ public class ModulesPdfConfiguration {
     ) throws IOException {
         return new ModulePagesGroupingService(
                 new ModulePdfTextStripper(
-                        filename
-                ),
-                new ModuleDataCleansingService()
+                        filename,
+                        new ModuleDataCleansingService()
+                )
         );
     }
 
@@ -33,9 +33,9 @@ public class ModulesPdfConfiguration {
     ) throws IOException {
         return new ModulePagesGroupingService(
                 new ModulePdfTextStripper(
-                        filename
-                ),
-                new ModuleDataCleansingService()
+                        filename,
+                        new ModuleDataCleansingService()
+                )
         );
     }
 }

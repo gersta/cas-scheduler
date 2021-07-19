@@ -1,5 +1,6 @@
-package de.gerritstapper.casscheduler.services.modules.pdf;
+package de.gerritstapper.casscheduler.services.modules.pdf.stripping;
 
+import de.gerritstapper.casscheduler.services.modules.pdf.stripping.ModuleDataCleansingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
