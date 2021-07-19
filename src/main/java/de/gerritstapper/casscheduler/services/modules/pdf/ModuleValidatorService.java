@@ -137,7 +137,10 @@ public class ModuleValidatorService {
         String examMarking = module.getExamMarking();
 
         boolean isValid = Objects.nonNull(examMarking) && !examMarking.isBlank()
-                && examMarking.matches(ModuleRegexPattern.EXAM_MARKING.getPattern());
+                && (
+                        examMarking.matches(ModuleRegexPattern.EXAM_MARKING.getPattern()) ||
+                        examMarking.matches(ModuleRegexPattern.EXAM_MARKING_PASSED_NOT_PASSED.getPattern())
+        );
 
         return printIfIsInvalid(isValid, "Exam Marking", examMarking);
     }

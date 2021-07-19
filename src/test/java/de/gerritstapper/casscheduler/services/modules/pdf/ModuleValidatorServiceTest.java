@@ -560,7 +560,16 @@ class ModuleValidatorServiceTest {
     }
 
     @Test
-    void shouldBeInvalidForExamMarkingAnyTextOtherThanJaOrNein() {
+    void shouldBeValidForExamMarkingBestandenNichtBestanden() {
+        String validExamMarking = "Bestanden/ Nicht-Bestanden";
+
+        validModule.setExamMarking(validExamMarking);
+
+        assertTrue(validatorService.isValidModule(validModule));
+    }
+
+    @Test
+    void shouldBeInvalidForExamMarkingAnyTextOtherThanJaOrNeinOrBestandenNichtBestanden() {
         String inValidExamMarking = "ABC";
 
         validModule.setExamMarking(inValidExamMarking);

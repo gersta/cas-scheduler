@@ -11,6 +11,7 @@ public enum ModuleRegexPattern {
     DIGITS_ONLY("\\d{1,}"),
     EXAM_DURATION_PRUEFUNGSORDNUNG("Siehe Pruefungsordnung"),
     EXAM_MARKING("(ja|Ja|Nein|nein)"),
+    EXAM_MARKING_PASSED_NOT_PASSED("Bestanden/ Nicht-Bestanden"),
     GERMAN_DATE("\\d{2}\\.\\d{2}\\.\\d{4}");
 
     @Getter
