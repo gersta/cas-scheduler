@@ -6,6 +6,8 @@ import de.gerritstapper.casscheduler.services.modules.extraction.enums.Extractio
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 @Log4j2
 public class ModuleExtractionManager {
@@ -40,10 +42,12 @@ public class ModuleExtractionManager {
                 module.setLectureName(lectureName);
             }
 
-            if ( generalsExtractionService.isLectureNameEnglish(i) ) {
-                String lectureNameEnglish = lines[i];
+            if ( generalsExtractionService.isLectureNameEnglish(i, line) ) {
+                if ( Objects.isNull(module.getLectureNameEnglish()) ) {
+                    String lectureNameEnglish = lines[i];
 
-                module.setLectureNameEnglish(lectureNameEnglish);
+                    module.setLectureNameEnglish(lectureNameEnglish);
+                }
             }
 
             if (  formalitiesExtractorService.isFormalitiesHeadline(line) ) {

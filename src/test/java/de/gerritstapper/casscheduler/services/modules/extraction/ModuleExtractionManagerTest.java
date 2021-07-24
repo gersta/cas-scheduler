@@ -59,6 +59,33 @@ class ModuleExtractionManagerTest {
     }
 
     @Test
+    void shouldExtractLectureNameFromMultiline() {
+        String content = """
+                AUS AKTUELLER ORGA-EINHEIT
+                Volkswirtschaftliche Rahmenbedingungen unternehmerischer Entscheidungen
+                (W3M40007)
+                Economic Framework on managerial decisions
+                """;
+
+        Module result = extractionManager.extractModuleContent(content);
+
+        assertEquals("Volkswirtschaftliche Rahmenbedingungen unternehmerischer Entscheidungen", result.getLectureName());
+    }
+
+    @Test
+    void shouldExtractLectureNameEnglishFromMultiline() {
+        String content = """
+                Volkswirtschaftliche Rahmenbedingungen unternehmerischer Entscheidungen
+                (W3M40007)
+                Economic Framework on managerial decisions
+                """;
+
+        Module result = extractionManager.extractModuleContent(content);
+
+        assertEquals("Economic Framework on managerial decisions", result.getLectureNameEnglish());
+    }
+
+    @Test
     void shouldExtractLectureNameEnglish() {
         Module module = extractionManager.extractModuleContent(pageContent);
 
