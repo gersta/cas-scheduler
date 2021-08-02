@@ -65,6 +65,7 @@ class ModuleExtractionManagerTest {
                 Volkswirtschaftliche Rahmenbedingungen unternehmerischer Entscheidungen
                 (W3M40007)
                 Economic Framework on managerial decisions
+                FORMALE ANGABEN ZUM MODUL
                 """;
 
         Module result = extractionManager.extractModuleContent(content);
@@ -75,6 +76,7 @@ class ModuleExtractionManagerTest {
     @Test
     void shouldExtractLectureNameEnglishFromMultiline() {
         String content = """
+                AUS AKTUELLER ORGA-EINHEIT
                 Volkswirtschaftliche Rahmenbedingungen unternehmerischer Entscheidungen
                 (W3M40007)
                 Economic Framework on managerial decisions
@@ -87,12 +89,32 @@ class ModuleExtractionManagerTest {
 
     @Test
     void shouldExtractLectureNameEnglish() {
-        Module module = extractionManager.extractModuleContent(pageContent);
+        String content = """
+                AUS AKTUELLER ORGA-EINHEIT
+                Management internationaler Transportketten (W3M11008)
+                International Transport Management
+                FORMALE ANGABEN ZUM MODUL
+                """;
+
+        Module module = extractionManager.extractModuleContent(content);
 
         assertAll(
                 () -> assertNotNull(module),
-                () -> assertEquals("Applied Engineering Mathematics", module.getLectureNameEnglish())
+                () -> assertEquals("International Transport Management", module.getLectureNameEnglish())
         );
+    }
+
+    @Test
+    void shouldCopyGermanLectureNameToEnglishLectureNameIfEnglishLectureNameIsNull() {
+        String content = """
+                AUS AKTUELLER ORGA-EINHEIT
+                Management internationaler Transportketten (W3M11008)
+                FORMALE ANGABEN ZUM MODUL
+                """;
+
+        Module module = extractionManager.extractModuleContent(content);
+
+        assertEquals("Management internationaler Transportketten", module.getLectureNameEnglish());
     }
 
     @Test

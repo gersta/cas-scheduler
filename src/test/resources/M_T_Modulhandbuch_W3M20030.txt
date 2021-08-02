@@ -1,0 +1,94 @@
+AUS AKTUELLER ORGA-EINHEIT
+Forschungsmethoden in der Wirtschaftsinformatik (W3M20030)
+FORMALE ANGABEN ZUM MODUL
+MODULNUMMER VERORTUNG IM STUDIENVERLAUF MODULDAUER (SEMESTER) MODULVERANTWORTUNG SPRACHE
+W3M20030 - 1 Prof. Dr.-Ing. Clemens Martin Deutsch/Englisch
+EINGESETZTE LEHRFORMEN
+LEHRFORMEN LEHRMETHODEN
+Vorlesung, Übung blended-learning
+EINGESETZTE PRÜFUNGSFORMEN
+PRÜFUNGSLEISTUNG PRÜFUNGSUMFANG (IN MINUTEN) BENOTUNG
+Kombinierte Modulprüfung - Projektskizze (40%) und mündliche Prüfung (60%) Siehe Pruefungsordnung ja
+WORKLOAD UND ECTS-LEISTUNGSPUNKTE
+WORKLOAD INSGESAMT (IN H) DAVON PRÄSENZZEIT (IN H) DAVON SELBSTSTUDIUM (IN H) ECTS-LEISTUNGSPUNKTE
+150 48 102 5
+QUALIFIKATIONSZIELE UND KOMPETENZEN
+FACHKOMPETENZ
+Die Studierenden können die Methoden und Formen wissenschaftlichen Arbeitens nennen und erklären. Darüber hinaus kennen sie den Unterschied zwischen 
+nichtwissenschaftlichen und wissenschaftlichen Denk- und Arbeitsweisen. Die für wissenschaftliche Arbeiten wesentlichen statistischen Methoden und deren 
+Einsatzbereiche und Grenzen sowie die wesentlichen theoretischen Modelle der Wirtschaftsinformatik und des Information System Research sind ihnen bekannt. 
+Darüber hinaus sie die Studierenden in der Lage, die Bedeutung und Grenzen des Einsatzes von Modellen für die wissenschaftliche Erkenntnis und für den Einsatz bei 
+Aufgabenstellungen im Bereich der Informationstechnologie zu benennen.
+METHODENKOMPETENZ
+Die Studierenden können eine systematische Analyse der wissenschaftlichen Literatur zu einem identifizierten Problem- oder Themenfeld durchführen und dazu 
+Literatur nach wissenschaftlichen Kriterien auswählen. Sie vermitteln sicher ein ausgewähltes fachtheoretisches Konstrukt und erläutern die zur Erarbeitung dieses 
+Konstruktes eingesetzte Methodik. Dieses Konstrukt spiegeln die Studierenden am eigenen Praxiskontext, um ein vorliegendes praktisches Problem zu abstrahieren 
+und zu klassifizieren. Die Studierenden ordnen ihre Erfahrungen aus dem betrieblichen Umfeld in einen passenden theoretischen Kontext ein, um daraus methodisch 
+Ansätze vorzuschlagen, die geeignet sind, Problemlösungen in der betrieblichen Praxis zu finden. Darüber hinaus können sie eine wissenschaftliche These 
+formulieren und begründen. Die fachgerechte Strukturierung eines Forschungs- oder wissenschaftlichen Projektantrags ist ihnen inklusive der entsprechenden 
+Ausarbeitung und Verteidigung möglich.
+PERSONALE UND SOZIALE KOMPETENZ
+Die Studierende sind in der Lage komplexe Sachverhalte zu analysieren und Lösungsansätze in Wort und Schrift zu erläutern und präsentieren.
+ÜBERGREIFENDE HANDLUNGSKOMPETENZ
+Die Zielsetzungen, Methoden und Techniken der im Studium kennengelernten fachlichen Gebiete können die Studierenden lösungsorientiert verknüpfen. Dazu 
+konzipieren sie anwendungsorientierte (Forschungs-)projekte, in denen die erlernten theoretischen Modelle und Methoden zur Lösungsfindung eingesetzt werden.
+LERNEINHEITEN UND INHALTE
+LEHR- UND LERNEINHEITEN PRÄSENZZEIT SELBSTSTUDIUM
+Forschungsmethoden in der Wirtschaftsinformatik 48 102
+Stand vom 16.07.2020 W3M20030 // Seite 52
+LERNEINHEITEN UND INHALTE
+LEHR- UND LERNEINHEITEN PRÄSENZZEIT SELBSTSTUDIUM
+LV1 (Forschungsmethoden der Wirtschaftsinformatik und Informatik):
+Wissenschaftsbegriff
+Methoden wissenschaftlichen Arbeitens insbes. im Bereich Wirtschaftsinformatik und Informatik
+Literaturrecherche insbes. kritischer Umgang mit Quellen und Literatur
+Aufbau wissenschaftlicher Arbeiten mit informationstechnischem Charakter
+Wissenschaftliche Präsentation
+Entwicklung von Projekt- und Forschungsanträgen
+Anfertigen einer wissenschaftlichen Veröffentlichung
+Selbstorganisation in der Forschungsarbeit
+LV2 (Forschungsmethoden der Wirtschaftswissenschaften):
+Grundlagen der empirischen Forschung
+- Definition und Einordnung
+- idealtypischer Prozess
+- Qualitätskriterien: Objektivität, Reliabilität, Validität; Fehlertypologie
+Datenerhebung
+- Datenerhebungsmethode (Primärdaten: Beobachtung, Befragung, Experiment, 
+Panelforschung; Sekundärdaten)
+- Stichprobenauswahl (Auswahlverfahren, Repräsentativität)
+- Gestaltung des Erhebungsinstruments (Skalierung und Skalenniveaus, Grundlagen zu 
+Befragungsmethoden und Fragebogengestaltung, Pretest)
+Datenanalyse und -interpretation
+- Grundlagen
+- Kategorisierung deskriptive vs. induktive Verfahren
+- Abgrenzung uni-, bi- und multivariate Verfahren
+- univariate und bivariate Verfahren
+- Grundlagen zu inferenzstatistischen Verfahren und Hypothesentests: Null- und 
+Gegenhypothese, Signifikanzniveau, Teststatistik
+- Multivariate Verfahren
+- Überblick über gängige Verfahren
+- Verfahren der Dependenzanalyse im Detail
+- Regressionsanalyse
+- Varianzanalyse
+- Verfahren der Interdependenzanalyse im Detail
+- Faktorenanalyse
+- Clusteranalyse
+- Werkzeuge zur statistischen Datenanalyse
+BESONDERHEITEN
+Das Modul ist parallel zur Forschungsprojektarbeit I zu belegen. Die Prüfungsleistung ist als kombinierte Prüfungsleistung zu gestalten und besteht in der Regel aus 
+einer Projektskizze (Gewichtung: 40%) und einem Referat (Gewichtung: 60%).
+VORAUSSETZUNGEN
+-
+LITERATUR
+Backhaus, Klaus, Erichson, Bernd, Plinke, Wulff und Weiber, Rolf: Multivariate Analysemethoden. Eine anwendungsorientierte Einführung. Springer. Heidelberg.
+Eberhard, Kurt: Einführung in die Erkenntnis- und Wissenschaftstheorie. Kohlhammer. Stuttgart
+Frank, Ulrich (Hrsg.): Wissenschaftstheorie in Ökonomie und Wirtschaftsinformatik: Theoriebildung und –bewertung, Ontologien. Wissensmanagement. Wiesbaden.
+Hair, Joseph F., Black, William C., Babin, Barry J. und Anderson, Rolph E.: Multivariate Data Analysis. Pearson. (relevant: Kapitel 3 Factor Analysis, Kapitel 4 Multiple 
+Regression Analysis, Kapitel 6 Multivariate Analysis of Variance, Kapitel 8 Cluster Analysis)
+Herrmann, Andreas, Homburg, Christian und Klarmann, Martin (Hrsg.): Handbuch Marktforschung: Methoden - Anwendungen – Praxisbeispiele. Springer Gabler. 
+Wiesbaden.
+Kohler, Ulrich und Kreuter, Frauke: Datenanalyse mit Stata. Allgemeine Konzepte der Datenanalyse und ihre praktische Anwendung. De Gruyter Oldenbourg.
+Wooldridge, Jeffrey M.: Introductory Econometrics: A Modern Approach, Mason OH.
+Fachartikel zum Selbstverständnis der Wirtschaftsinformatik als Wissenschaft
+Zahlreiche Tutorials/Ressources zu Stata können im Internet gefunden werden: http://www.stata.com/links/resources-for-learning-stata/
+Stand vom 16.07.2020 W3M20030 // Seite 53

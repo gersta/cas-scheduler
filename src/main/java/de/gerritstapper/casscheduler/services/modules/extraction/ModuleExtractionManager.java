@@ -1,7 +1,7 @@
 package de.gerritstapper.casscheduler.services.modules.extraction;
 
-import de.gerritstapper.casscheduler.models.module.*;
 import de.gerritstapper.casscheduler.models.module.Module;
+import de.gerritstapper.casscheduler.models.module.*;
 import de.gerritstapper.casscheduler.services.modules.extraction.enums.ExtractionPatterns;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -11,6 +11,8 @@ import java.util.Objects;
 @Service
 @Log4j2
 public class ModuleExtractionManager {
+
+    private static final int GERMAN_NAME_INDEX = 1;
 
     private final ModuleGeneralsExtractionService generalsExtractionService;
     private final ModuleFormalitiesExtractionService formalitiesExtractorService;
@@ -36,18 +38,16 @@ public class ModuleExtractionManager {
         for (int i = 0; i < lines.length; i++) {
             String line = lines[i];
 
-            if ( generalsExtractionService.isLectureName(i) ) {
-                String lectureName = generalsExtractionService.extractLectureName(lines[i]);
+            if ( i == GERMAN_NAME_INDEX) {
+                String lectureName = generalsExtractionService.extractLectureName(line);
 
                 module.setLectureName(lectureName);
             }
 
             if ( generalsExtractionService.isLectureNameEnglish(i, line) ) {
-                if ( Objects.isNull(module.getLectureNameEnglish()) ) {
-                    String lectureNameEnglish = lines[i];
+                String lectureNameEnglish = generalsExtractionService.extractLectureNameEnglish(line);
 
-                    module.setLectureNameEnglish(lectureNameEnglish);
-                }
+                module.setLectureNameEnglish(lectureNameEnglish);
             }
 
             if (  formalitiesExtractorService.isFormalitiesHeadline(line) ) {
@@ -98,7 +98,14 @@ public class ModuleExtractionManager {
             }
         }
 
+        if ( doesNotHaveEnglishName(module) ) {
+            module.setLectureNameEnglish(module.getLectureName());
+        }
+
         return module;
     }
 
+    private boolean doesNotHaveEnglishName(Module module) {
+        return Objects.isNull(module.getLectureNameEnglish());
+    }
 }
