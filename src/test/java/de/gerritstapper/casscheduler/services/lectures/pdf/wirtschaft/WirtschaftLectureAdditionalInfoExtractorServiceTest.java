@@ -182,4 +182,69 @@ class WirtschaftLectureAdditionalInfoExtractorServiceTest {
         );
     }
 
+    @Test
+    void shouldSplitInputStringOnSemicolon() {
+        Lecture lecture = Lecture.builder()
+                .name("GM II: Strategisches Management (Test; MKT)")
+                .build();
+
+        Lecture result = additionalInfoExtractorService.extractAdditionalInformation(lecture);
+
+        assertAll(
+                () -> assertFalse(result.getAdditionalInformation().isEmpty()),
+                () -> assertEquals("Test", result.getAdditionalInformation().get(0)),
+                () -> assertEquals("MKT", result.getAdditionalInformation().get(1)),
+                () -> assertEquals("GM II: Strategisches Management", result.getName())
+        );
+    }
+
+    @Test
+    void shouldSplitInputStringOnCommaIfNoSemicolonIsPresent() {
+        Lecture lecture = Lecture.builder()
+                .name("GM II: Strategisches Management (MKT, MDM, PO)")
+                .build();
+
+        Lecture result = additionalInfoExtractorService.extractAdditionalInformation(lecture);
+
+        assertAll(
+                () -> assertFalse(result.getAdditionalInformation().isEmpty()),
+                () -> assertEquals("MKT", result.getAdditionalInformation().get(0)),
+                () -> assertEquals("MDM", result.getAdditionalInformation().get(1)),
+                () -> assertEquals("PO", result.getAdditionalInformation().get(2)),
+                () -> assertEquals("GM II: Strategisches Management", result.getName())
+        );
+    }
+
+    @Test
+    void shouldSplitInputStringOnCommaAndSemicolon() {
+        Lecture lecture = Lecture.builder()
+                .name("GM II: Strategisches Management (Test; MKT, MDM, PO)")
+                .build();
+
+        Lecture result = additionalInfoExtractorService.extractAdditionalInformation(lecture);
+
+        assertAll(
+                () -> assertFalse(result.getAdditionalInformation().isEmpty()),
+                () -> assertEquals("Test", result.getAdditionalInformation().get(0)),
+                () -> assertEquals("MKT", result.getAdditionalInformation().get(1)),
+                () -> assertEquals("MDM", result.getAdditionalInformation().get(2)),
+                () -> assertEquals("PO", result.getAdditionalInformation().get(3)),
+                () -> assertEquals("GM II: Strategisches Management", result.getName())
+        );
+    }
+
+    @Test
+    void shouldFilterEmptyInputString() {
+        Lecture lecture = Lecture.builder()
+                .name("")
+                .build();
+
+        Lecture result = additionalInfoExtractorService.extractAdditionalInformation(lecture);
+
+        assertAll(
+                () -> assertTrue(result.getAdditionalInformation().isEmpty()),
+                () -> assertEquals("", result.getName())
+        );
+    }
+
 }

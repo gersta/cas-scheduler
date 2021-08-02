@@ -19,7 +19,8 @@ public class WirtschaftLectureAdditionalInfoExtractorService {
     private static final String START_DATE_PATTERN = "Start: \\d{2}\\.\\d{2}\\.\\d{4}";
     private static final String LANGUAGE_INFORMATION = "- teilweise in englischer Sprache";
 
-    private static final String DELIMITER = ";";
+    private static final String SEMICOLON = ";";
+    private static final String COMMA = ",";
     private static final String EMPTY_FALLBACK = "";
 
     public Lecture extractAdditionalInformation(Lecture lecture) {
@@ -46,8 +47,9 @@ public class WirtschaftLectureAdditionalInfoExtractorService {
             return new ArrayList<>();
         }
 
-        return Arrays.stream(additionalInformation
-                .split(DELIMITER))
+
+        return Arrays.stream(additionalInformation.split(SEMICOLON))
+                .flatMap(value -> Arrays.stream(value.split(COMMA)))
                 .filter(value -> !value.matches(EMPTY_FALLBACK))
                 .map(String::trim)
                 .collect(Collectors.toList());
